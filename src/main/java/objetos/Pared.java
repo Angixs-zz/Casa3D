@@ -1,4 +1,4 @@
-package main.java.objetos;
+package objetos;
 
 public class Pared {
     private String nombre;

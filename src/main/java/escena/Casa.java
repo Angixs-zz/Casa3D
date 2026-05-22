@@ -1,9 +1,9 @@
-package main.java.escena;
+package escena;
 
 import java.util.ArrayList;
 
-import main.java.objetos.Pared;
-import main.java.objetos.Punto2D;
+import objetos.Pared;
+import objetos.Punto2D;
 
 public class Casa {
 

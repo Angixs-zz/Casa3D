@@ -1,4 +1,4 @@
-package main.java.objetos;
+package objetos;
 
 public class Punto2D {
     private String nombre;
