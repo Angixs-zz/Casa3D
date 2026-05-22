@@ -126,44 +126,7 @@ public class VentanaOpenGL {
         glEnd();
     }
 
-    private void dibujarCasaTemporal() {
 
-        // Frente
-        Cubo.dibujar(
-                0f,
-                1.5f,
-                -5f,
-                8f,
-                3f,
-                0.2f);
-
-        // Atrás
-        Cubo.dibujar(
-                0f,
-                1.5f,
-                5f,
-                8f,
-                3f,
-                0.2f);
-
-        // Izquierda
-        dibujarCubo(
-                -4f,
-                1.5f,
-                0f,
-                0.2f,
-                3f,
-                10f);
-
-        // Derecha
-        dibujarCubo(
-                4f,
-                1.5f,
-                0f,
-                0.2f,
-                3f,
-                10f);
-    }
 
     private void dibujarCasaGeoGebra() {
         for (Pared pared : casa.getParedes()) {
