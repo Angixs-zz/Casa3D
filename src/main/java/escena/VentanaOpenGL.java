@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL;
 import objetos.Pared;
 import objetos.Punto2D;
 import objetos.Cubo;
+import camara.CamaraLibre;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -16,6 +17,7 @@ public class VentanaOpenGL {
     private long ventana;
 
     private Casa casa;
+    private CamaraLibre camaraLibre;
 
     private final int ANCHO = 1280;
     private final int ALTO = 720;
@@ -57,6 +59,7 @@ public class VentanaOpenGL {
         GL.createCapabilities();
 
         casa = new Casa();
+        camaraLibre = new CamaraLibre();
 
         glEnable(GL_DEPTH_TEST);
 
@@ -72,6 +75,8 @@ public class VentanaOpenGL {
         while (!glfwWindowShouldClose(ventana)) {
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            camaraLibre.actualizar(ventana);
 
             configurarCamara();
 
@@ -105,11 +110,7 @@ public class VentanaOpenGL {
 
         glLoadIdentity();
 
-        glTranslatef(0f, -2f, -25f);
-
-        glRotatef(25f, 1f, 0f, 0f);
-
-        glRotatef(35f, 0f, 1f, 0f);
+        camaraLibre.aplicar();
     }
 
     private void dibujarPiso() {
