@@ -7,6 +7,7 @@ import objetos.Pared;
 import objetos.Punto2D;
 import objetos.Cubo;
 import camara.CamaraLibre;
+import personaje.Girasol;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -18,6 +19,7 @@ public class VentanaOpenGL {
 
     private Casa casa;
     private CamaraLibre camaraLibre;
+    private Girasol girasol;
 
     private final int ANCHO = 1280;
     private final int ALTO = 720;
@@ -60,6 +62,7 @@ public class VentanaOpenGL {
 
         casa = new Casa();
         camaraLibre = new CamaraLibre();
+        girasol = new Girasol(0f, 0f, 0f);
 
         glEnable(GL_DEPTH_TEST);
 
@@ -83,6 +86,8 @@ public class VentanaOpenGL {
             dibujarPiso();
 
             dibujarCasaGeoGebra();
+
+            girasol.dibujar();
 
             glfwSwapBuffers(ventana);
 
@@ -158,9 +163,9 @@ public class VentanaOpenGL {
         z1 = z1 - 10.0f;
         z2 = z2 - 10.0f;
 
-        // Si la casa sale en espejo, activa estas líneas:
-        // x1 = -x1;
-        // x2 = -x2;
+        // Voltear la casa en espejo horizontal
+        x1 = -x1;
+        x2 = -x2;
 
         float dx = x2 - x1;
         float dz = z2 - z1;
@@ -182,65 +187,6 @@ public class VentanaOpenGL {
         glPopMatrix();
     }
 
-    private void dibujarCubo(
-            float x,
-            float y,
-            float z,
-            float ancho,
-            float alto,
-            float profundo) {
-
-        float x1 = x - ancho / 2;
-        float x2 = x + ancho / 2;
-
-        float y1 = y - alto / 2;
-        float y2 = y + alto / 2;
-
-        float z1 = z - profundo / 2;
-        float z2 = z + profundo / 2;
-
-        glColor3f(1f, 1f, 1f);
-
-        glBegin(GL_QUADS);
-
-        // Frente
-        glVertex3f(x1, y1, z2);
-        glVertex3f(x2, y1, z2);
-        glVertex3f(x2, y2, z2);
-        glVertex3f(x1, y2, z2);
-
-        // Atrás
-        glVertex3f(x2, y1, z1);
-        glVertex3f(x1, y1, z1);
-        glVertex3f(x1, y2, z1);
-        glVertex3f(x2, y2, z1);
-
-        // Izquierda
-        glVertex3f(x1, y1, z1);
-        glVertex3f(x1, y1, z2);
-        glVertex3f(x1, y2, z2);
-        glVertex3f(x1, y2, z1);
-
-        // Derecha
-        glVertex3f(x2, y1, z2);
-        glVertex3f(x2, y1, z1);
-        glVertex3f(x2, y2, z1);
-        glVertex3f(x2, y2, z2);
-
-        // Arriba
-        glVertex3f(x1, y2, z2);
-        glVertex3f(x2, y2, z2);
-        glVertex3f(x2, y2, z1);
-        glVertex3f(x1, y2, z1);
-
-        // Abajo
-        glVertex3f(x1, y1, z1);
-        glVertex3f(x2, y1, z1);
-        glVertex3f(x2, y1, z2);
-        glVertex3f(x1, y1, z2);
-
-        glEnd();
-    }
 
     private void cerrar() {
 
