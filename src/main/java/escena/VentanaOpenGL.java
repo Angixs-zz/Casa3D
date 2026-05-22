@@ -3,6 +3,9 @@ package escena;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
+import objetos.Pared;
+import objetos.Punto2D;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -10,6 +13,8 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class VentanaOpenGL {
 
     private long ventana;
+
+    private Casa casa;
 
     private final int ANCHO = 1280;
     private final int ALTO = 720;
@@ -50,6 +55,8 @@ public class VentanaOpenGL {
         glfwShowWindow(ventana);
 
         GL.createCapabilities();
+
+        casa = new Casa();
 
         glEnable(GL_DEPTH_TEST);
 
@@ -165,66 +172,20 @@ public class VentanaOpenGL {
     }
 
     private void dibujarCasaGeoGebra() {
-    float altura = 3.0f;
-    float grosor = 0.15f;
+        for (Pared pared : casa.getParedes()) {
+            Punto2D inicio = pared.getInicio();
+            Punto2D fin = pared.getFin();
 
-    // Paredes primera planta
-    dibujarPared(0.1f, 0.2f, 4.8f, 0.2f, altura, grosor);   // E-D
-    dibujarPared(4.8f, 0.2f, 4.8f, 1.6f, altura, grosor);   // D-C
-    dibujarPared(5.9f, 1.6f, 5.9f, 0.2f, altura, grosor);   // G-F
-    dibujarPared(5.9f, 0.2f, 7.9f, 0.2f, altura, grosor);   // F-H
-    dibujarPared(7.9f, 0.2f, 7.9f, 5.4f, altura, grosor);   // H-I
-    dibujarPared(7.9f, 5.4f, 5.8f, 5.4f, altura, grosor);   // I-S
-
-    dibujarPared(0.1f, 5.4f, 1.3f, 5.4f, altura, grosor);   // N-P
-    dibujarPared(2.7f, 5.4f, 3.8f, 5.4f, altura, grosor);   // Q-O
-    dibujarPared(4.8f, 5.4f, 4.5f, 6.5f, altura, grosor);   // R-T
-    dibujarPared(4.5f, 6.5f, 3.9f, 6.5f, altura, grosor);   // T-U
-    dibujarPared(3.9f, 6.5f, 3.9f, 8.4f, altura, grosor);   // U-V
-    dibujarPared(0.1f, 5.4f, 0.1f, 0.2f, altura, grosor);   // N-E
-    dibujarPared(0.1f, 5.4f, 0.1f, 8.4f, altura, grosor);   // N-W
-
-    dibujarPared(7.9f, 9.5f, 7.9f, 5.4f, altura, grosor);   // J-I
-    dibujarPared(4.9f, 9.5f, 7.9f, 9.5f, altura, grosor);   // Z-J
-    dibujarPared(7.9f, 9.5f, 7.9f, 10.7f, altura, grosor);  // J-K
-    dibujarPared(7.9f, 10.7f, 7.9f, 12.0f, altura, grosor); // K-N1
-    dibujarPared(7.9f, 12.0f, 4.9f, 12.0f, altura, grosor); // N1-B1
-    dibujarPared(4.9f, 10.7f, 6.8f, 10.7f, altura, grosor); // A1-D2
-
-    dibujarPared(3.9f, 12.0f, 3.9f, 8.4f, altura, grosor);  // C1-V
-    dibujarPared(3.9f, 8.4f, 0.1f, 8.4f, altura, grosor);   // V-W
-    dibujarPared(0.1f, 14.0f, 0.1f, 8.4f, altura, grosor);  // D1-W
-
-    dibujarPared(4.9f, 14.0f, 5.7f, 14.0f, altura, grosor); // J1-K1
-    dibujarPared(4.9f, 14.0f, 4.9f, 14.5f, altura, grosor); // J1-I1
-
-    dibujarPared(4.9f, 15.4f, 4.9f, 18.6f, altura, grosor); // O1-P1
-    dibujarPared(4.9f, 18.6f, 5.7f, 18.6f, altura, grosor); // P1-W1
-    dibujarPared(5.7f, 18.6f, 7.2f, 18.6f, altura, grosor); // W1-Z1
-    dibujarPared(7.2f, 18.6f, 7.9f, 18.6f, altura, grosor); // Z1-Q1
-    dibujarPared(7.9f, 18.6f, 7.9f, 14.0f, altura, grosor); // Q1-M1
-    dibujarPared(7.9f, 14.0f, 7.3f, 14.0f, altura, grosor); // M1-L1
-    dibujarPared(7.3f, 14.0f, 5.7f, 14.0f, altura, grosor); // L1-K1
-
-    dibujarPared(3.9f, 14.0f, 3.9f, 14.5f, altura, grosor); // E1-H1
-    dibujarPared(2.5f, 14.5f, 2.5f, 14.0f, altura, grosor); // G1-F1
-    dibujarPared(2.5f, 14.0f, 3.9f, 14.0f, altura, grosor); // F1-E1
-    dibujarPared(2.5f, 14.0f, 0.1f, 14.0f, altura, grosor); // F1-D1
-    dibujarPared(0.1f, 14.0f, 0.1f, 15.4f, altura, grosor); // D1-T1
-    dibujarPared(0.1f, 15.4f, 3.9f, 15.4f, altura, grosor); // T1-S1
-    dibujarPared(3.9f, 15.4f, 3.9f, 16.1f, altura, grosor); // S1-R1
-
-    dibujarPared(0.1f, 18.6f, 0.1f, 15.4f, altura, grosor); // U1-T1
-    dibujarPared(0.1f, 18.6f, 1.6f, 18.6f, altura, grosor); // U1-A2
-    dibujarPared(1.6f, 18.6f, 3.1f, 18.6f, altura, grosor); // A2-B2
-    dibujarPared(3.1f, 18.6f, 3.9f, 18.6f, altura, grosor); // B2-V1
-    dibujarPared(3.9f, 18.6f, 3.9f, 17.0f, altura, grosor); // V1-C2
-    dibujarPared(0.1f, 18.6f, 0.1f, 20.3f, altura, grosor); // U1-M
-
-    dibujarPared(0.1f, 20.3f, 7.9f, 20.3f, altura, grosor); // M-L
-    dibujarPared(7.9f, 20.3f, 7.9f, 18.6f, altura, grosor); // L-Q1
-    dibujarPared(7.9f, 14.0f, 7.9f, 12.0f, altura, grosor); // M1-N1
-}
+            dibujarPared(
+                    (float) inicio.getX(),
+                    (float) inicio.getY(),
+                    (float) fin.getX(),
+                    (float) fin.getY(),
+                    (float) pared.getAltura(),
+                    (float) pared.getGrosor()
+            );
+        }
+    }
 
 private void dibujarPared(
         float x1,
