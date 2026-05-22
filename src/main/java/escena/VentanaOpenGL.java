@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL;
 
 import objetos.Pared;
 import objetos.Punto2D;
+import objetos.Cubo;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -41,8 +42,7 @@ public class VentanaOpenGL {
                 ALTO,
                 "Casa 3D OpenGL",
                 NULL,
-                NULL
-        );
+                NULL);
 
         if (ventana == NULL) {
             throw new RuntimeException("No se pudo crear la ventana");
@@ -64,8 +64,7 @@ public class VentanaOpenGL {
                 0.53f,
                 0.81f,
                 0.98f,
-                1.0f
-        );
+                1.0f);
     }
 
     private void bucle() {
@@ -100,8 +99,7 @@ public class VentanaOpenGL {
                 -1,
                 1,
                 1.5,
-                100
-        );
+                100);
 
         glMatrixMode(GL_MODELVIEW);
 
@@ -131,24 +129,22 @@ public class VentanaOpenGL {
     private void dibujarCasaTemporal() {
 
         // Frente
-        dibujarCubo(
+        Cubo.dibujar(
                 0f,
                 1.5f,
                 -5f,
                 8f,
                 3f,
-                0.2f
-        );
+                0.2f);
 
         // Atrás
-        dibujarCubo(
+        Cubo.dibujar(
                 0f,
                 1.5f,
                 5f,
                 8f,
                 3f,
-                0.2f
-        );
+                0.2f);
 
         // Izquierda
         dibujarCubo(
@@ -157,8 +153,7 @@ public class VentanaOpenGL {
                 0f,
                 0.2f,
                 3f,
-                10f
-        );
+                10f);
 
         // Derecha
         dibujarCubo(
@@ -167,8 +162,7 @@ public class VentanaOpenGL {
                 0f,
                 0.2f,
                 3f,
-                10f
-        );
+                10f);
     }
 
     private void dibujarCasaGeoGebra() {
@@ -182,49 +176,47 @@ public class VentanaOpenGL {
                     (float) fin.getX(),
                     (float) fin.getY(),
                     (float) pared.getAltura(),
-                    (float) pared.getGrosor()
-            );
+                    (float) pared.getGrosor());
         }
     }
 
-private void dibujarPared(
-        float x1,
-        float z1,
-        float x2,
-        float z2,
-        float altura,
-        float grosor
-) {
-    // Centrar el plano de GeoGebra en la escena OpenGL
-    x1 = x1 - 4.0f;
-    x2 = x2 - 4.0f;
+    private void dibujarPared(
+            float x1,
+            float z1,
+            float x2,
+            float z2,
+            float altura,
+            float grosor) {
+        // Centrar el plano de GeoGebra en la escena OpenGL
+        x1 = x1 - 4.0f;
+        x2 = x2 - 4.0f;
 
-    z1 = z1 - 10.0f;
-    z2 = z2 - 10.0f;
+        z1 = z1 - 10.0f;
+        z2 = z2 - 10.0f;
 
-    // Si la casa sale en espejo, activa estas líneas:
-    // x1 = -x1;
-    // x2 = -x2;
+        // Si la casa sale en espejo, activa estas líneas:
+        // x1 = -x1;
+        // x2 = -x2;
 
-    float dx = x2 - x1;
-    float dz = z2 - z1;
+        float dx = x2 - x1;
+        float dz = z2 - z1;
 
-    float longitud = (float) Math.sqrt(dx * dx + dz * dz);
+        float longitud = (float) Math.sqrt(dx * dx + dz * dz);
 
-    float centroX = (x1 + x2) / 2.0f;
-    float centroZ = (z1 + z2) / 2.0f;
+        float centroX = (x1 + x2) / 2.0f;
+        float centroZ = (z1 + z2) / 2.0f;
 
-    float angulo = (float) Math.toDegrees(Math.atan2(dz, dx));
+        float angulo = (float) Math.toDegrees(Math.atan2(dz, dx));
 
-    glPushMatrix();
+        glPushMatrix();
 
-    glTranslatef(centroX, altura / 2.0f, centroZ);
-    glRotatef(-angulo, 0f, 1f, 0f);
+        glTranslatef(centroX, altura / 2.0f, centroZ);
+        glRotatef(-angulo, 0f, 1f, 0f);
 
-    dibujarCubo(0f, 0f, 0f, longitud, altura, grosor);
+        Cubo.dibujar(0f, 0f, 0f, longitud, altura, grosor, 1f, 1f, 1f);
 
-    glPopMatrix();
-}
+        glPopMatrix();
+    }
 
     private void dibujarCubo(
             float x,
@@ -232,8 +224,7 @@ private void dibujarPared(
             float z,
             float ancho,
             float alto,
-            float profundo
-    ) {
+            float profundo) {
 
         float x1 = x - ancho / 2;
         float x2 = x + ancho / 2;
