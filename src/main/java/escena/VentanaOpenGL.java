@@ -21,8 +21,8 @@ public class VentanaOpenGL {
     private CamaraLibre camaraLibre;
     private Girasol girasol;
 
-    private final int ANCHO = 1280;
-    private final int ALTO = 720;
+    private int ancho = 1280;
+    private int alto = 720;
 
     public void ejecutar() {
         iniciar();
@@ -40,10 +40,11 @@ public class VentanaOpenGL {
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
         ventana = glfwCreateWindow(
-                ANCHO,
-                ALTO,
+                ancho,
+                alto,
                 "Casa 3D OpenGL",
                 NULL,
                 NULL);
@@ -57,9 +58,28 @@ public class VentanaOpenGL {
         glfwSwapInterval(1);
 
         glfwShowWindow(ventana);
-
         GL.createCapabilities();
 
+        int[] anchoVentana = new int[1];
+        int[] altoVentana = new int[1];
+
+        glfwGetFramebufferSize(ventana, anchoVentana, altoVentana);
+
+        ancho = anchoVentana[0];
+        alto = altoVentana[0];
+
+        glViewport(0, 0, ancho, alto);
+
+        glfwSetFramebufferSizeCallback(ventana, (window, nuevoAncho, nuevoAlto) -> {
+            ancho = nuevoAncho;
+            alto = nuevoAlto;
+
+            if (alto == 0) {
+                alto = 1;
+            }
+
+            glViewport(0, 0, ancho, alto);
+        });
         casa = new Casa();
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(0f, 0f, 0f);
@@ -101,7 +121,7 @@ public class VentanaOpenGL {
 
         glLoadIdentity();
 
-        float aspecto = (float) ANCHO / ALTO;
+        float aspecto = (float) ancho / alto;
 
         glFrustum(
                 -aspecto,
