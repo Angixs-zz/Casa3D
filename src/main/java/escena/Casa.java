@@ -51,6 +51,15 @@ public class Casa {
         }
     }
 
+    private void agregarPared(String nombre, String puntoInicio, String puntoFin, double alturaBase, double alturaCustom) {
+        Punto2D inicio = buscarPunto(puntoInicio);
+        Punto2D fin = buscarPunto(puntoFin);
+
+        if (inicio != null && fin != null) {
+            paredes.add(new Pared(nombre, inicio, fin, alturaCustom, grosorPared, alturaBase));
+        }
+    }
+
     private void crearPuntosPrimeraPlanta() {
         agregarPunto("C", 4.8, 1.6);
         agregarPunto("D", 4.8, 0.2);
@@ -129,7 +138,7 @@ public class Casa {
         agregarPared("c", "K", "N1", 0.0);
         agregarPared("d", "N1", "B1", 0.0); // Restaurada para colisión invisible
         agregarPared("e", "A1", "D2", 0.0);
-        agregarPared("pared_bano_fondo", "D2", "D3", 0.0); // Pared física para cerrar el baño y evitar paso secreto
+        agregarPared("pared_bano_fondo", "D2", "D3", 0.0, 1.6); // Pared física para cerrar el baño (altura 1.6 para no obstruir escaleras)
 
         agregarPared("f1", "C1", "V", 0.0);
         agregarPared("g1", "V", "W", 0.0);

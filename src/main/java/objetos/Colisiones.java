@@ -30,6 +30,11 @@ public class Colisiones {
                 continue;
             }
 
+            // Si es la pared de fondo del baño bajo la escalera, no colisiona si el jugador está arriba en la escalera (yJugador >= 1.0f)
+            if (pared.getNombre().equals("pared_bano_fondo") && yJugador >= 1.0f) {
+                continue;
+            }
+
             Punto2D inicio = pared.getInicio();
             Punto2D fin = pared.getFin();
 
