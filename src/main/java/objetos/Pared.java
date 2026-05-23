@@ -6,6 +6,7 @@ public class Pared {
     private Punto2D fin;
     private double altura;
     private double grosor;
+    private double alturaBase;
 
     public Pared(String nombre, Punto2D inicio, Punto2D fin, double altura, double grosor) {
         this.nombre = nombre;
@@ -13,6 +14,7 @@ public class Pared {
         this.fin = fin;
         this.altura = altura;
         this.grosor = grosor;
+        this.alturaBase = alturaBase;
     }
 
     public String getNombre() {

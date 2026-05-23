@@ -36,12 +36,12 @@ public class Casa {
         puntos.add(new Punto2D(nombre, x, y));
     }
 
-    private void agregarPared(String nombre, String puntoInicio, String puntoFin) {
+    private void agregarPared(String nombre, String puntoInicio, String puntoFin, double alturaBase) {
         Punto2D inicio = buscarPunto(puntoInicio);
         Punto2D fin = buscarPunto(puntoFin);
 
         if (inicio != null && fin != null) {
-            paredes.add(new Pared(nombre, inicio, fin, alturaPared, grosorPared));
+            paredes.add(new Pared(nombre, inicio, fin, alturaPared, grosorPared, alturaBase));
         }
     }
 
@@ -101,60 +101,60 @@ public class Casa {
     }
 
     private void crearParedesPrimeraPlanta() {
-        agregarPared("f", "E", "D");
-        agregarPared("g", "D", "C");
-        agregarPared("h", "G", "F");
-        agregarPared("i", "F", "H");
-        agregarPared("j", "H", "I");
-        agregarPared("k", "I", "S");
+        agregarPared("f", "E", "D", 0.0);
+        agregarPared("g", "D", "C", 0.0);
+        agregarPared("h", "G", "F", 0.0);
+        agregarPared("i", "F", "H", 0.0);
+        agregarPared("j", "H", "I", 0.0);
+        agregarPared("k", "I", "S", 0.0);
 
-        agregarPared("l", "N", "P");
-        agregarPared("m", "Q", "O");
-        agregarPared("n", "R", "T");
-        agregarPared("p", "T", "U");
-        agregarPared("q", "U", "V");
-        agregarPared("r", "N", "E");
-        agregarPared("s", "N", "W");
+        agregarPared("l", "N", "P", 0.0);
+        agregarPared("m", "Q", "O", 0.0);
+        agregarPared("n", "R", "T", 0.0);
+        agregarPared("p", "T", "U", 0.0);
+        agregarPared("q", "U", "V", 0.0);
+        agregarPared("r", "N", "E", 0.0);
+        agregarPared("s", "N", "W", 0.0);
 
-        agregarPared("t", "J", "I");
-        agregarPared("a", "Z", "J");
-        agregarPared("b", "J", "K");
-        agregarPared("c", "K", "N1");
-        agregarPared("d", "N1", "B1");
-        agregarPared("e", "A1", "D2");
+        agregarPared("t", "J", "I", 0.0);
+        agregarPared("a", "Z", "J", 0.0);
+        agregarPared("b", "J", "K", 0.0);
+        agregarPared("c", "K", "N1", 0.0);
+        agregarPared("d", "N1", "B1", 0.0);
+        agregarPared("e", "A1", "D2", 0.0);
 
-        agregarPared("f1", "C1", "V");
-        agregarPared("g1", "V", "W");
-        agregarPared("h1", "D1", "W");
-        agregarPared("i1", "J1", "K1");
-        agregarPared("j1", "J1", "I1");
+        agregarPared("f1", "C1", "V", 0.0);
+        agregarPared("g1", "V", "W", 0.0);
+        agregarPared("h1", "D1", "W", 0.0);
+        agregarPared("i1", "J1", "K1", 0.0);
+        agregarPared("j1", "J1", "I1", 0.0);
 
-        agregarPared("k1", "O1", "P1");
-        agregarPared("l1", "P1", "W1");
-        agregarPared("m1", "W1", "Z1");
-        agregarPared("n1", "Z1", "Q1");
-        agregarPared("p1", "Q1", "M1");
-        agregarPared("q1", "M1", "L1");
-        agregarPared("r1", "L1", "K1");
+        agregarPared("k1", "O1", "P1", 0.0);
+        agregarPared("l1", "P1", "W1", 0.0);
+        agregarPared("m1", "W1", "Z1", 0.0);
+        agregarPared("n1", "Z1", "Q1", 0.0);
+        agregarPared("p1", "Q1", "M1", 0.0);
+        agregarPared("q1", "M1", "L1", 0.0);
+        agregarPared("r1", "L1", "K1", 0.0);
 
-        agregarPared("s1", "E1", "H1");
-        agregarPared("t1", "G1", "F1");
-        agregarPared("a1", "F1", "E1");
-        agregarPared("b1", "F1", "D1");
-        agregarPared("c1", "D1", "T1");
-        agregarPared("d1", "T1", "S1");
-        agregarPared("e1", "S1", "R1");
+        agregarPared("s1", "E1", "H1", 0.0);
+        agregarPared("t1", "G1", "F1", 0.0);
+        agregarPared("a1", "F1", "E1", 0.0);
+        agregarPared("b1", "F1", "D1", 0.0);
+        agregarPared("c1", "D1", "T1", 0.0);
+        agregarPared("d1", "T1", "S1", 0.0);
+        agregarPared("e1", "S1", "R1", 0.0);
 
-        agregarPared("f2", "U1", "T1");
-        agregarPared("g2", "U1", "A2");
-        agregarPared("h2", "A2", "B2");
-        agregarPared("i2", "B2", "V1");
-        agregarPared("j2", "V1", "C2");
-        agregarPared("k2", "U1", "M");
+        agregarPared("f2", "U1", "T1", 0.0);
+        agregarPared("g2", "U1", "A2", 0.0);
+        agregarPared("h2", "A2", "B2", 0.0);
+        agregarPared("i2", "B2", "V1", 0.0);
+        agregarPared("j2", "V1", "C2", 0.0);
+        agregarPared("k2", "U1", "M", 0.0);
 
-        agregarPared("l2", "M", "L");
-        agregarPared("m2", "L", "Q1");
-        agregarPared("n2", "M1", "N1");
+        agregarPared("l2", "M", "L", 0.0);
+        agregarPared("m2", "L", "Q1", 0.0);
+        agregarPared("n2", "M1", "N1", 0.0);
     }
 
     public void mostrarPuntos() {
@@ -174,6 +174,6 @@ public class Casa {
     }
 
     public ArrayList<Pared> getParedes() {
-    return paredes;
-}
+        return paredes;
+    }
 }

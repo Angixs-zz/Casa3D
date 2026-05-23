@@ -58,28 +58,9 @@ public class VentanaOpenGL {
         glfwSwapInterval(1);
 
         glfwShowWindow(ventana);
+
         GL.createCapabilities();
 
-        int[] anchoVentana = new int[1];
-        int[] altoVentana = new int[1];
-
-        glfwGetFramebufferSize(ventana, anchoVentana, altoVentana);
-
-        ancho = anchoVentana[0];
-        alto = altoVentana[0];
-
-        glViewport(0, 0, ancho, alto);
-
-        glfwSetFramebufferSizeCallback(ventana, (window, nuevoAncho, nuevoAlto) -> {
-            ancho = nuevoAncho;
-            alto = nuevoAlto;
-
-            if (alto == 0) {
-                alto = 1;
-            }
-
-            glViewport(0, 0, ancho, alto);
-        });
         casa = new Casa();
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(0f, 0f, 0f);
@@ -152,8 +133,6 @@ public class VentanaOpenGL {
         glEnd();
     }
 
-
-
     private void dibujarCasaGeoGebra() {
         for (Pared pared : casa.getParedes()) {
             Punto2D inicio = pared.getInicio();
@@ -165,7 +144,8 @@ public class VentanaOpenGL {
                     (float) fin.getX(),
                     (float) fin.getY(),
                     (float) pared.getAltura(),
-                    (float) pared.getGrosor());
+                    (float) pared.getGrosor(),
+                    (float) pared.getAlturaBase());
         }
     }
 
@@ -175,7 +155,8 @@ public class VentanaOpenGL {
             float x2,
             float z2,
             float altura,
-            float grosor) {
+            float grosor,
+            float alturaBase) {
         // Centrar el plano de GeoGebra en la escena OpenGL
         x1 = x1 - 4.0f;
         x2 = x2 - 4.0f;
@@ -199,14 +180,13 @@ public class VentanaOpenGL {
 
         glPushMatrix();
 
-        glTranslatef(centroX, altura / 2.0f, centroZ);
+        glTranslatef(centroX, alturaBase + altura / 2.0f, centroZ);
         glRotatef(-angulo, 0f, 1f, 0f);
 
         Cubo.dibujar(0f, 0f, 0f, longitud, altura, grosor, 1f, 1f, 1f);
 
         glPopMatrix();
     }
-
 
     private void cerrar() {
 
