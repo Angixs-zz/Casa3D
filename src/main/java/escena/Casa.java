@@ -51,7 +51,8 @@ public class Casa {
         }
     }
 
-    private void agregarPared(String nombre, String puntoInicio, String puntoFin, double alturaBase, double alturaCustom) {
+    private void agregarPared(String nombre, String puntoInicio, String puntoFin, double alturaBase,
+            double alturaCustom) {
         Punto2D inicio = buscarPunto(puntoInicio);
         Punto2D fin = buscarPunto(puntoFin);
 
@@ -138,7 +139,8 @@ public class Casa {
         agregarPared("c", "K", "N1", 0.0);
         agregarPared("d", "N1", "B1", 0.0); // Restaurada para colisión invisible
         agregarPared("e", "A1", "D2", 0.0);
-        agregarPared("pared_bano_fondo", "D2", "D3", 0.0, 1.6); // Pared física para cerrar el baño (altura 1.6 para no obstruir escaleras)
+        agregarPared("pared_bano_fondo", "D2", "D3", 0.0, 1.6); // Pared física para cerrar el baño (altura 1.6 para no
+                                                                // obstruir escaleras)
 
         agregarPared("f1", "C1", "V", 0.0);
         agregarPared("g1", "V", "W", 0.0);
@@ -287,6 +289,7 @@ public class Casa {
         agregarPared("P2_r1", "P2_E", "P2_L", alturaSegundoPiso);
         agregarPared("P2_s1", "P2_T", "P2_H", alturaSegundoPiso);
         agregarPared("P2_t1", "P2_H", "P2_G", alturaSegundoPiso);
+        agregarPared("P2_q1_escalera", "P2_E", "P2_H", alturaSegundoPiso);
         agregarPared("P2_a1", "P2_G", "P2_O1", alturaSegundoPiso);
         agregarPared("P2_b1", "P2_O1", "P2_Q1", alturaSegundoPiso);
         agregarPared("P2_c1", "P2_P1", "P2_N1", alturaSegundoPiso);

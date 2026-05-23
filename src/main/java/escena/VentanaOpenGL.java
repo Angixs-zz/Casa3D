@@ -406,57 +406,114 @@ public class VentanaOpenGL {
     private void dibujarLosaSegundoPiso() {
         float altura = 3.2f;
 
-        // Zona inferior completa
-        dibujarLosaPorCoordenadas(0.1f, 0.2f, 7.9f, 1.6f, altura);
+        /*
+         * Piso del segundo nivel.
+         * Se divide en varias piezas para rellenar la casa sin salirse demasiado.
+         * Dejamos libre la zona de la escalera para que sí se pueda subir.
+         */
 
-        // Zona inferior derecha
+        // Parte baja izquierda
+        dibujarLosaPorCoordenadas(0.1f, 0.2f, 4.8f, 1.6f, altura);
+
+        // Parte baja derecha
+        dibujarLosaPorCoordenadas(5.9f, 0.2f, 7.9f, 1.6f, altura);
+
+        // Zona derecha inferior
         dibujarLosaPorCoordenadas(4.8f, 1.6f, 7.9f, 4.3f, altura);
 
-        // Zona derecha media
-        dibujarLosaPorCoordenadas(4.9f, 3.5f, 7.9f, 5.9f, altura);
+        // Zona media derecha
+        dibujarLosaPorCoordenadas(4.9f, 4.3f, 7.9f, 5.9f, altura);
 
-        // Zona izquierda media
+        // Zona media izquierda grande
         dibujarLosaPorCoordenadas(0.1f, 4.4f, 3.9f, 7.9f, altura);
 
         // Conector central
-        dibujarLosaPorCoordenadas(3.9f, 5.3f, 4.9f, 9.5f, altura);
+        dibujarLosaPorCoordenadas(3.5f, 5.3f, 4.9f, 9.5f, altura);
 
-        // Zona izquierda superior-media
+        // Zona izquierda media-superior
         dibujarLosaPorCoordenadas(0.1f, 7.9f, 4.9f, 9.5f, altura);
 
-        // Zona escalera / parte superior derecha
-        dibujarLosaPorCoordenadas(4.9f, 9.5f, 7.9f, 13.9f, altura);
+        /*
+         * Zona de escalera.
+         * No cubrimos toda el área 4.9 - 7.9 / 9.5 - 12.0,
+         * porque ahí está la llegada de la escalera.
+         */
 
-        // Zona superior izquierda
-        dibujarLosaPorCoordenadas(0.1f, 13.9f, 3.9f, 18.6f, altura);
+        // Franja izquierda de la zona de escalera
+        dibujarLosaPorCoordenadas(4.9f, 9.5f, 5.8f, 12.0f, altura);
 
-        // Zona superior derecha
-        dibujarLosaPorCoordenadas(3.9f, 13.9f, 7.9f, 20.3f, altura);
+        // Franja derecha de la zona de escalera
+        dibujarLosaPorCoordenadas(7.2f, 9.5f, 7.9f, 12.0f, altura);
 
-        // Zona final superior izquierda
+        // Zona arriba de la escalera
+        dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, altura);
+
+        // Bloque superior izquierdo
+        dibujarLosaPorCoordenadas(0.1f, 13.9f, 3.9f, 15.4f, altura);
+
+        // Bloque superior izquierdo medio
+        dibujarLosaPorCoordenadas(0.1f, 15.4f, 3.9f, 18.6f, altura);
+
+        // Bloque superior central
+        dibujarLosaPorCoordenadas(3.9f, 13.9f, 7.9f, 17.3f, altura);
+
+        // Bloque superior derecho final
+        dibujarLosaPorCoordenadas(6.0f, 17.3f, 7.9f, 20.3f, altura);
+
+        // Bloque superior central final
+        dibujarLosaPorCoordenadas(3.9f, 17.3f, 6.0f, 20.3f, altura);
+
+        // Bloque superior izquierdo final
         dibujarLosaPorCoordenadas(0.1f, 18.6f, 3.9f, 20.3f, altura);
     }
 
     private void dibujarLosaTercerPiso() {
         float altura = 6.4f;
 
-        // Zona inferior larga
-        dibujarLosaPorCoordenadas(0.1f, 1.5f, 6.6f, 5.0f, altura);
+        /*
+         * Piso del tercer nivel.
+         * Se rellena por zonas, pero se deja libre el hueco donde llega
+         * la escalera del segundo al tercer piso.
+         */
+
+        // Zona inferior izquierda
+        dibujarLosaPorCoordenadas(0.1f, 1.5f, 6.6f, 2.6f, altura);
+
+        // Zona inferior media
+        dibujarLosaPorCoordenadas(0.1f, 2.6f, 6.6f, 5.0f, altura);
+
+        // Zona izquierda central baja
+        dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 9.5f, altura);
 
         // Zona izquierda central
-        dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 10.3f, altura);
+        dibujarLosaPorCoordenadas(0.1f, 9.5f, 3.8f, 14.0f, altura);
 
-        // Zona central izquierda alta
-        dibujarLosaPorCoordenadas(0.1f, 9.5f, 3.8f, 15.4f, altura);
-
-        // Zona derecha central
-        dibujarLosaPorCoordenadas(4.9f, 9.5f, 7.9f, 13.9f, altura);
-
-        // Zona superior izquierda
+        // Zona izquierda alta
         dibujarLosaPorCoordenadas(0.1f, 14.0f, 3.8f, 18.6f, altura);
 
+        /*
+         * Zona de llegada de escalera al tercer piso.
+         * No ponemos piso completo entre 4.9 y 7.9, 9.5 y 12.0,
+         * porque ahí debe quedar el hueco de acceso.
+         */
+
+        // Franja izquierda junto a la escalera
+        dibujarLosaPorCoordenadas(4.9f, 9.5f, 5.8f, 12.0f, altura);
+
+        // Franja derecha junto a la escalera
+        dibujarLosaPorCoordenadas(7.2f, 9.5f, 7.9f, 12.0f, altura);
+
+        // Piso después de la llegada de la escalera
+        dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, altura);
+
         // Zona superior derecha
-        dibujarLosaPorCoordenadas(3.8f, 17.4f, 7.9f, 20.3f, altura);
+        dibujarLosaPorCoordenadas(3.8f, 13.9f, 7.9f, 17.4f, altura);
+
+        // Zona superior derecha final
+        dibujarLosaPorCoordenadas(5.9f, 17.4f, 7.9f, 20.3f, altura);
+
+        // Zona superior central final
+        dibujarLosaPorCoordenadas(3.8f, 18.6f, 5.9f, 20.3f, altura);
     }
 
     private void dibujarLosaPorCoordenadas(
