@@ -23,11 +23,15 @@ public class Girasol {
     }
 
     public Girasol(float x, float y, float z, float escala) {
+        this(x, y, z, escala, 0f);
+    }
+
+    public Girasol(float x, float y, float z, float escala, float rotacionY) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.escala = escala;
-        this.rotacionY = 0f;
+        this.rotacionY = rotacionY;
     }
 
     public void actualizar(long ventana, Casa casa) {

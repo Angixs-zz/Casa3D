@@ -72,7 +72,7 @@ public class VentanaOpenGL {
 
         casa = new Casa();
         camaraLibre = new CamaraLibre();
-        girasol = new Girasol(0f, 0f, -6f, 0.7f);
+        girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.7f, 180f);
 
         glEnable(GL_DEPTH_TEST);
 
@@ -186,10 +186,10 @@ public class VentanaOpenGL {
 
         glBegin(GL_QUADS);
 
-        glVertex3f(-20f, 0f, -20f);
-        glVertex3f(20f, 0f, -20f);
-        glVertex3f(20f, 0f, 20f);
-        glVertex3f(-20f, 0f, 20f);
+        glVertex3f(-80f, 0f, -80f);
+        glVertex3f(80f, 0f, -80f);
+        glVertex3f(80f, 0f, 80f);
+        glVertex3f(-80f, 0f, 80f);
 
         glEnd();
     }
