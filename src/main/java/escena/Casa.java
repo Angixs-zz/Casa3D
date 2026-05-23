@@ -269,10 +269,10 @@ public class Casa {
         agregarPared("P2_t", "P2_R2", "P2_W", alturaSegundoPiso);
         agregarPared("P2_a", "P2_W", "P2_Z", alturaSegundoPiso);
         agregarPared("P2_b", "P2_Z", "P2_A1", alturaSegundoPiso);
+
         agregarPared("P2_c", "P2_W", "P2_S2", alturaSegundoPiso);
         agregarPared("P2_d", "P2_V", "P2_T2", alturaSegundoPiso);
         agregarPared("P2_e", "P2_V", "P2_U", alturaSegundoPiso);
-
         agregarPared("P2_f1", "P2_T", "P2_U", alturaSegundoPiso);
         agregarPared("P2_g1", "P2_T", "P2_S", alturaSegundoPiso);
         agregarPared("P2_h1", "P2_S", "P2_R", alturaSegundoPiso);
@@ -285,14 +285,19 @@ public class Casa {
         agregarPared("P2_n1", "P2_J1", "P2_K", alturaSegundoPiso);
         agregarPared("P2_p1", "P2_K1", "P2_M", alturaSegundoPiso);
 
-        agregarPared("P2_q1", "P2_L", "P2_E", alturaSegundoPiso);
-        agregarPared("P2_r1", "P2_E", "P2_L", alturaSegundoPiso);
+        // Pared correcta del closet / zona de escalera
+        agregarPared("P2_q1", "P2_H", "P2_E", alturaSegundoPiso);
+
+        // Esta es la correcta: E con L1
+        agregarPared("P2_r1", "P2_E", "P2_L1", alturaSegundoPiso);
+
         agregarPared("P2_s1", "P2_T", "P2_H", alturaSegundoPiso);
         agregarPared("P2_t1", "P2_H", "P2_G", alturaSegundoPiso);
-        agregarPared("P2_q1_escalera", "P2_E", "P2_H", alturaSegundoPiso);
         agregarPared("P2_a1", "P2_G", "P2_O1", alturaSegundoPiso);
         agregarPared("P2_b1", "P2_O1", "P2_Q1", alturaSegundoPiso);
         agregarPared("P2_c1", "P2_P1", "P2_N1", alturaSegundoPiso);
+
+        // Esta sí existe: L con M1
         agregarPared("P2_e1", "P2_L", "P2_M1", alturaSegundoPiso);
 
         agregarPared("P2_f2", "P2_T1", "P2_S1", alturaSegundoPiso);
@@ -325,7 +330,7 @@ public class Casa {
         agregarPared("P2_k3", "P2_J2", "P2_I2", alturaSegundoPiso);
 
         agregarPared("P2_l3", "P2_P1", "P2_Q1", alturaSegundoPiso);
-        agregarPared("P2_d1", "P2_C", "P2_G", alturaSegundoPiso); // Restaurada para colisión invisible
+        agregarPared("P2_d1", "P2_C", "P2_G", alturaSegundoPiso);
         agregarPared("P2_m3", "P2_F", "P2_D", alturaSegundoPiso);
         agregarPared("P2_n3", "P2_K", "P2_K1", alturaSegundoPiso);
         agregarPared("P2_p3", "P2_S2", "P2_T2", alturaSegundoPiso);
