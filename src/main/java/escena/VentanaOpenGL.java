@@ -9,6 +9,7 @@ import objetos.Cubo;
 import camara.CamaraLibre;
 import personaje.Girasol;
 import utilidades.Constantes;
+import objetos.Escalera3D;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -133,11 +134,11 @@ public class VentanaOpenGL {
         float aspecto = (float) ancho / alto;
 
         glFrustum(
-                -aspecto,
-                aspecto,
-                -1,
-                1,
-                1.5,
+                -aspecto * 0.1,
+                aspecto * 0.1,
+                -0.1,
+                0.1,
+                0.1,
                 150);
 
         glMatrixMode(GL_MODELVIEW);
@@ -157,13 +158,26 @@ public class VentanaOpenGL {
     }
 
     private void aplicarCamaraPrimeraPersona() {
-        glRotatef(-girasol.getRotacionY(), 0f, 1f, 0f);
+        float rotacion = girasol.getRotacionY();
+        float radianes = (float) Math.toRadians(rotacion);
+
+        float direccionX = (float) Math.sin(radianes);
+        float direccionZ = (float) Math.cos(radianes);
+
+        // Pequeño retroceso de la cámara para que los ojos no entren visualmente en la
+        // pared
+        float distanciaOjosAtras = 0.35f;
+
+        float camaraX = girasol.getX() + direccionX * distanciaOjosAtras;
+        float camaraY = girasol.getAlturaOjos();
+        float camaraZ = girasol.getZ() + direccionZ * distanciaOjosAtras;
+
+        glRotatef(-rotacion, 0f, 1f, 0f);
 
         glTranslatef(
-                -girasol.getX(),
-                -girasol.getAlturaOjos(),
-                -girasol.getZ()
-        );
+                -camaraX,
+                -camaraY,
+                -camaraZ);
     }
 
     private void aplicarCamaraTerceraPersona() {
@@ -176,8 +190,7 @@ public class VentanaOpenGL {
         glTranslatef(
                 -girasol.getX(),
                 -(girasol.getY() + 1.0f),
-                -girasol.getZ()
-        );
+                -girasol.getZ());
     }
 
     private void dibujarPiso() {
@@ -220,6 +233,50 @@ public class VentanaOpenGL {
         }
 
         dibujarLosas();
+        dibujarEscaleras();
+    }
+
+    private void dibujarEscaleras() {
+        /*
+         * Escalera 1:
+         * Del primer piso al segundo piso.
+         * Aproximada entre zona B1/A1/Z/J/K/N1 del primer piso.
+         */
+        Escalera3D.dibujar(
+                convertirXGeoAOpenGL(6.4f),
+                0.0f,
+                convertirZGeoAOpenGL(10.7f),
+                1.7f,
+                5.0f,
+                3.2f,
+                12,
+                0f);
+
+        /*
+         * Escalera 2:
+         * Del segundo piso al tercer piso.
+         * Aproximada entre C-D del segundo piso hacia D-E del tercer piso.
+         */
+        Escalera3D.dibujar(
+                convertirXGeoAOpenGL(6.4f),
+                3.2f,
+                convertirZGeoAOpenGL(10.7f),
+                1.7f,
+                5.0f,
+                3.2f,
+                12,
+                0f);
+    }
+
+    private float convertirXGeoAOpenGL(float xGeo) {
+        float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
+        x = -x;
+        return x * Constantes.ESCALA_CASA;
+    }
+
+    private float convertirZGeoAOpenGL(float zGeo) {
+        float z = zGeo - Constantes.CENTRO_GEOGEBRA_Z;
+        return z * Constantes.ESCALA_CASA;
     }
 
     private void dibujarPisoPrimeraPlanta() {

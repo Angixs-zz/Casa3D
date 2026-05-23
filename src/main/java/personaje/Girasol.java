@@ -37,7 +37,7 @@ public class Girasol {
     public void actualizar(long ventana, Casa casa) {
         float velocidadMovimiento = 0.12f;
         float velocidadRotacion = 2.2f;
-        float radioJugador = 0.35f;
+        float radioJugador = 0.22f;
 
         if (glfwGetKey(ventana, GLFW_KEY_A) == GLFW_PRESS) {
             rotacionY += velocidadRotacion;
