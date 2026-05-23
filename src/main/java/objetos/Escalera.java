@@ -47,23 +47,40 @@ public class Escalera {
             return alturaActual;
         }
 
+        float xGeo = convertirXGeo(xOpenGL);
         float zGeo = convertirZGeo(zOpenGL);
 
-        float t = (zGeo - zMinGeo) / (zMaxGeo - zMinGeo);
+        float midZ = (zMinGeo + zMaxGeo) / 2.0f; // 10.75f
+        float midH = (alturaInicial + alturaFinal) / 2.0f; // 1.6f o 4.8f
 
-        if (t < 0) {
-            t = 0;
+        // Límite del descanso en X (GeoGebra 7.3 a 7.9)
+        float xDescansoGeo = 7.3f;
+
+        // --- Caso 1: Tramo 1 (Z > midZ, sube de izquierda a derecha) ---
+        if (zGeo > midZ) {
+            if (xGeo >= xMinGeo && xGeo < xDescansoGeo) {
+                // Interpolar de xMinGeo (alturaInicial) a xDescansoGeo (midH)
+                float t = (xGeo - xMinGeo) / (xDescansoGeo - xMinGeo);
+                if (t < 0f) t = 0f;
+                if (t > 1f) t = 1f;
+                return alturaInicial + t * (midH - alturaInicial);
+            } else {
+                // Ya está en el descanso
+                return midH;
+            }
+        }
+        
+        // --- Caso 2: Descanso (X >= xDescansoGeo en cualquier Z) ---
+        if (xGeo >= xDescansoGeo) {
+            return midH;
         }
 
-        if (t > 1) {
-            t = 1;
-        }
-
-        if (!subeConZ) {
-            t = 1 - t;
-        }
-
-        return alturaInicial + t * (alturaFinal - alturaInicial);
+        // --- Caso 3: Tramo 2 (Z <= midZ y X < xDescansoGeo, sube de derecha a izquierda) ---
+        // Sube desde el descanso (xDescansoGeo -> midH) hasta el final (xMinGeo -> alturaFinal)
+        float t = (xDescansoGeo - xGeo) / (xDescansoGeo - xMinGeo);
+        if (t < 0f) t = 0f;
+        if (t > 1f) t = 1f;
+        return midH + t * (alturaFinal - midH);
     }
 
     private float convertirXGeo(float xOpenGL) {

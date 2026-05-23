@@ -233,6 +233,54 @@ public class VentanaOpenGL {
         }
 
         dibujarLosas();
+        dibujarEscaleras();
+    }
+
+    private void dibujarEscaleras() {
+        /*
+         * Escalera 1:
+         * Primer piso -> segundo piso.
+         * Visible desde el nivel 1.
+         */
+        if (nivelVisible >= 1) {
+            Escalera3D.dibujar(
+                    convertirXGeoAOpenGL(6.4f),
+                    0.05f,
+                    convertirZGeoAOpenGL(10.75f),
+                    3.0f,
+                    2.5f,
+                    3.2f,
+                    12,
+                    0f);
+        }
+
+        /*
+         * Escalera 2:
+         * Segundo piso -> tercer piso.
+         * Visible desde el nivel 2.
+         */
+        if (nivelVisible >= 2) {
+            Escalera3D.dibujar(
+                    convertirXGeoAOpenGL(6.4f),
+                    3.25f,
+                    convertirZGeoAOpenGL(10.75f),
+                    3.0f,
+                    2.5f,
+                    3.2f,
+                    12,
+                    0f);
+        }
+    }
+
+    private float convertirXGeoAOpenGL(float xGeo) {
+        float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
+        x = -x;
+        return x * Constantes.ESCALA_CASA;
+    }
+
+    private float convertirZGeoAOpenGL(float zGeo) {
+        float z = zGeo - Constantes.CENTRO_GEOGEBRA_Z;
+        return z * Constantes.ESCALA_CASA;
     }
 
     private void dibujarPisoPrimeraPlanta() {
@@ -339,8 +387,9 @@ public class VentanaOpenGL {
             // Zona media baja
             dibujarLosaPorCoordenadas(0.1f, 5.4f, 7.9f, 9.5f, 3.2f);
 
-            // Zona media
-            dibujarLosaPorCoordenadas(0.1f, 9.5f, 7.9f, 14.0f, 3.2f);
+            // Zona media (se divide para dejar el hueco de la escalera en Z: [9.5, 12.0] y X: [4.9, 7.9])
+            dibujarLosaPorCoordenadas(0.1f, 9.5f, 4.9f, 14.0f, 3.2f); // Lado izquierdo de la losa
+            dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 14.0f, 3.2f); // Lado superior derecho (pasillo norte de la escalera)
 
             // Zona superior izquierda
             dibujarLosaPorCoordenadas(0.1f, 14.0f, 4.9f, 18.6f, 3.2f);
@@ -360,8 +409,8 @@ public class VentanaOpenGL {
             // Zona central izquierda
             dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 10.3f, 6.4f);
 
-            // Zona central derecha
-            dibujarLosaPorCoordenadas(4.9f, 9.5f, 7.9f, 13.9f, 6.4f);
+            // Zona central derecha (se modifica para dejar el hueco de la escalera Z [9.5, 12.0])
+            dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, 6.4f);
 
             // Zona izquierda superior
             dibujarLosaPorCoordenadas(0.1f, 14.0f, 3.8f, 18.6f, 6.4f);
