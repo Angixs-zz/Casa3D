@@ -143,6 +143,8 @@ public class VentanaOpenGL {
     }
 
     private void dibujarCasaGeoGebra() {
+        dibujarPisoPrimeraPlanta();
+
         for (Pared pared : casa.getParedes()) {
             int nivelPared = 1;
             if (pared.getAlturaBase() > 3.0)
@@ -166,6 +168,96 @@ public class VentanaOpenGL {
         }
 
         dibujarLosas();
+    }
+
+    private void dibujarPisoPrimeraPlanta() {
+        float alturaPiso = 0.03f;
+
+        // Zona inferior
+        dibujarPisoPorCoordenadas(0.1f, 0.2f, 7.9f, 5.4f, alturaPiso);
+
+        // Zona media baja
+        dibujarPisoPorCoordenadas(0.1f, 5.4f, 7.9f, 9.5f, alturaPiso);
+
+        // Zona media
+        dibujarPisoPorCoordenadas(0.1f, 9.5f, 7.9f, 14.0f, alturaPiso);
+
+        // Zona superior izquierda
+        dibujarPisoPorCoordenadas(0.1f, 14.0f, 4.9f, 18.6f, alturaPiso);
+
+        // Zona superior derecha
+        dibujarPisoPorCoordenadas(4.9f, 14.0f, 7.9f, 20.3f, alturaPiso);
+
+        // Zona superior final izquierda
+        dibujarPisoPorCoordenadas(0.1f, 18.6f, 7.9f, 20.3f, alturaPiso);
+
+        // Dibujar líneas tipo duela para mayor realismo
+        dibujarLineasPisoPrimeraPlanta();
+    }
+
+    private void dibujarPisoPorCoordenadas(
+            float xMin,
+            float zMin,
+            float xMax,
+            float zMax,
+            float altura) {
+        float centroX = (xMin + xMax) / 2.0f;
+        float centroZ = (zMin + zMax) / 2.0f;
+
+        float anchoPiso = xMax - xMin;
+        float largoPiso = zMax - zMin;
+
+        // Convertir coordenadas de GeoGebra a OpenGL
+        centroX = centroX - 4.0f;
+        centroZ = centroZ - 10.0f;
+
+        // Voltear igual que las paredes
+        centroX = -centroX;
+
+        Cubo.dibujar(
+                centroX,
+                altura,
+                centroZ,
+                anchoPiso,
+                0.06f,
+                largoPiso,
+                0.55f,
+                0.38f,
+                0.22f);
+    }
+
+    private void dibujarLineasPisoPrimeraPlanta() {
+        glColor3f(0.25f, 0.16f, 0.08f);
+        glBegin(GL_LINES);
+
+        float zInicio = 0.2f;
+        float zFin = 20.3f;
+
+        for (float x = 0.5f; x <= 7.5f; x += 0.5f) {
+            float xConvertido = x - 4.0f;
+            xConvertido = -xConvertido;
+
+            float z1 = zInicio - 10.0f;
+            float z2 = zFin - 10.0f;
+
+            glVertex3f(xConvertido, 0.08f, z1);
+            glVertex3f(xConvertido, 0.08f, z2);
+        }
+
+        for (float z = 0.7f; z <= 19.8f; z += 0.5f) {
+            float zConvertido = z - 10.0f;
+
+            float x1 = 0.1f - 4.0f;
+            float x2 = 7.9f - 4.0f;
+
+            x1 = -x1;
+            x2 = -x2;
+
+            glVertex3f(x1, 0.081f, zConvertido);
+            glVertex3f(x2, 0.081f, zConvertido);
+        }
+
+        glEnd();
     }
 
     private void dibujarLosas() {
