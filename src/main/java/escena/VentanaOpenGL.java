@@ -406,8 +406,9 @@ public class VentanaOpenGL {
             // Zona inferior izquierda
             dibujarLosaPorCoordenadas(0.1f, 1.5f, 6.6f, 5.0f, 6.4f);
 
-            // Zona central izquierda
+            // Zona central izquierda (se expande para cubrir pasillo de salida de escaleras)
             dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 10.3f, 6.4f);
+            dibujarLosaPorCoordenadas(0.1f, 9.5f, 4.9f, 13.9f, 6.4f);
 
             // Zona central derecha (se modifica para dejar el hueco de la escalera Z [9.5, 12.0])
             dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, 6.4f);
@@ -444,6 +445,22 @@ public class VentanaOpenGL {
         anchoLosa = anchoLosa * Constantes.ESCALA_CASA;
         largoLosa = largoLosa * Constantes.ESCALA_CASA;
 
+        float r = 0.65f;
+        float g = 0.65f;
+        float b = 0.65f;
+
+        if (altura < 4.0f) {
+            // Piso 2: Azul pizarra moderno / slate blue elegante
+            r = 0.22f;
+            g = 0.38f;
+            b = 0.60f;
+        } else {
+            // Piso 3: Gris concreto azotea elegante
+            r = 0.78f;
+            g = 0.78f;
+            b = 0.78f;
+        }
+
         Cubo.dibujar(
                 centroX,
                 altura,
@@ -451,9 +468,9 @@ public class VentanaOpenGL {
                 anchoLosa,
                 0.15f,
                 largoLosa,
-                0.65f,
-                0.65f,
-                0.65f);
+                r,
+                g,
+                b);
     }
 
     private void dibujarPared(

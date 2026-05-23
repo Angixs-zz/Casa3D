@@ -109,18 +109,49 @@ public class Girasol {
                 Constantes.ALTURA_PISO_3,
                 true);
 
-        // Si el jugador está en la primera planta o a mitad de camino del primer piso, usa la primera escalera.
-        // Si está a nivel de la segunda planta o más arriba, usa la segunda escalera.
-        if (y < 2.5f) {
-            if (escaleraPrimerASegundo.estaDentro(x, z)) {
-                y = escaleraPrimerASegundo.calcularAltura(x, z, y);
-                return;
+        // Convertir posición actual de OpenGL a GeoGebra para la lógica de tramos
+        float xGeo = Constantes.CENTRO_GEOGEBRA_X - (x / Constantes.ESCALA_CASA);
+        float zGeo = (z / Constantes.ESCALA_CASA) + Constantes.CENTRO_GEOGEBRA_Z;
+        float midZ = 10.75f;
+
+        boolean enEscalera1 = false;
+        boolean enEscalera2 = false;
+
+        if (escaleraPrimerASegundo.estaDentro(x, z)) {
+            if (y < 1.6f) {
+                // En el primer piso, solo puede usar la escalera 1
+                enEscalera1 = true;
+            } else if (y >= 1.6f && y < 3.0f) {
+                // Subiendo la escalera 1
+                enEscalera1 = true;
+            } else if (y >= 3.0f && y <= 3.4f) {
+                // Parado en el segundo piso:
+                // Si está en el tramo de abajo (zGeo < midZ), va a bajar por la escalera 1
+                // Si está en el tramo de arriba (zGeo >= midZ), va a subir por la escalera 2
+                if (zGeo < midZ) {
+                    enEscalera1 = true;
+                } else {
+                    enEscalera2 = true;
+                }
+            } else if (y > 3.4f && y < 6.2f) {
+                // Subiendo la escalera 2
+                enEscalera2 = true;
+            } else if (y >= 6.2f) {
+                // Parado en el tercer piso, para bajar entra por el tramo frontal (zGeo < midZ)
+                if (zGeo < midZ) {
+                    enEscalera2 = true;
+                }
             }
-        } else {
-            if (escaleraSegundoATercero.estaDentro(x, z)) {
-                y = escaleraSegundoATercero.calcularAltura(x, z, y);
-                return;
-            }
+        }
+
+        if (enEscalera1) {
+            y = escaleraPrimerASegundo.calcularAltura(x, z, y);
+            return;
+        }
+
+        if (enEscalera2) {
+            y = escaleraSegundoATercero.calcularAltura(x, z, y);
+            return;
         }
 
         // Si no está en escalera, lo ajustamos al piso más cercano
