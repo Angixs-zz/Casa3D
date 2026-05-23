@@ -23,7 +23,7 @@ public class VentanaOpenGL {
 
     private int ancho = 1280;
     private int alto = 720;
-    
+
     private int nivelVisible = 3;
 
     public void ejecutar() {
@@ -82,9 +82,12 @@ public class VentanaOpenGL {
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            if (glfwGetKey(ventana, GLFW_KEY_1) == GLFW_PRESS) nivelVisible = 1;
-            if (glfwGetKey(ventana, GLFW_KEY_2) == GLFW_PRESS) nivelVisible = 2;
-            if (glfwGetKey(ventana, GLFW_KEY_3) == GLFW_PRESS) nivelVisible = 3;
+            if (glfwGetKey(ventana, GLFW_KEY_1) == GLFW_PRESS)
+                nivelVisible = 1;
+            if (glfwGetKey(ventana, GLFW_KEY_2) == GLFW_PRESS)
+                nivelVisible = 2;
+            if (glfwGetKey(ventana, GLFW_KEY_3) == GLFW_PRESS)
+                nivelVisible = 3;
 
             camaraLibre.actualizar(ventana);
 
@@ -142,8 +145,10 @@ public class VentanaOpenGL {
     private void dibujarCasaGeoGebra() {
         for (Pared pared : casa.getParedes()) {
             int nivelPared = 1;
-            if (pared.getAlturaBase() > 3.0) nivelPared = 2;
-            if (pared.getAlturaBase() > 6.0) nivelPared = 3;
+            if (pared.getAlturaBase() > 3.0)
+                nivelPared = 2;
+            if (pared.getAlturaBase() > 6.0)
+                nivelPared = 3;
 
             if (nivelPared <= nivelVisible) {
                 Punto2D inicio = pared.getInicio();
@@ -164,15 +169,75 @@ public class VentanaOpenGL {
     }
 
     private void dibujarLosas() {
-        // Losa del segundo piso (techo del primero)
+        // Losa del segundo piso, usando varias piezas para respetar la forma irregular
         if (nivelVisible >= 2) {
-            Cubo.dibujar(0f, 3.2f, 0.25f, 8.0f, 0.2f, 20.5f, 0.7f, 0.7f, 0.7f);
+            // Zona inferior
+            dibujarLosaPorCoordenadas(0.1f, 0.2f, 7.9f, 5.4f, 3.2f);
+
+            // Zona media baja
+            dibujarLosaPorCoordenadas(0.1f, 5.4f, 7.9f, 9.5f, 3.2f);
+
+            // Zona media
+            dibujarLosaPorCoordenadas(0.1f, 9.5f, 7.9f, 14.0f, 3.2f);
+
+            // Zona superior izquierda
+            dibujarLosaPorCoordenadas(0.1f, 14.0f, 4.9f, 18.6f, 3.2f);
+
+            // Zona superior derecha
+            dibujarLosaPorCoordenadas(4.9f, 14.0f, 7.9f, 20.3f, 3.2f);
+
+            // Zona superior final izquierda
+            dibujarLosaPorCoordenadas(0.1f, 18.6f, 7.9f, 20.3f, 3.2f);
         }
 
-        // Losa del tercer piso (azotea)
+        // Losa del tercer piso
         if (nivelVisible >= 3) {
-            Cubo.dibujar(0f, 6.4f, 0.25f, 8.0f, 0.2f, 20.5f, 0.7f, 0.7f, 0.7f);
+            // Zona inferior izquierda
+            dibujarLosaPorCoordenadas(0.1f, 1.5f, 6.6f, 5.0f, 6.4f);
+
+            // Zona central izquierda
+            dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 10.3f, 6.4f);
+
+            // Zona central derecha
+            dibujarLosaPorCoordenadas(4.9f, 9.5f, 7.9f, 13.9f, 6.4f);
+
+            // Zona izquierda superior
+            dibujarLosaPorCoordenadas(0.1f, 14.0f, 3.8f, 18.6f, 6.4f);
+
+            // Zona superior derecha
+            dibujarLosaPorCoordenadas(3.8f, 13.9f, 7.9f, 20.3f, 6.4f);
         }
+    }
+
+    private void dibujarLosaPorCoordenadas(
+            float xMin,
+            float zMin,
+            float xMax,
+            float zMax,
+            float altura) {
+        float centroX = (xMin + xMax) / 2.0f;
+        float centroZ = (zMin + zMax) / 2.0f;
+
+        float anchoLosa = xMax - xMin;
+        float largoLosa = zMax - zMin;
+
+        // Convertir coordenadas de GeoGebra a coordenadas OpenGL
+        centroX = centroX - 4.0f;
+        centroZ = centroZ - 10.0f;
+
+        // Voltear igual que las paredes
+        centroX = -centroX;
+
+        Cubo.dibujar(
+                centroX,
+                altura,
+                centroZ,
+                anchoLosa,
+                0.15f,
+                largoLosa,
+                0.65f,
+                0.65f,
+                0.65f);
     }
 
     private void dibujarPared(
