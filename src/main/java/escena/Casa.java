@@ -19,6 +19,9 @@ public class Casa {
 
         crearPuntosPrimeraPlanta();
         crearParedesPrimeraPlanta();
+
+        crearPuntosSegundaPlanta();
+        crearParedesSegundaPlanta();
     }
 
     private Punto2D buscarPunto(String nombre) {
@@ -155,6 +158,161 @@ public class Casa {
         agregarPared("l2", "M", "L", 0.0);
         agregarPared("m2", "L", "Q1", 0.0);
         agregarPared("n2", "M1", "N1", 0.0);
+    }
+
+    private void crearPuntosSegundaPlanta() {
+        agregarPunto("P2_C", 4.9, 12.0);
+        agregarPunto("P2_D", 4.9, 10.7);
+        agregarPunto("P2_E", 4.9, 9.5);
+        agregarPunto("P2_F", 6.8, 10.7);
+        agregarPunto("P2_G", 7.9, 12.0);
+        agregarPunto("P2_H", 7.9, 9.5);
+        agregarPunto("P2_I", 0.1, 0.2);
+        agregarPunto("P2_J", 0.1, 1.6);
+        agregarPunto("P2_K", 0.1, 7.9);
+        agregarPunto("P2_L", 0.1, 9.5);
+        agregarPunto("P2_M", 3.9, 7.9);
+        agregarPunto("P2_N", 3.5, 4.4);
+        agregarPunto("P2_O", 3.5, 5.5);
+        agregarPunto("P2_P", 3.9, 5.5);
+        agregarPunto("P2_Q", 3.9, 7.0);
+        agregarPunto("P2_R", 4.9, 5.3);
+        agregarPunto("P2_S", 4.9, 5.9);
+        agregarPunto("P2_T", 7.9, 5.9);
+        agregarPunto("P2_U", 7.9, 4.3);
+        agregarPunto("P2_V", 6.6, 4.3);
+        agregarPunto("P2_W", 6.6, 3.5);
+        agregarPunto("P2_Z", 4.9, 3.5);
+
+        agregarPunto("P2_A1", 4.9, 4.3);
+        agregarPunto("P2_B1", 6.6, 1.6);
+        agregarPunto("P2_C1", 2.6, 1.6);
+        agregarPunto("P2_D1", 5.9, 1.6);
+        agregarPunto("P2_E1", 5.9, 0.2);
+        agregarPunto("P2_F1", 7.9, 0.2);
+        agregarPunto("P2_G1", 7.9, 1.6);
+        agregarPunto("P2_H1", 4.8, 1.6);
+        agregarPunto("P2_I1", 4.8, 0.2);
+        agregarPunto("P2_J1", 0.1, 4.4);
+        agregarPunto("P2_K1", 1.8, 7.9);
+        agregarPunto("P2_L1", 4.9, 7.0);
+        agregarPunto("P2_M1", 3.9, 9.5);
+        agregarPunto("P2_N1", 4.9, 13.9);
+        agregarPunto("P2_O1", 7.9, 13.9);
+        agregarPunto("P2_P1", 5.8, 13.9);
+        agregarPunto("P2_Q1", 7.3, 13.9);
+        agregarPunto("P2_R1", 3.9, 13.9);
+        agregarPunto("P2_S1", 2.6, 13.9);
+        agregarPunto("P2_T1", 0.1, 13.9);
+        agregarPunto("P2_U1", 0.1, 15.4);
+        agregarPunto("P2_V1", 3.9, 15.4);
+        agregarPunto("P2_W1", 3.9, 16.1);
+        agregarPunto("P2_Z1", 2.6, 14.5);
+
+        agregarPunto("P2_A2", 3.9, 14.5);
+        agregarPunto("P2_B2", 4.9, 16.1);
+        agregarPunto("P2_C2", 7.9, 17.3);
+        agregarPunto("P2_D2", 4.9, 17.3);
+        agregarPunto("P2_E2", 4.9, 17.0);
+        agregarPunto("P2_F2", 3.9, 17.0);
+        agregarPunto("P2_G2", 3.9, 17.3);
+        agregarPunto("P2_H2", 3.9, 18.6);
+        agregarPunto("P2_I2", 3.1, 18.6);
+        agregarPunto("P2_J2", 1.6, 18.6);
+        agregarPunto("P2_K2", 0.1, 18.6);
+        agregarPunto("P2_L2", 6.0, 17.3);
+        agregarPunto("P2_M2", 6.0, 18.3);
+        agregarPunto("P2_N2", 3.9, 20.3);
+        agregarPunto("P2_O2", 6.0, 20.3);
+        agregarPunto("P2_P2", 7.9, 20.3);
+        agregarPunto("P2_Q2", 1.2, 1.6);
+        agregarPunto("P2_R2", 6.6, 1.9);
+        agregarPunto("P2_S2", 6.6, 3.7);
+        agregarPunto("P2_T2", 6.6, 4.0);
+        agregarPunto("P2_U2", 2.6, 15.4);
+    }
+
+    private void crearParedesSegundaPlanta() {
+        double alturaSegundoPiso = 3.2;
+
+        agregarPared("P2_f", "P2_I", "P2_J", alturaSegundoPiso);
+        agregarPared("P2_g", "P2_J", "P2_Q2", alturaSegundoPiso);
+        agregarPared("P2_h", "P2_Q2", "P2_C1", alturaSegundoPiso);
+        agregarPared("P2_i", "P2_C1", "P2_H1", alturaSegundoPiso);
+        agregarPared("P2_j", "P2_H1", "P2_I1", alturaSegundoPiso);
+        agregarPared("P2_k", "P2_I1", "P2_I", alturaSegundoPiso);
+
+        agregarPared("P2_l", "P2_H1", "P2_D1", alturaSegundoPiso);
+        agregarPared("P2_m", "P2_D1", "P2_E1", alturaSegundoPiso);
+        agregarPared("P2_n", "P2_E1", "P2_F1", alturaSegundoPiso);
+        agregarPared("P2_p", "P2_F1", "P2_G1", alturaSegundoPiso);
+        agregarPared("P2_q", "P2_G1", "P2_B1", alturaSegundoPiso);
+        agregarPared("P2_r", "P2_B1", "P2_D1", alturaSegundoPiso);
+
+        agregarPared("P2_s", "P2_B1", "P2_R2", alturaSegundoPiso);
+        agregarPared("P2_t", "P2_R2", "P2_W", alturaSegundoPiso);
+        agregarPared("P2_a", "P2_W", "P2_Z", alturaSegundoPiso);
+        agregarPared("P2_b", "P2_Z", "P2_A1", alturaSegundoPiso);
+        agregarPared("P2_c", "P2_W", "P2_S2", alturaSegundoPiso);
+        agregarPared("P2_d", "P2_V", "P2_T2", alturaSegundoPiso);
+        agregarPared("P2_e", "P2_V", "P2_U", alturaSegundoPiso);
+
+        agregarPared("P2_f1", "P2_T", "P2_U", alturaSegundoPiso);
+        agregarPared("P2_g1", "P2_T", "P2_S", alturaSegundoPiso);
+        agregarPared("P2_h1", "P2_S", "P2_R", alturaSegundoPiso);
+
+        agregarPared("P2_i1", "P2_J", "P2_J1", alturaSegundoPiso);
+        agregarPared("P2_j1", "P2_J1", "P2_N", alturaSegundoPiso);
+        agregarPared("P2_k1", "P2_N", "P2_O", alturaSegundoPiso);
+        agregarPared("P2_l1", "P2_O", "P2_P", alturaSegundoPiso);
+        agregarPared("P2_m1", "P2_P", "P2_Q", alturaSegundoPiso);
+        agregarPared("P2_n1", "P2_J1", "P2_K", alturaSegundoPiso);
+        agregarPared("P2_p1", "P2_K1", "P2_M", alturaSegundoPiso);
+
+        agregarPared("P2_q1", "P2_L", "P2_E", alturaSegundoPiso);
+        agregarPared("P2_r1", "P2_E", "P2_L", alturaSegundoPiso);
+        agregarPared("P2_s1", "P2_T", "P2_H", alturaSegundoPiso);
+        agregarPared("P2_t1", "P2_H", "P2_G", alturaSegundoPiso);
+        agregarPared("P2_a1", "P2_G", "P2_O1", alturaSegundoPiso);
+        agregarPared("P2_b1", "P2_O1", "P2_Q1", alturaSegundoPiso);
+        agregarPared("P2_c1", "P2_P1", "P2_N1", alturaSegundoPiso);
+        agregarPared("P2_e1", "P2_L", "P2_M1", alturaSegundoPiso);
+
+        agregarPared("P2_f2", "P2_T1", "P2_S1", alturaSegundoPiso);
+        agregarPared("P2_g2", "P2_S1", "P2_Z1", alturaSegundoPiso);
+        agregarPared("P2_h2", "P2_S1", "P2_R1", alturaSegundoPiso);
+        agregarPared("P2_i2", "P2_R1", "P2_A2", alturaSegundoPiso);
+        agregarPared("P2_j2", "P2_N1", "P2_B2", alturaSegundoPiso);
+
+        agregarPared("P2_k2", "P2_E2", "P2_D2", alturaSegundoPiso);
+        agregarPared("P2_l2", "P2_D2", "P2_L2", alturaSegundoPiso);
+        agregarPared("P2_m2", "P2_L2", "P2_C2", alturaSegundoPiso);
+        agregarPared("P2_n2", "P2_C2", "P2_O1", alturaSegundoPiso);
+
+        agregarPared("P2_p2", "P2_W1", "P2_V1", alturaSegundoPiso);
+        agregarPared("P2_q2", "P2_L", "P2_T1", alturaSegundoPiso);
+        agregarPared("P2_r2", "P2_T1", "P2_U1", alturaSegundoPiso);
+        agregarPared("P2_s2", "P2_U1", "P2_U2", alturaSegundoPiso);
+        agregarPared("P2_t2", "P2_U2", "P2_V1", alturaSegundoPiso);
+        agregarPared("P2_a2", "P2_U1", "P2_K2", alturaSegundoPiso);
+        agregarPared("P2_b2", "P2_K2", "P2_J2", alturaSegundoPiso);
+
+        agregarPared("P2_c2", "P2_I2", "P2_H2", alturaSegundoPiso);
+        agregarPared("P2_d2", "P2_H2", "P2_G2", alturaSegundoPiso);
+        agregarPared("P2_e2", "P2_G2", "P2_F2", alturaSegundoPiso);
+        agregarPared("P2_f3", "P2_H2", "P2_N2", alturaSegundoPiso);
+        agregarPared("P2_g3", "P2_N2", "P2_O2", alturaSegundoPiso);
+        agregarPared("P2_h3", "P2_O2", "P2_P2", alturaSegundoPiso);
+        agregarPared("P2_i3", "P2_P2", "P2_C2", alturaSegundoPiso);
+        agregarPared("P2_j3", "P2_O2", "P2_M2", alturaSegundoPiso);
+        agregarPared("P2_k3", "P2_J2", "P2_I2", alturaSegundoPiso);
+
+        agregarPared("P2_l3", "P2_P1", "P2_Q1", alturaSegundoPiso);
+        agregarPared("P2_d1", "P2_C", "P2_G", alturaSegundoPiso);
+        agregarPared("P2_m3", "P2_F", "P2_D", alturaSegundoPiso);
+        agregarPared("P2_n3", "P2_K", "P2_K1", alturaSegundoPiso);
+        agregarPared("P2_p3", "P2_S2", "P2_T2", alturaSegundoPiso);
+        agregarPared("P2_q3", "P2_K", "P2_L", alturaSegundoPiso);
     }
 
     public void mostrarPuntos() {

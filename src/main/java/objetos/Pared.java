@@ -8,7 +8,13 @@ public class Pared {
     private double grosor;
     private double alturaBase;
 
-    public Pared(String nombre, Punto2D inicio, Punto2D fin, double altura, double grosor) {
+    public Pared(
+            String nombre,
+            Punto2D inicio,
+            Punto2D fin,
+            double altura,
+            double grosor,
+            double alturaBase) {
         this.nombre = nombre;
         this.inicio = inicio;
         this.fin = fin;
@@ -37,6 +43,10 @@ public class Pared {
         return grosor;
     }
 
+    public double getAlturaBase() {
+        return alturaBase;
+    }
+
     public double calcularLongitud() {
         double dx = fin.getX() - inicio.getX();
         double dy = fin.getY() - inicio.getY();
@@ -51,6 +61,7 @@ public class Pared {
         System.out.println("Longitud: " + calcularLongitud());
         System.out.println("Altura: " + altura);
         System.out.println("Grosor: " + grosor);
+        System.out.println("Altura base: " + alturaBase);
         System.out.println("-----------------------------");
     }
 }
