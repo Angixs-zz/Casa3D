@@ -8,6 +8,7 @@ import objetos.Punto2D;
 import objetos.Cubo;
 import camara.CamaraLibre;
 import personaje.Girasol;
+import utilidades.Constantes;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -25,7 +26,6 @@ public class VentanaOpenGL {
     private int alto = 720;
 
     private int nivelVisible = 3;
-    private final float ESCALA_CASA = 2.0f;
 
     private int modoCamara = 1;
 
@@ -106,7 +106,7 @@ public class VentanaOpenGL {
             if (modoCamara == CAMARA_LIBRE) {
                 camaraLibre.actualizar(ventana);
             } else {
-                girasol.actualizar(ventana);
+                girasol.actualizar(ventana, casa);
             }
 
             configurarCamara();
@@ -266,10 +266,10 @@ public class VentanaOpenGL {
         // Voltear igual que las paredes
         centroX = -centroX;
 
-        centroX = centroX * ESCALA_CASA;
-        centroZ = centroZ * ESCALA_CASA;
-        anchoPiso = anchoPiso * ESCALA_CASA;
-        largoPiso = largoPiso * ESCALA_CASA;
+        centroX = centroX * Constantes.ESCALA_CASA;
+        centroZ = centroZ * Constantes.ESCALA_CASA;
+        anchoPiso = anchoPiso * Constantes.ESCALA_CASA;
+        largoPiso = largoPiso * Constantes.ESCALA_CASA;
 
         Cubo.dibujar(
                 centroX,
@@ -377,10 +377,10 @@ public class VentanaOpenGL {
         // Voltear igual que las paredes
         centroX = -centroX;
 
-        centroX = centroX * ESCALA_CASA;
-        centroZ = centroZ * ESCALA_CASA;
-        anchoLosa = anchoLosa * ESCALA_CASA;
-        largoLosa = largoLosa * ESCALA_CASA;
+        centroX = centroX * Constantes.ESCALA_CASA;
+        centroZ = centroZ * Constantes.ESCALA_CASA;
+        anchoLosa = anchoLosa * Constantes.ESCALA_CASA;
+        largoLosa = largoLosa * Constantes.ESCALA_CASA;
 
         Cubo.dibujar(
                 centroX,
@@ -414,10 +414,10 @@ public class VentanaOpenGL {
         x2 = -x2;
 
         // Escalar casa para que el personaje y muebles quepan mejor
-        x1 = x1 * ESCALA_CASA;
-        x2 = x2 * ESCALA_CASA;
-        z1 = z1 * ESCALA_CASA;
-        z2 = z2 * ESCALA_CASA;
+        x1 = x1 * Constantes.ESCALA_CASA;
+        x2 = x2 * Constantes.ESCALA_CASA;
+        z1 = z1 * Constantes.ESCALA_CASA;
+        z2 = z2 * Constantes.ESCALA_CASA;
 
         float dx = x2 - x1;
         float dz = z2 - z1;

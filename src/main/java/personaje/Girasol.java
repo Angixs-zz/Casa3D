@@ -1,6 +1,10 @@
 package personaje;
 
 import objetos.Cubo;
+import escena.Casa;
+import objetos.Colisiones;
+import objetos.Escalera;
+import utilidades.Constantes;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -26,9 +30,10 @@ public class Girasol {
         this.rotacionY = 0f;
     }
 
-    public void actualizar(long ventana) {
+    public void actualizar(long ventana, Casa casa) {
         float velocidadMovimiento = 0.12f;
         float velocidadRotacion = 2.2f;
+        float radioJugador = 0.35f;
 
         if (glfwGetKey(ventana, GLFW_KEY_A) == GLFW_PRESS) {
             rotacionY += velocidadRotacion;
@@ -43,27 +48,89 @@ public class Girasol {
         float direccionX = (float) Math.sin(radianes);
         float direccionZ = (float) Math.cos(radianes);
 
+        float nuevoX = x;
+        float nuevoZ = z;
+
+        // Corrección: W avanza hacia adelante
         if (glfwGetKey(ventana, GLFW_KEY_W) == GLFW_PRESS) {
-            x += direccionX * velocidadMovimiento;
-            z += direccionZ * velocidadMovimiento;
+            nuevoX -= direccionX * velocidadMovimiento;
+            nuevoZ -= direccionZ * velocidadMovimiento;
         }
 
+        // Corrección: S retrocede
         if (glfwGetKey(ventana, GLFW_KEY_S) == GLFW_PRESS) {
-            x -= direccionX * velocidadMovimiento;
-            z -= direccionZ * velocidadMovimiento;
+            nuevoX += direccionX * velocidadMovimiento;
+            nuevoZ += direccionZ * velocidadMovimiento;
         }
 
-        // Temporal: subir y bajar manualmente hasta que hagamos escaleras reales
-        if (glfwGetKey(ventana, GLFW_KEY_E) == GLFW_PRESS) {
-            y += 0.06f;
+        boolean colision = Colisiones.hayColisionConParedes(
+                nuevoX,
+                nuevoZ,
+                y,
+                casa,
+                radioJugador);
+
+        if (!colision) {
+            x = nuevoX;
+            z = nuevoZ;
         }
 
-        if (glfwGetKey(ventana, GLFW_KEY_Q) == GLFW_PRESS) {
-            y -= 0.06f;
-        }
+        aplicarEscaleras();
 
         if (y < 0f) {
             y = 0f;
+        }
+    }
+
+    private void aplicarEscaleras() {
+        /*
+         * Escalera 1:
+         * Primer piso al segundo piso.
+         *
+         * Según lo que dijiste:
+         * Empieza entre B1 y A1 del primer piso.
+         * Zona aproximada: B1, N1, K, J, Z.
+         * Sube hacia el segundo piso cerca de D y E.
+         */
+        Escalera escaleraPrimerASegundo = new Escalera(
+                4.9f, 7.9f,
+                9.5f, 12.0f,
+                Constantes.ALTURA_PISO_1,
+                Constantes.ALTURA_PISO_2,
+                true);
+
+        /*
+         * Escalera 2:
+         * Segundo piso al tercer piso.
+         *
+         * Según lo que dijiste:
+         * Empieza entre C y D del segundo piso.
+         * Termina en el tercer piso entre D y E.
+         */
+        Escalera escaleraSegundoATercero = new Escalera(
+                4.9f, 7.9f,
+                9.5f, 12.0f,
+                Constantes.ALTURA_PISO_2,
+                Constantes.ALTURA_PISO_3,
+                true);
+
+        if (escaleraPrimerASegundo.estaDentro(x, z)) {
+            y = escaleraPrimerASegundo.calcularAltura(x, z, y);
+            return;
+        }
+
+        if (escaleraSegundoATercero.estaDentro(x, z)) {
+            y = escaleraSegundoATercero.calcularAltura(x, z, y);
+            return;
+        }
+
+        // Si no está en escalera, lo ajustamos al piso más cercano
+        if (y < 1.6f) {
+            y = Constantes.ALTURA_PISO_1;
+        } else if (y < 4.8f) {
+            y = Constantes.ALTURA_PISO_2;
+        } else {
+            y = Constantes.ALTURA_PISO_3;
         }
     }
 
@@ -86,16 +153,14 @@ public class Girasol {
         Cubo.dibujar(
                 0f, 0.75f, 0f,
                 0.18f, 1.5f, 0.18f,
-                0.1f, 0.55f, 0.1f
-        );
+                0.1f, 0.55f, 0.1f);
     }
 
     private void dibujarCabeza() {
         Cubo.dibujar(
                 0f, 1.65f, 0f,
                 0.65f, 0.65f, 0.18f,
-                0.35f, 0.18f, 0.05f
-        );
+                0.35f, 0.18f, 0.05f);
     }
 
     private void dibujarPetalos() {
@@ -118,14 +183,12 @@ public class Girasol {
         Cubo.dibujar(
                 -0.35f, 0.85f, 0f,
                 0.55f, 0.18f, 0.12f,
-                0.05f, 0.45f, 0.05f
-        );
+                0.05f, 0.45f, 0.05f);
 
         Cubo.dibujar(
                 0.35f, 1.05f, 0f,
                 0.55f, 0.18f, 0.12f,
-                0.05f, 0.45f, 0.05f
-        );
+                0.05f, 0.45f, 0.05f);
     }
 
     public float getX() {
