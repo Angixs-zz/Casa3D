@@ -23,6 +23,8 @@ public class VentanaOpenGL {
 
     private int ancho = 1280;
     private int alto = 720;
+    
+    private int nivelVisible = 3;
 
     public void ejecutar() {
         iniciar();
@@ -80,6 +82,10 @@ public class VentanaOpenGL {
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+            if (glfwGetKey(ventana, GLFW_KEY_1) == GLFW_PRESS) nivelVisible = 1;
+            if (glfwGetKey(ventana, GLFW_KEY_2) == GLFW_PRESS) nivelVisible = 2;
+            if (glfwGetKey(ventana, GLFW_KEY_3) == GLFW_PRESS) nivelVisible = 3;
+
             camaraLibre.actualizar(ventana);
 
             configurarCamara();
@@ -135,17 +141,37 @@ public class VentanaOpenGL {
 
     private void dibujarCasaGeoGebra() {
         for (Pared pared : casa.getParedes()) {
-            Punto2D inicio = pared.getInicio();
-            Punto2D fin = pared.getFin();
+            int nivelPared = 1;
+            if (pared.getAlturaBase() > 3.0) nivelPared = 2;
+            if (pared.getAlturaBase() > 6.0) nivelPared = 3;
 
-            dibujarPared(
-                    (float) inicio.getX(),
-                    (float) inicio.getY(),
-                    (float) fin.getX(),
-                    (float) fin.getY(),
-                    (float) pared.getAltura(),
-                    (float) pared.getGrosor(),
-                    (float) pared.getAlturaBase());
+            if (nivelPared <= nivelVisible) {
+                Punto2D inicio = pared.getInicio();
+                Punto2D fin = pared.getFin();
+
+                dibujarPared(
+                        (float) inicio.getX(),
+                        (float) inicio.getY(),
+                        (float) fin.getX(),
+                        (float) fin.getY(),
+                        (float) pared.getAltura(),
+                        (float) pared.getGrosor(),
+                        (float) pared.getAlturaBase());
+            }
+        }
+
+        dibujarLosas();
+    }
+
+    private void dibujarLosas() {
+        // Losa del segundo piso (techo del primero)
+        if (nivelVisible >= 2) {
+            Cubo.dibujar(0f, 3.2f, 0.25f, 8.0f, 0.2f, 20.5f, 0.7f, 0.7f, 0.7f);
+        }
+
+        // Losa del tercer piso (azotea)
+        if (nivelVisible >= 3) {
+            Cubo.dibujar(0f, 6.4f, 0.25f, 8.0f, 0.2f, 20.5f, 0.7f, 0.7f, 0.7f);
         }
     }
 
