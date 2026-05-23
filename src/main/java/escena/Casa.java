@@ -104,6 +104,7 @@ public class Casa {
         agregarPunto("B2", 3.1, 18.6);
         agregarPunto("C2", 3.9, 17.0);
         agregarPunto("D2", 6.8, 10.7);
+        agregarPunto("D3", 6.8, 9.5); // Punto de fondo del baño bajo la escalera
     }
 
     private void crearParedesPrimeraPlanta() {
@@ -128,6 +129,7 @@ public class Casa {
         agregarPared("c", "K", "N1", 0.0);
         agregarPared("d", "N1", "B1", 0.0); // Restaurada para colisión invisible
         agregarPared("e", "A1", "D2", 0.0);
+        agregarPared("pared_bano_fondo", "D2", "D3", 0.0); // Pared física para cerrar el baño y evitar paso secreto
 
         agregarPared("f1", "C1", "V", 0.0);
         agregarPared("g1", "V", "W", 0.0);
