@@ -408,25 +408,27 @@ public class VentanaOpenGL {
 
         // Habitación / zona inferior izquierda:
         // I, J, Q2, C1, H1, I1
-        dibujarLosaPorCoordenadas(0.1f, 0.2f, 4.8f, 1.6f, altura);
-        dibujarLosaPorCoordenadas(0.1f, 1.6f, 2.6f, 4.4f, altura);
-        dibujarLosaPorCoordenadas(2.6f, 1.6f, 4.8f, 4.4f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(0.1f, 0.2f, 4.8f, 1.6f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(0.1f, 1.6f, 2.6f, 4.4f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(2.6f, 1.6f, 4.8f, 4.4f, altura);
 
         // Recámara / zona principal:
         // J1, J, K, M, N, O, P, Q
-        dibujarLosaPorCoordenadas(0.1f, 4.4f, 3.5f, 7.9f, altura);
-        dibujarLosaPorCoordenadas(3.5f, 4.4f, 3.9f, 7.9f, altura);
-        dibujarLosaPorCoordenadas(3.9f, 5.5f, 4.9f, 7.0f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(0.1f, 4.4f, 3.5f, 7.9f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(3.5f, 4.4f, 3.9f, 7.9f, altura);
+        // dibujarLosaPorCoordenadas(3.9f, 5.5f, 4.9f, 7.0f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(3.5f, 3.5f, 4.9f, 7.9f, altura);
 
         // Pasillo / conexión hacia zona media
-        dibujarLosaPorCoordenadas(0.1f, 7.9f, 4.9f, 9.5f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(0.1f, 7.9f, 4.9f, 9.5f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(0.1f, 9.5f, 3.9f, 13.9f, altura);
 
         // Closet / habitación entre E, H, T, S, R, L1
         // Esta es la zona que dijiste que faltaba piso.
-        dibujarLosaPorCoordenadas(4.9f, 5.9f, 7.9f, 9.5f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(4.9f, 5.9f, 7.9f, 9.5f, altura);
 
         // Franja pequeña entre R, S y L1
-        dibujarLosaPorCoordenadas(4.9f, 5.3f, 7.9f, 5.9f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(4.9f, 5.3f, 7.9f, 5.9f, altura);
 
         /*
          * Zona de escalera.
@@ -435,31 +437,39 @@ public class VentanaOpenGL {
          */
 
         // Lado izquierdo de llegada de escalera
-        dibujarLosaPorCoordenadas(4.9f, 9.5f, 5.8f, 12.0f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(4.9f, 9.5f, 5.8f, 12.0f, altura);
 
         // Lado derecho de llegada de escalera
-        dibujarLosaPorCoordenadas(7.2f, 9.5f, 7.9f, 12.0f, altura);
-
+        dibujarLosaSegundoPisoPorCoordenadas(7.2f, 9.5f, 7.9f, 12.0f, altura);
+        // Losa del pasillo del blancon con eslaera
+        dibujarLosaSegundoPisoPorCoordenadas(3.9f, 9.5f, 4.9f, 13.9f, altura);
         // Piso después de la escalera
-        dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, altura);
+        // dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, altura);
+
+        // partes faltantes de la cmara principal espacialmente donde va el sillon
+        dibujarLosaSegundoPisoPorCoordenadas(4.8f, 1.6f, 6.6f, 3.5f, altura);
+        // parte faltante del baño principaemente donde va la tina
+        dibujarLosaSegundoPisoPorCoordenadas(4.9f, 3.5f, 6.6f, 4.3f, altura);
+        // parte faltante del baño principaemente el baño al lado de la tina
+        dibujarLosaSegundoPisoPorCoordenadas(4.9f, 4.3f, 7.9f, 5.9f, altura);
 
         /*
          * Parte superior izquierda:
          * T1, U1, V1, W1, Z1, S1, R1, A2...
          */
-        dibujarLosaPorCoordenadas(0.1f, 13.9f, 2.6f, 15.4f, altura);
-        dibujarLosaPorCoordenadas(2.6f, 13.9f, 3.9f, 16.1f, altura);
-        dibujarLosaPorCoordenadas(0.1f, 15.4f, 3.9f, 18.6f, altura);
-        dibujarLosaPorCoordenadas(0.1f, 18.6f, 3.9f, 20.3f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(0.1f, 13.9f, 2.6f, 15.4f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(2.6f, 13.9f, 3.9f, 16.1f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(0.1f, 15.4f, 3.9f, 18.6f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(0.1f, 18.6f, 3.9f, 20.3f, altura);
 
         /*
          * Parte superior derecha:
          * N1, O1, P1, Q1, C2, D2, L2...
          */
-        dibujarLosaPorCoordenadas(3.9f, 13.9f, 7.9f, 17.3f, altura);
-        dibujarLosaPorCoordenadas(4.9f, 17.0f, 7.9f, 17.3f, altura);
-        dibujarLosaPorCoordenadas(6.0f, 17.3f, 7.9f, 20.3f, altura);
-        dibujarLosaPorCoordenadas(3.9f, 18.6f, 6.0f, 20.3f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(3.9f, 13.9f, 7.9f, 17.3f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(4.9f, 17.0f, 7.9f, 17.3f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(6.0f, 17.3f, 7.9f, 20.3f, altura);
+        dibujarLosaSegundoPisoPorCoordenadas(3.9f, 17.3f, 6.0f, 20.3f, altura);
     }
 
     private void dibujarLosaTercerPiso() {
@@ -482,18 +492,25 @@ public class VentanaOpenGL {
          */
 
         // Lado izquierdo del hueco
-        dibujarLosaPorCoordenadas(4.9f, 9.5f, 5.5f, 12.0f, altura);
+        // dibujarLosaPorCoordenadas(4.9f, 9.5f, 5.5f, 12.0f, altura);
 
         // Lado derecho del hueco
-        dibujarLosaPorCoordenadas(7.5f, 9.5f, 7.9f, 12.0f, altura);
+        // dibujarLosaPorCoordenadas(7.5f, 9.5f, 7.9f, 12.0f, altura);
 
         // Después de la llegada de la escalera
-        dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, altura);
+        // dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, altura);
 
         // Parte superior derecha
         dibujarLosaPorCoordenadas(3.8f, 13.9f, 7.9f, 17.4f, altura);
         dibujarLosaPorCoordenadas(5.9f, 17.4f, 7.9f, 20.3f, altura);
-        dibujarLosaPorCoordenadas(3.8f, 18.6f, 5.9f, 20.3f, altura);
+        dibujarLosaPorCoordenadas(3.8f, 17.4f, 5.9f, 20.3f, altura);
+
+        // partes faltates comeor de arriba
+        dibujarLosaPorCoordenadas(4.9f, 4.3f, 7.9f, 9.5f, altura);
+        // sala de estar
+        dibujarLosaPorCoordenadas(0.1f, 4.3f, 4.9f, 7.0f, altura);
+        // pasilo de arriba
+        dibujarLosaPorCoordenadas(3.8f, 7.0f, 4.9f, 13.9f, altura);
     }
 
     private void dibujarLosaPorCoordenadas(
@@ -523,6 +540,46 @@ public class VentanaOpenGL {
         float r = 0.58f;
         float g = 0.48f;
         float b = 0.35f;
+
+        Cubo.dibujar(
+                centroX,
+                altura,
+                centroZ,
+                anchoLosa,
+                0.12f,
+                largoLosa,
+                r,
+                g,
+                b);
+    }
+
+    private void dibujarLosaSegundoPisoPorCoordenadas(
+            float xMin,
+            float zMin,
+            float xMax,
+            float zMax,
+            float altura) {
+
+        float centroX = (xMin + xMax) / 2.0f;
+        float centroZ = (zMin + zMax) / 2.0f;
+
+        float anchoLosa = xMax - xMin;
+        float largoLosa = zMax - zMin;
+
+        centroX = centroX - 4.0f;
+        centroZ = centroZ - 10.0f;
+
+        centroX = -centroX;
+
+        centroX = centroX * Constantes.ESCALA_CASA;
+        centroZ = centroZ * Constantes.ESCALA_CASA;
+        anchoLosa = anchoLosa * Constantes.ESCALA_CASA;
+        largoLosa = largoLosa * Constantes.ESCALA_CASA;
+
+        // Color del piso 2
+        float r = 0.30f;
+        float g = 0.45f;
+        float b = 0.65f;
 
         Cubo.dibujar(
                 centroX,
