@@ -401,23 +401,26 @@ public class VentanaOpenGL {
             dibujarLosaPorCoordenadas(0.1f, 18.6f, 7.9f, 20.3f, 3.2f);
         }
 
-        // Losa del tercer piso
+        // Losa del tercer piso (azotea/techo)
         if (nivelVisible >= 3) {
-            // Zona inferior izquierda
-            dibujarLosaPorCoordenadas(0.1f, 1.5f, 6.6f, 5.0f, 6.4f);
+            // Zona inferior
+            dibujarLosaPorCoordenadas(0.1f, 0.2f, 7.9f, 5.4f, 6.4f);
 
-            // Zona central izquierda (se expande para cubrir pasillo de salida de escaleras)
-            dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 10.3f, 6.4f);
-            dibujarLosaPorCoordenadas(0.1f, 9.5f, 4.9f, 13.9f, 6.4f);
+            // Zona media baja
+            dibujarLosaPorCoordenadas(0.1f, 5.4f, 7.9f, 9.5f, 6.4f);
 
-            // Zona central derecha (se modifica para dejar el hueco de la escalera Z [9.5, 12.0])
-            dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, 6.4f);
+            // Zona central izquierda (se divide para dejar el hueco de la escalera en Z: [9.5, 12.0] y X: [4.9, 7.9])
+            dibujarLosaPorCoordenadas(0.1f, 9.5f, 4.9f, 14.0f, 6.4f); // Lado izquierdo de la losa
+            dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 14.0f, 6.4f); // Lado superior derecho (pasillo norte de la escalera)
 
-            // Zona izquierda superior
-            dibujarLosaPorCoordenadas(0.1f, 14.0f, 3.8f, 18.6f, 6.4f);
+            // Zona superior izquierda
+            dibujarLosaPorCoordenadas(0.1f, 14.0f, 4.9f, 18.6f, 6.4f);
 
             // Zona superior derecha
-            dibujarLosaPorCoordenadas(3.8f, 13.9f, 7.9f, 20.3f, 6.4f);
+            dibujarLosaPorCoordenadas(4.9f, 14.0f, 7.9f, 20.3f, 6.4f);
+
+            // Zona superior final izquierda
+            dibujarLosaPorCoordenadas(0.1f, 18.6f, 7.9f, 20.3f, 6.4f);
         }
     }
 

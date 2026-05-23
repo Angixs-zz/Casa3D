@@ -11,13 +11,22 @@ public class Colisiones {
             float yJugador,
             Casa casa,
             float radioJugador) {
-        for (Pared pared : casa.getParedes()) {
+            
+        // Determinar en qué piso está el jugador según su coordenada Y
+        int pisoJugador = 1;
+        if (yJugador >= 3.0f) pisoJugador = 2;
+        if (yJugador >= 6.2f) pisoJugador = 3;
 
+        for (Pared pared : casa.getParedes()) {
             float alturaBase = (float) pared.getAlturaBase();
-            float alturaFinal = alturaBase + (float) pared.getAltura();
+
+            // Determinar a qué piso pertenece la pared según su alturaBase
+            int pisoPared = 1;
+            if (alturaBase > 3.0f) pisoPared = 2;
+            if (alturaBase > 6.0f) pisoPared = 3;
 
             // Solo revisa paredes del piso donde está el jugador
-            if (yJugador < alturaBase - 0.2f || yJugador > alturaFinal + 0.2f) {
+            if (pisoPared != pisoJugador) {
                 continue;
             }
 
