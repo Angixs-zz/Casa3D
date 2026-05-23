@@ -126,7 +126,7 @@ public class Casa {
         agregarPared("a", "Z", "J", 0.0);
         agregarPared("b", "J", "K", 0.0);
         agregarPared("c", "K", "N1", 0.0);
-        // agregarPared("d", "N1", "B1", 0.0); // Pared removida para dejar libre acceso a escalera
+        agregarPared("d", "N1", "B1", 0.0); // Restaurada para colisión invisible
         agregarPared("e", "A1", "D2", 0.0);
 
         agregarPared("f1", "C1", "V", 0.0);
@@ -311,7 +311,7 @@ public class Casa {
         agregarPared("P2_k3", "P2_J2", "P2_I2", alturaSegundoPiso);
 
         agregarPared("P2_l3", "P2_P1", "P2_Q1", alturaSegundoPiso);
-        // agregarPared("P2_d1", "P2_C", "P2_G", alturaSegundoPiso); // Pared removida para dejar libre acceso a escalera
+        agregarPared("P2_d1", "P2_C", "P2_G", alturaSegundoPiso); // Restaurada para colisión invisible
         agregarPared("P2_m3", "P2_F", "P2_D", alturaSegundoPiso);
         agregarPared("P2_n3", "P2_K", "P2_K1", alturaSegundoPiso);
         agregarPared("P2_p3", "P2_S2", "P2_T2", alturaSegundoPiso);
@@ -407,7 +407,7 @@ public class Casa {
 
         agregarPared("P3_a1", "P3_N", "P3_O", alturaTercerPiso);
         agregarPared("P3_b1", "P3_O", "P3_F", alturaTercerPiso);
-        // agregarPared("P3_c1", "P3_F", "P3_C", alturaTercerPiso); // Pared removida para dejar libre acceso a escalera
+        agregarPared("P3_c1", "P3_F", "P3_C", alturaTercerPiso); // Restaurada para colisión invisible
         agregarPared("P3_d1", "P3_D", "P3_H", alturaTercerPiso);
         agregarPared("P3_e1", "P3_G", "P3_F", alturaTercerPiso);
 

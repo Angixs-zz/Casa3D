@@ -35,7 +35,7 @@ public class Girasol {
     }
 
     public void actualizar(long ventana, Casa casa) {
-        float velocidadMovimiento = 0.12f;
+        float velocidadMovimiento = 0.07f;
         float velocidadRotacion = 2.2f;
         float radioJugador = 0.12f;
 
@@ -119,8 +119,12 @@ public class Girasol {
 
         if (escaleraPrimerASegundo.estaDentro(x, z)) {
             if (y < 1.6f) {
-                // En el primer piso, solo puede usar la escalera 1
-                enEscalera1 = true;
+                // En el primer piso, solo puede usar la escalera 1 si NO está en el baño de abajo (zGeo < midZ cuando y es muy bajo)
+                if (y <= 0.1f && zGeo < midZ) {
+                    enEscalera1 = false;
+                } else {
+                    enEscalera1 = true;
+                }
             } else if (y >= 1.6f && y < 3.0f) {
                 // Subiendo la escalera 1
                 enEscalera1 = true;

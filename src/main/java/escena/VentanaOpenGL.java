@@ -218,6 +218,12 @@ public class VentanaOpenGL {
                 nivelPared = 3;
 
             if (nivelPared <= nivelVisible) {
+                // Hacer las paredes de la escalera invisibles en el renderizado para no obstruir
+                String nombrePared = pared.getNombre();
+                if (nombrePared.equals("d") || nombrePared.equals("P2_d1") || nombrePared.equals("P3_c1")) {
+                    continue;
+                }
+
                 Punto2D inicio = pared.getInicio();
                 Punto2D fin = pared.getFin();
 
