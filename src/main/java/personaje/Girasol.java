@@ -37,7 +37,7 @@ public class Girasol {
     public void actualizar(long ventana, Casa casa) {
         float velocidadMovimiento = 0.12f;
         float velocidadRotacion = 2.2f;
-        float radioJugador = 0.22f;
+        float radioJugador = 0.12f;
 
         if (glfwGetKey(ventana, GLFW_KEY_A) == GLFW_PRESS) {
             rotacionY += velocidadRotacion;
@@ -90,11 +90,6 @@ public class Girasol {
         /*
          * Escalera 1:
          * Primer piso al segundo piso.
-         *
-         * Según lo que dijiste:
-         * Empieza entre B1 y A1 del primer piso.
-         * Zona aproximada: B1, N1, K, J, Z.
-         * Sube hacia el segundo piso cerca de D y E.
          */
         Escalera escaleraPrimerASegundo = new Escalera(
                 4.9f, 7.9f,
@@ -106,10 +101,6 @@ public class Girasol {
         /*
          * Escalera 2:
          * Segundo piso al tercer piso.
-         *
-         * Según lo que dijiste:
-         * Empieza entre C y D del segundo piso.
-         * Termina en el tercer piso entre D y E.
          */
         Escalera escaleraSegundoATercero = new Escalera(
                 4.9f, 7.9f,
@@ -118,14 +109,18 @@ public class Girasol {
                 Constantes.ALTURA_PISO_3,
                 true);
 
-        if (escaleraPrimerASegundo.estaDentro(x, z)) {
-            y = escaleraPrimerASegundo.calcularAltura(x, z, y);
-            return;
-        }
-
-        if (escaleraSegundoATercero.estaDentro(x, z)) {
-            y = escaleraSegundoATercero.calcularAltura(x, z, y);
-            return;
+        // Si el jugador está en la primera planta o a mitad de camino del primer piso, usa la primera escalera.
+        // Si está a nivel de la segunda planta o más arriba, usa la segunda escalera.
+        if (y < 2.5f) {
+            if (escaleraPrimerASegundo.estaDentro(x, z)) {
+                y = escaleraPrimerASegundo.calcularAltura(x, z, y);
+                return;
+            }
+        } else {
+            if (escaleraSegundoATercero.estaDentro(x, z)) {
+                y = escaleraSegundoATercero.calcularAltura(x, z, y);
+                return;
+            }
         }
 
         // Si no está en escalera, lo ajustamos al piso más cercano

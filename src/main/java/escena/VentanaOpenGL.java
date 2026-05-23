@@ -73,7 +73,7 @@ public class VentanaOpenGL {
 
         casa = new Casa();
         camaraLibre = new CamaraLibre();
-        girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.7f, 180f);
+        girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
 
         glEnable(GL_DEPTH_TEST);
 
