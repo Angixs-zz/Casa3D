@@ -25,6 +25,13 @@ public class VentanaOpenGL {
     private int alto = 720;
 
     private int nivelVisible = 3;
+    private final float ESCALA_CASA = 2.0f;
+
+    private int modoCamara = 1;
+
+    private static final int CAMARA_LIBRE = 1;
+    private static final int CAMARA_PRIMERA_PERSONA = 2;
+    private static final int CAMARA_TERCERA_PERSONA = 3;
 
     public void ejecutar() {
         iniciar();
@@ -47,7 +54,7 @@ public class VentanaOpenGL {
         ventana = glfwCreateWindow(
                 ancho,
                 alto,
-                "Casa 3D OpenGL",
+                "Casa 3D | 1-2-3 Pisos | F1 Libre | F2 Primera Persona | F3 Tercera Persona | WASD mover",
                 NULL,
                 NULL);
 
@@ -65,7 +72,7 @@ public class VentanaOpenGL {
 
         casa = new Casa();
         camaraLibre = new CamaraLibre();
-        girasol = new Girasol(0f, 0f, 0f);
+        girasol = new Girasol(0f, 0f, -6f, 0.7f);
 
         glEnable(GL_DEPTH_TEST);
 
@@ -89,7 +96,18 @@ public class VentanaOpenGL {
             if (glfwGetKey(ventana, GLFW_KEY_3) == GLFW_PRESS)
                 nivelVisible = 3;
 
-            camaraLibre.actualizar(ventana);
+            if (glfwGetKey(ventana, GLFW_KEY_F1) == GLFW_PRESS)
+                modoCamara = CAMARA_LIBRE;
+            if (glfwGetKey(ventana, GLFW_KEY_F2) == GLFW_PRESS)
+                modoCamara = CAMARA_PRIMERA_PERSONA;
+            if (glfwGetKey(ventana, GLFW_KEY_F3) == GLFW_PRESS)
+                modoCamara = CAMARA_TERCERA_PERSONA;
+
+            if (modoCamara == CAMARA_LIBRE) {
+                camaraLibre.actualizar(ventana);
+            } else {
+                girasol.actualizar(ventana);
+            }
 
             configurarCamara();
 
@@ -97,7 +115,9 @@ public class VentanaOpenGL {
 
             dibujarCasaGeoGebra();
 
-            girasol.dibujar();
+            if (modoCamara != CAMARA_PRIMERA_PERSONA) {
+                girasol.dibujar();
+            }
 
             glfwSwapBuffers(ventana);
 
@@ -108,7 +128,6 @@ public class VentanaOpenGL {
     private void configurarCamara() {
 
         glMatrixMode(GL_PROJECTION);
-
         glLoadIdentity();
 
         float aspecto = (float) ancho / alto;
@@ -119,13 +138,46 @@ public class VentanaOpenGL {
                 -1,
                 1,
                 1.5,
-                100);
+                150);
 
         glMatrixMode(GL_MODELVIEW);
-
         glLoadIdentity();
 
-        camaraLibre.aplicar();
+        if (modoCamara == CAMARA_LIBRE) {
+            camaraLibre.aplicar();
+        }
+
+        if (modoCamara == CAMARA_PRIMERA_PERSONA) {
+            aplicarCamaraPrimeraPersona();
+        }
+
+        if (modoCamara == CAMARA_TERCERA_PERSONA) {
+            aplicarCamaraTerceraPersona();
+        }
+    }
+
+    private void aplicarCamaraPrimeraPersona() {
+        glRotatef(-girasol.getRotacionY(), 0f, 1f, 0f);
+
+        glTranslatef(
+                -girasol.getX(),
+                -girasol.getAlturaOjos(),
+                -girasol.getZ()
+        );
+    }
+
+    private void aplicarCamaraTerceraPersona() {
+        glTranslatef(0f, -2.2f, -8.0f);
+
+        glRotatef(18f, 1f, 0f, 0f);
+
+        glRotatef(-girasol.getRotacionY(), 0f, 1f, 0f);
+
+        glTranslatef(
+                -girasol.getX(),
+                -(girasol.getY() + 1.0f),
+                -girasol.getZ()
+        );
     }
 
     private void dibujarPiso() {
@@ -192,7 +244,7 @@ public class VentanaOpenGL {
         dibujarPisoPorCoordenadas(0.1f, 18.6f, 7.9f, 20.3f, alturaPiso);
 
         // Dibujar líneas tipo duela para mayor realismo
-        dibujarLineasPisoPrimeraPlanta();
+        // dibujarLineasPisoPrimeraPlanta();
     }
 
     private void dibujarPisoPorCoordenadas(
@@ -213,6 +265,11 @@ public class VentanaOpenGL {
 
         // Voltear igual que las paredes
         centroX = -centroX;
+
+        centroX = centroX * ESCALA_CASA;
+        centroZ = centroZ * ESCALA_CASA;
+        anchoPiso = anchoPiso * ESCALA_CASA;
+        largoPiso = largoPiso * ESCALA_CASA;
 
         Cubo.dibujar(
                 centroX,
@@ -320,6 +377,11 @@ public class VentanaOpenGL {
         // Voltear igual que las paredes
         centroX = -centroX;
 
+        centroX = centroX * ESCALA_CASA;
+        centroZ = centroZ * ESCALA_CASA;
+        anchoLosa = anchoLosa * ESCALA_CASA;
+        largoLosa = largoLosa * ESCALA_CASA;
+
         Cubo.dibujar(
                 centroX,
                 altura,
@@ -350,6 +412,12 @@ public class VentanaOpenGL {
         // Voltear la casa en espejo horizontal
         x1 = -x1;
         x2 = -x2;
+
+        // Escalar casa para que el personaje y muebles quepan mejor
+        x1 = x1 * ESCALA_CASA;
+        x2 = x2 * ESCALA_CASA;
+        z1 = z1 * ESCALA_CASA;
+        z2 = z2 * ESCALA_CASA;
 
         float dx = x2 - x1;
         float dz = z2 - z1;

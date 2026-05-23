@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class CamaraLibre {
 
-    private float distancia = 28f;
+    private float distancia = 45f;
     private float rotacionY = 35f;
     private float rotacionX = 25f;
 
@@ -121,8 +121,8 @@ public class CamaraLibre {
             distancia = 5f;
         }
 
-        if (distancia > 80f) {
-            distancia = 80f;
+        if (distancia > 140f) {
+            distancia = 140f;
         }
 
         if (rotacionX > 85f) {
