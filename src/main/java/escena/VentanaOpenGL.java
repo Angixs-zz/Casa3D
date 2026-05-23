@@ -233,50 +233,6 @@ public class VentanaOpenGL {
         }
 
         dibujarLosas();
-        dibujarEscaleras();
-    }
-
-    private void dibujarEscaleras() {
-        /*
-         * Escalera 1:
-         * Del primer piso al segundo piso.
-         * Aproximada entre zona B1/A1/Z/J/K/N1 del primer piso.
-         */
-        Escalera3D.dibujar(
-                convertirXGeoAOpenGL(6.4f),
-                0.0f,
-                convertirZGeoAOpenGL(10.7f),
-                1.7f,
-                5.0f,
-                3.2f,
-                12,
-                0f);
-
-        /*
-         * Escalera 2:
-         * Del segundo piso al tercer piso.
-         * Aproximada entre C-D del segundo piso hacia D-E del tercer piso.
-         */
-        Escalera3D.dibujar(
-                convertirXGeoAOpenGL(6.4f),
-                3.2f,
-                convertirZGeoAOpenGL(10.7f),
-                1.7f,
-                5.0f,
-                3.2f,
-                12,
-                0f);
-    }
-
-    private float convertirXGeoAOpenGL(float xGeo) {
-        float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
-        x = -x;
-        return x * Constantes.ESCALA_CASA;
-    }
-
-    private float convertirZGeoAOpenGL(float zGeo) {
-        float z = zGeo - Constantes.CENTRO_GEOGEBRA_Z;
-        return z * Constantes.ESCALA_CASA;
     }
 
     private void dibujarPisoPrimeraPlanta() {
