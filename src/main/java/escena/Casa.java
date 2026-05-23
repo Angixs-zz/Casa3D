@@ -22,6 +22,9 @@ public class Casa {
 
         crearPuntosSegundaPlanta();
         crearParedesSegundaPlanta();
+
+        crearPuntosTerceraPlanta();
+        crearParedesTerceraPlanta();
     }
 
     private Punto2D buscarPunto(String nombre) {
@@ -313,6 +316,108 @@ public class Casa {
         agregarPared("P2_n3", "P2_K", "P2_K1", alturaSegundoPiso);
         agregarPared("P2_p3", "P2_S2", "P2_T2", alturaSegundoPiso);
         agregarPared("P2_q3", "P2_K", "P2_L", alturaSegundoPiso);
+    }
+
+    private void crearPuntosTerceraPlanta() {
+        agregarPunto("P3_C", 4.9, 12.0);
+        agregarPunto("P3_D", 4.9, 10.7);
+        agregarPunto("P3_E", 4.9, 9.5);
+        agregarPunto("P3_F", 7.9, 12.0);
+        agregarPunto("P3_G", 7.9, 9.5);
+        agregarPunto("P3_H", 6.8, 10.7);
+        agregarPunto("P3_I", 7.9, 4.2);
+        agregarPunto("P3_J", 6.6, 4.2);
+        agregarPunto("P3_K", 6.6, 1.5);
+        agregarPunto("P3_L", 0.1, 1.5);
+        agregarPunto("P3_M", 0.1, 2.6);
+        agregarPunto("P3_N", 4.9, 13.9);
+        agregarPunto("P3_O", 7.9, 13.9);
+        agregarPunto("P3_P", 7.9, 17.4);
+        agregarPunto("P3_Q", 5.9, 17.4);
+        agregarPunto("P3_R", 5.9, 20.3);
+        agregarPunto("P3_S", 3.8, 20.3);
+        agregarPunto("P3_T", 3.8, 18.6);
+        agregarPunto("P3_U", 0.1, 18.6);
+        agregarPunto("P3_V", 0.1, 15.4);
+        agregarPunto("P3_W", 0.1, 14.0);
+        agregarPunto("P3_Z", 0.1, 9.5);
+
+        agregarPunto("P3_A1", 3.8, 9.5);
+        agregarPunto("P3_B1", 3.8, 7.0);
+        agregarPunto("P3_C1", 0.1, 7.0);
+        agregarPunto("P3_D1", 0.1, 7.9);
+        agregarPunto("P3_E1", 3.8, 7.9);
+        agregarPunto("P3_F1", 3.8, 10.3);
+        agregarPunto("P3_G1", 0.8, 10.3);
+        agregarPunto("P3_H1", 0.8, 14.0);
+        agregarPunto("P3_I1", 0.1, 5.0);
+        agregarPunto("P3_J1", 2.8, 5.0);
+        agregarPunto("P3_K1", 2.8, 4.5);
+        agregarPunto("P3_L1", 6.6, 2.6);
+        agregarPunto("P3_M1", 0.1, 4.5);
+        agregarPunto("P3_N1", 0.8, 15.4);
+        agregarPunto("P3_O1", 2.0, 14.0);
+        agregarPunto("P3_P1", 2.0, 15.4);
+        agregarPunto("P3_Q1", 3.0, 15.4);
+        agregarPunto("P3_R1", 3.0, 14.0);
+    }
+
+    private void crearParedesTerceraPlanta() {
+        double alturaTercerPiso = 6.4;
+
+        agregarPared("P3_f", "P3_J", "P3_I", alturaTercerPiso);
+        agregarPared("P3_g", "P3_I", "P3_G", alturaTercerPiso);
+        agregarPared("P3_h", "P3_G", "P3_E", alturaTercerPiso);
+        agregarPared("P3_i", "P3_J", "P3_L1", alturaTercerPiso);
+        agregarPared("P3_j", "P3_L1", "P3_K", alturaTercerPiso);
+
+        agregarPared("P3_k", "P3_L", "P3_M", alturaTercerPiso);
+        agregarPared("P3_l", "P3_M", "P3_M1", alturaTercerPiso);
+        agregarPared("P3_m", "P3_M1", "P3_K1", alturaTercerPiso);
+        agregarPared("P3_n", "P3_K1", "P3_J1", alturaTercerPiso);
+        agregarPared("P3_p", "P3_J1", "P3_I1", alturaTercerPiso);
+        agregarPared("P3_q", "P3_I1", "P3_M1", alturaTercerPiso);
+
+        agregarPared("P3_r", "P3_L", "P3_K", alturaTercerPiso);
+        agregarPared("P3_s", "P3_L1", "P3_M", alturaTercerPiso);
+        agregarPared("P3_t", "P3_I1", "P3_C1", alturaTercerPiso);
+
+        agregarPared("P3_a", "P3_C1", "P3_B1", alturaTercerPiso);
+        agregarPared("P3_b", "P3_B1", "P3_E1", alturaTercerPiso);
+        agregarPared("P3_c", "P3_E1", "P3_D1", alturaTercerPiso);
+        agregarPared("P3_d", "P3_D1", "P3_C1", alturaTercerPiso);
+        agregarPared("P3_e", "P3_D1", "P3_Z", alturaTercerPiso);
+
+        agregarPared("P3_f1", "P3_Z", "P3_A1", alturaTercerPiso);
+        agregarPared("P3_g1", "P3_A1", "P3_E1", alturaTercerPiso);
+        agregarPared("P3_h1", "P3_Z", "P3_W", alturaTercerPiso);
+        agregarPared("P3_i1", "P3_W", "P3_H1", alturaTercerPiso);
+        agregarPared("P3_j1", "P3_H1", "P3_N1", alturaTercerPiso);
+        agregarPared("P3_k1", "P3_N1", "P3_V", alturaTercerPiso);
+        agregarPared("P3_l1", "P3_V", "P3_W", alturaTercerPiso);
+
+        agregarPared("P3_m1", "P3_G1", "P3_H1", alturaTercerPiso);
+        agregarPared("P3_n1", "P3_G1", "P3_F1", alturaTercerPiso);
+        agregarPared("P3_p1", "P3_F1", "P3_A1", alturaTercerPiso);
+
+        agregarPared("P3_q1", "P3_R1", "P3_O1", alturaTercerPiso);
+        agregarPared("P3_r1", "P3_O1", "P3_P1", alturaTercerPiso);
+        agregarPared("P3_s1", "P3_P1", "P3_Q1", alturaTercerPiso);
+        agregarPared("P3_t1", "P3_Q1", "P3_R1", alturaTercerPiso);
+
+        agregarPared("P3_a1", "P3_N", "P3_O", alturaTercerPiso);
+        agregarPared("P3_b1", "P3_O", "P3_F", alturaTercerPiso);
+        agregarPared("P3_c1", "P3_F", "P3_C", alturaTercerPiso);
+        agregarPared("P3_d1", "P3_D", "P3_H", alturaTercerPiso);
+        agregarPared("P3_e1", "P3_G", "P3_F", alturaTercerPiso);
+
+        agregarPared("P3_f2", "P3_O", "P3_P", alturaTercerPiso);
+        agregarPared("P3_g2", "P3_P", "P3_Q", alturaTercerPiso);
+        agregarPared("P3_h2", "P3_Q", "P3_R", alturaTercerPiso);
+        agregarPared("P3_i2", "P3_R", "P3_S", alturaTercerPiso);
+        agregarPared("P3_j2", "P3_S", "P3_T", alturaTercerPiso);
+        agregarPared("P3_k2", "P3_T", "P3_U", alturaTercerPiso);
+        agregarPared("P3_l2", "P3_U", "P3_V", alturaTercerPiso);
     }
 
     public void mostrarPuntos() {
