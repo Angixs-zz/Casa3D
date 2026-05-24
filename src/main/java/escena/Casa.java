@@ -126,6 +126,7 @@ public class Casa {
         agregarPunto("C2", 3.9, 17.0);
         agregarPunto("D2", 6.8, 10.7);
         agregarPunto("D3", 6.8, 9.5); // Punto de fondo del baño bajo la escalera
+        agregarPunto("E2", 2.5, 15.4);
     }
 
     private void crearParedesPrimeraPlanta() {
@@ -195,8 +196,14 @@ public class Casa {
         // Dintel Despacho (Hueco entre O y U)
         agregarPared("Dintel Despacho", "O", "U", 2.7, 0.5);
 
-        // Dintel GYM (Hueco entre I y O1)
+        // Dintel GYM (Hueco entre I1 y O1)
         agregarPared("Dintel GYM", "I1", "O1", 2.7, 0.5);
+
+        // Dintel Baño2
+        agregarPared("Dintel baño2", "G1", "E2", 2.7, 0.5);
+
+        // Dintel Recamara 1
+        agregarPared("Dintel Recamara 1", "R1", "C2", 2.7, 0.5);
     }
 
     private void crearPuntosSegundaPlanta() {

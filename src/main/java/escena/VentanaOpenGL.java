@@ -144,7 +144,15 @@ public class VentanaOpenGL {
         float puertabaño2x = convertirXGeoAOpenGL(2.5f);
         float puertabaño2y = convertirZGeoAOpenGL(15.4f);
         casa.agregarPuerta(
-                new Puerta("Puerta Baño 2", puertabaño2x, 0.0f, puertabaño2y, ancho, alto, false, -80f, 0.0f));
+                new Puerta("Puerta Baño 2", puertabaño2x, 0.0f, puertabaño2y, ancho, alto, false, -80f, 180.0f));
+
+        // ==========================================================
+        // 6. PUERTA Recamara1
+        // ==========================================================
+        float puertaReca1x = convertirXGeoAOpenGL(3.9f);
+        float puertaReca1y = convertirZGeoAOpenGL(16.1f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Recamara 1", puertaReca1x, 0.0f, puertaReca1y, ancho, alto, false, 80f, 0.0f));
 
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
