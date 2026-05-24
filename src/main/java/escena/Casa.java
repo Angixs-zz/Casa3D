@@ -381,6 +381,16 @@ public class Casa {
         agregarPared("Dintel Closet", "P2_S", "P2_L1", 5.9, 0.5);
         // Dintel BAÑOPRINCIPAL
         agregarPared("Dintel BAÑO PRINCIPAL", "P2_A1", "P2_R", 5.9, 0.5);
+        // Dintel Lavanderia
+        agregarPared("Dintel Lavanderia", "P2_G2", "P2_D2", 5.9, 0.5);
+        // Dintel Recamara2
+        agregarPared("Dintel Recamara2", "P2_F2", "P2_W1", 5.9, 0.5);
+        // Dintel Recamara3
+        agregarPared("Dintel Recamara2", "P2_B2", "P2_E2", 5.9, 0.5);
+        // Dintel AireLibre
+        agregarPared("Dintel AireLibre", "P2_M2", "P2_L2", 5.9, 0.5);
+        // Dintel Baño2
+        agregarPared("Dintel Baño2", "P2_Z1", "P2_U2", 5.9, 0.5);
     }
 
     private void crearPuntosTerceraPlanta() {
