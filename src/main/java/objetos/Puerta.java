@@ -112,4 +112,5 @@ public class Puerta {
     public boolean isEjeX() { return esEjeX; }
     public String getNombre() { return nombre; }
     public float getRotacionBase() { return rotacionBase; }
+    public float getAnguloActual() { return anguloActual; }
 }

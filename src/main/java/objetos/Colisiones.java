@@ -60,10 +60,8 @@ public class Colisiones {
             }
         }
 
-        // Revisar colisión con puertas cerradas
+        // Revisar colisión con puertas (abiertas o cerradas)
         for (Puerta puerta : casa.getPuertas()) {
-            if (puerta.isAbierta()) continue;
-
             // Determinar piso de la puerta según su Y base
             int pisoPuerta = 1;
             if (puerta.getY() > 3.0f) pisoPuerta = 2;
@@ -73,22 +71,15 @@ public class Colisiones {
 
             float px1 = puerta.getX();
             float pz1 = puerta.getZ();
-            float rotBase = puerta.getRotacionBase();
-            float px2 = px1;
-            float pz2 = pz1;
+            float thetaRad = (float) Math.toRadians(puerta.getRotacionBase() + puerta.getAnguloActual());
+            float px2, pz2;
 
             if (puerta.isEjeX()) {
-                if (rotBase == 180.0f || rotBase == -180.0f) {
-                    px2 = px1 - puerta.getAncho();
-                } else {
-                    px2 = px1 + puerta.getAncho();
-                }
+                px2 = px1 + puerta.getAncho() * (float) Math.cos(thetaRad);
+                pz2 = pz1 - puerta.getAncho() * (float) Math.sin(thetaRad);
             } else {
-                if (rotBase == 180.0f || rotBase == -180.0f) {
-                    pz2 = pz1 - puerta.getAncho();
-                } else {
-                    pz2 = pz1 + puerta.getAncho();
-                }
+                px2 = px1 + puerta.getAncho() * (float) Math.sin(thetaRad);
+                pz2 = pz1 + puerta.getAncho() * (float) Math.cos(thetaRad);
             }
 
             float distancia = distanciaPuntoSegmento(xJugador, zJugador, px1, pz1, px2, pz2);

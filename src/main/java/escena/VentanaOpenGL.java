@@ -79,7 +79,7 @@ public class VentanaOpenGL {
         float pX = convertirXGeoAOpenGL(4.8f); // Bisagra en C
         float pZ = convertirZGeoAOpenGL(1.6f); // C está en Z=1.6
         float ancho = 1.1f * Constantes.ESCALA_CASA; // Distancia en X de 4.8 a 5.9 es 1.1
-        float alto = 2.2f; 
+        float alto = 3.2f; 
         // true = eje X. 
         // rotacionBase = 180.0f para que se extienda hacia -X (hacia G) en OpenGL
         // anguloApertura = 90.0f para que abra hacia el interior
