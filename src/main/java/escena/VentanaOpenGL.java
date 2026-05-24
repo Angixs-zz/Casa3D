@@ -292,6 +292,13 @@ public class VentanaOpenGL {
                     double distanciaMinima = 2.5; // Radio máximo de interacción
 
                     for (Puerta puerta : casa.getPuertas()) {
+                        int nivelPuerta = 1;
+                        if (puerta.getY() > 3.0f) nivelPuerta = 2;
+                        if (puerta.getY() > 6.0f) nivelPuerta = 3;
+
+                        // Solo interactuar con puertas visibles
+                        if (nivelPuerta > nivelVisible) continue;
+
                         float dx = puerta.getX() - gX;
                         float dy = puerta.getY() - gY;
                         float dz = puerta.getZ() - gZ;
@@ -458,7 +465,13 @@ public class VentanaOpenGL {
 
         // Dibujar las puertas
         for (Puerta puerta : casa.getPuertas()) {
-            puerta.dibujar();
+            int nivelPuerta = 1;
+            if (puerta.getY() > 3.0f) nivelPuerta = 2;
+            if (puerta.getY() > 6.0f) nivelPuerta = 3;
+
+            if (nivelPuerta <= nivelVisible) {
+                puerta.dibujar();
+            }
         }
     }
 
