@@ -194,6 +194,9 @@ public class Casa {
 
         // Dintel Despacho (Hueco entre O y U)
         agregarPared("Dintel Despacho", "O", "U", 2.7, 0.5);
+
+        // Dintel GYM (Hueco entre I y O1)
+        agregarPared("Dintel GYM", "I1", "O1", 2.7, 0.5);
     }
 
     private void crearPuntosSegundaPlanta() {

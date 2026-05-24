@@ -115,10 +115,10 @@ public class VentanaOpenGL {
         // anguloApertura = -90.0f hace que la puerta gire hacia la izquierda (interior
         // del despacho).
         casa.agregarPuerta(
-                new Puerta("Puerta Despacho", puertaDespachoX, 0.0f, puertaDespachoZ, ancho, alto, false, 70.0f, 0.0f));
+                new Puerta("Puerta Despacho", puertaDespachoX, 0.0f, puertaDespachoZ, ancho, alto, false, 80f, 0.0f));
 
         // ==========================================================
-        // 3. PUERTA Baño
+        // 4. PUERTA Baño
         // ==========================================================
         // Coordenadas exactas del Punto O (abajo en el plano)
         float puertabanox = convertirXGeoAOpenGL(4.9f);
@@ -128,7 +128,23 @@ public class VentanaOpenGL {
         // rotacionBase = 0.0f hace que la puerta cerrada suba desde O hacia U.
         // anguloApertura = -90.0f hace que la puerta gire hacia la izquierda (interior
         // del despacho).
-        casa.agregarPuerta(new Puerta("Puerta Baño", puertabanox, 0.0f, puertabanoy, ancho, alto, false, -70.0f, 0.0f));
+        casa.agregarPuerta(new Puerta("Puerta Baño", puertabanox, 0.0f, puertabanoy, ancho, alto, false, -80.0f, 0.0f));
+
+        // ==========================================================
+        // 4. PUERTA Gimnasio
+        // ==========================================================
+        float puertagymx = convertirXGeoAOpenGL(4.9f);
+        float puertagymy = convertirZGeoAOpenGL(14.5f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Gimnasio", puertagymx, 0.0f, puertagymy, ancho, alto, false, -80f, 0.0f));
+
+        // ==========================================================
+        // 5. PUERTA Baño2
+        // ==========================================================
+        float puertabaño2x = convertirXGeoAOpenGL(2.5f);
+        float puertabaño2y = convertirZGeoAOpenGL(15.4f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Baño 2", puertabaño2x, 0.0f, puertabaño2y, ancho, alto, false, -80f, 0.0f));
 
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
