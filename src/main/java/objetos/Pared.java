@@ -1,12 +1,17 @@
 package objetos;
 
 public class Pared {
+    public static final int TIPO_NORMAL = 0;
+    public static final int TIPO_VENTANA = 1;
+    public static final int TIPO_VENTANAL = 2;
+
     private String nombre;
     private Punto2D inicio;
     private Punto2D fin;
     private double altura;
     private double grosor;
     private double alturaBase;
+    private int tipo;
 
     public Pared(
             String nombre,
@@ -21,6 +26,15 @@ public class Pared {
         this.altura = altura;
         this.grosor = grosor;
         this.alturaBase = alturaBase;
+        this.tipo = TIPO_NORMAL;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getTipo() {
+        return tipo;
     }
 
     public String getNombre() {

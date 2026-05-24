@@ -72,6 +72,26 @@ public class Casa {
         }
     }
 
+    private void agregarVentana(String nombre, String puntoInicio, String puntoFin) {
+        Punto2D inicio = buscarPunto(puntoInicio);
+        Punto2D fin = buscarPunto(puntoFin);
+        if (inicio != null && fin != null) {
+            Pared ventana = new Pared(nombre, inicio, fin, alturaPared, grosorPared, 0.0);
+            ventana.setTipo(Pared.TIPO_VENTANA);
+            paredes.add(ventana);
+        }
+    }
+
+    private void agregarVentanal(String nombre, String puntoInicio, String puntoFin) {
+        Punto2D inicio = buscarPunto(puntoInicio);
+        Punto2D fin = buscarPunto(puntoFin);
+        if (inicio != null && fin != null) {
+            Pared ventanal = new Pared(nombre, inicio, fin, alturaPared, grosorPared, 0.0);
+            ventanal.setTipo(Pared.TIPO_VENTANAL);
+            paredes.add(ventanal);
+        }
+    }
+
     private void crearPuntosPrimeraPlanta() {
         agregarPunto("C", 4.8, 1.6);
         agregarPunto("D", 4.8, 0.2);
@@ -135,9 +155,10 @@ public class Casa {
         agregarPared("h", "G", "F", 0.0);
         agregarPared("i", "F", "H", 0.0);
         agregarPared("j", "H", "I", 0.0);
-        agregarPared("k", "I", "S", 0.0);
+        agregarVentanal("k", "I", "S");
 
         agregarPared("l", "N", "P", 0.0);
+        agregarVentana("Ventana_PQ", "P", "Q");
         agregarPared("m", "Q", "O", 0.0);
         agregarPared("n", "R", "T", 0.0);
         agregarPared("p", "T", "U", 0.0);
@@ -147,7 +168,7 @@ public class Casa {
 
         agregarPared("t", "J", "I", 0.0);
         agregarPared("a", "Z", "J", 0.0);
-        agregarPared("b", "J", "K", 0.0);
+        agregarVentana("b", "J", "K");
         agregarPared("c", "K", "N1", 0.0);
         agregarPared("d", "N1", "B1", 0.0); // Restaurada para colisión invisible
         agregarPared("e", "A1", "D2", 0.0);
@@ -161,24 +182,26 @@ public class Casa {
         agregarPared("j1", "J1", "I1", 0.0);
 
         agregarPared("k1", "O1", "P1", 0.0);
-        agregarPared("l1", "P1", "W1", 0.0);
-        agregarPared("m1", "W1", "Z1", 0.0);
+        // La pared l1 se reemplaza por la puerta con bisagra en P1 (hacia W1)
+        agregarPared("Dintel Puerta P1", "P1", "W1", 2.7, 0.5);
+        
+        agregarVentana("m1", "W1", "Z1");
         agregarPared("n1", "Z1", "Q1", 0.0);
         agregarPared("p1", "Q1", "M1", 0.0);
         agregarPared("q1", "M1", "L1", 0.0);
-        agregarPared("r1", "L1", "K1", 0.0);
+        agregarVentanal("r1", "L1", "K1");
 
         agregarPared("s1", "E1", "H1", 0.0);
         agregarPared("t1", "G1", "F1", 0.0);
         agregarPared("a1", "F1", "E1", 0.0);
         agregarPared("b1", "F1", "D1", 0.0);
-        agregarPared("c1", "D1", "T1", 0.0);
+        agregarVentana("c1", "D1", "T1");
         agregarPared("d1", "T1", "S1", 0.0);
         agregarPared("e1", "S1", "R1", 0.0);
 
         agregarPared("f2", "U1", "T1", 0.0);
         agregarPared("g2", "U1", "A2", 0.0);
-        agregarPared("h2", "A2", "B2", 0.0);
+        agregarVentana("h2", "A2", "B2");
         agregarPared("i2", "B2", "V1", 0.0);
         agregarPared("j2", "V1", "C2", 0.0);
         agregarPared("k2", "U1", "M", 0.0);

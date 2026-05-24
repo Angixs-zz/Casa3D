@@ -104,6 +104,23 @@ public class VentanaOpenGL {
                 casa.agregarPuerta(new Puerta("Puerta Principal", pX, 0.0f, pZ, ancho, alto, true, 90.0f, 180.0f));
 
                 // ==========================================================
+                // 1. PUERTA PRINCIPAL (Muro Horizontal)
+                // ==========================================================
+                /*
+                 * // Agregar la puerta principal en base a C(4.8, 1.6) y G(5.9, 1.6)
+                 * float pserviciox = convertirXGeoAOpenGL(4.9f); // Bisagra en C
+                 * float pservicioy = convertirZGeoAOpenGL(18.6f); // C está en Z=1.6
+                 * 
+                 * // true = eje X. rotacionBase = 180.0f para extenderse hacia G.
+                 * anguloApertura =
+                 * // 90.0f interior.
+                 * casa.agregarPuerta(
+                 * new Puerta("Puerta Servicio", pserviciox, 0.0f, pservicioy, ancho, alto,
+                 * true, -90.0f,
+                 * 180.0f));
+                 */
+
+                // ==========================================================
                 // 2. PUERTA CUARTO S / RECAMARA (Muro Horizontal)
                 // ==========================================================
                 // Hueco entre R(4.8, 5.4) y S(5.8, 5.4). Bisagra en R (lado izquierdo)
@@ -151,6 +168,17 @@ public class VentanaOpenGL {
                 casa.agregarPuerta(
                                 new Puerta("Puerta Gimnasio", puertagymx, 0.0f, puertagymy, ancho, alto, false, -80f,
                                                 0.0f));
+
+                // ==========================================================
+                // PUERTA GYM TRASERA (P1 a W1)
+                // ==========================================================
+                float puertaGymTraseraX = convertirXGeoAOpenGL(4.9f);
+                float puertaGymTraseraZ = convertirZGeoAOpenGL(18.6f);
+                float anchoGymTrasera = (5.7f - 4.9f) * Constantes.ESCALA_CASA;
+                casa.agregarPuerta(
+                                new Puerta("Puerta GYM Trasera", puertaGymTraseraX, 0.0f, puertaGymTraseraZ,
+                                                anchoGymTrasera, alto, true, 90f,
+                                                180.0f));
 
                 // ==========================================================
                 // 5. PUERTA Baño2
@@ -485,14 +513,34 @@ public class VentanaOpenGL {
                                 Punto2D inicio = pared.getInicio();
                                 Punto2D fin = pared.getFin();
 
-                                dibujarPared(
-                                                (float) inicio.getX(),
-                                                (float) inicio.getY(),
-                                                (float) fin.getX(),
-                                                (float) fin.getY(),
-                                                (float) pared.getAltura(),
-                                                (float) pared.getGrosor(),
-                                                (float) pared.getAlturaBase());
+                                if (pared.getTipo() == Pared.TIPO_VENTANA) {
+                                        dibujarVentana(
+                                                        (float) inicio.getX(),
+                                                        (float) inicio.getY(),
+                                                        (float) fin.getX(),
+                                                        (float) fin.getY(),
+                                                        (float) pared.getAltura(),
+                                                        (float) pared.getGrosor(),
+                                                        (float) pared.getAlturaBase());
+                                } else if (pared.getTipo() == Pared.TIPO_VENTANAL) {
+                                        dibujarVentanal(
+                                                        (float) inicio.getX(),
+                                                        (float) inicio.getY(),
+                                                        (float) fin.getX(),
+                                                        (float) fin.getY(),
+                                                        (float) pared.getAltura(),
+                                                        (float) pared.getGrosor(),
+                                                        (float) pared.getAlturaBase());
+                                } else {
+                                        dibujarPared(
+                                                        (float) inicio.getX(),
+                                                        (float) inicio.getY(),
+                                                        (float) fin.getX(),
+                                                        (float) fin.getY(),
+                                                        (float) pared.getAltura(),
+                                                        (float) pared.getGrosor(),
+                                                        (float) pared.getAlturaBase());
+                                }
                         }
                 }
 
@@ -904,6 +952,125 @@ public class VentanaOpenGL {
                 glRotatef(-angulo, 0f, 1f, 0f);
 
                 Cubo.dibujar(0f, 0f, 0f, longitud, altura, grosor, 1f, 1f, 1f);
+
+                glPopMatrix();
+        }
+
+        private void dibujarVentana(
+                        float x1, float z1, float x2, float z2,
+                        float altura, float grosor, float alturaBase) {
+                x1 = x1 - 4.0f;
+                x2 = x2 - 4.0f;
+                z1 = z1 - 10.0f;
+                z2 = z2 - 10.0f;
+                x1 = -x1;
+                x2 = -x2;
+                x1 = x1 * Constantes.ESCALA_CASA;
+                x2 = x2 * Constantes.ESCALA_CASA;
+                z1 = z1 * Constantes.ESCALA_CASA;
+                z2 = z2 * Constantes.ESCALA_CASA;
+
+                float dx = x2 - x1;
+                float dz = z2 - z1;
+                float longitud = (float) Math.sqrt(dx * dx + dz * dz);
+                float centroX = (x1 + x2) / 2.0f;
+                float centroZ = (z1 + z2) / 2.0f;
+                float angulo = (float) Math.toDegrees(Math.atan2(dz, dx));
+
+                glPushMatrix();
+                glTranslatef(centroX, alturaBase, centroZ);
+                glRotatef(-angulo, 0f, 1f, 0f);
+
+                // Pared inferior (alféizar) - de 0 a 1m
+                Cubo.dibujar(0f, 0.5f, 0f, longitud, 1.0f, grosor, 1f, 1f, 1f);
+                // Pared superior (dintel) - de 2.5m a 3.2m
+                Cubo.dibujar(0f, 2.85f, 0f, longitud, 0.7f, grosor, 1f, 1f, 1f);
+
+                // Marcos laterales (aluminio negro)
+                float altoVentana = 1.5f; // de 1.0m a 2.5m
+                float yVentana = 1.75f;
+                Cubo.dibujar(-longitud / 2f + 0.05f, yVentana, 0f, 0.1f, altoVentana, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
+                Cubo.dibujar(longitud / 2f - 0.05f, yVentana, 0f, 0.1f, altoVentana, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
+                // Marco central
+                Cubo.dibujar(0f, yVentana, 0f, 0.1f, altoVentana, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
+
+                // Marcos horizontales (inferior y superior de la ventana)
+                Cubo.dibujar(0f, 1.05f, 0f, longitud, 0.1f, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
+                Cubo.dibujar(0f, 2.45f, 0f, longitud, 0.1f, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
+
+                // Cristales (azul claro transparente)
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                glDepthMask(false);
+                Cubo.dibujar(-longitud / 4f, yVentana, 0f, longitud / 2f - 0.1f, altoVentana - 0.2f, 0.02f, 0.4f, 0.6f, 0.8f, 0.35f);
+                Cubo.dibujar(longitud / 4f, yVentana, 0f, longitud / 2f - 0.1f, altoVentana - 0.2f, 0.02f, 0.4f, 0.6f, 0.8f, 0.35f);
+                glDepthMask(true);
+                glDisable(GL_BLEND);
+
+                glPopMatrix();
+        }
+
+        private void dibujarVentanal(
+                        float x1, float z1, float x2, float z2,
+                        float altura, float grosor, float alturaBase) {
+                x1 = x1 - 4.0f;
+                x2 = x2 - 4.0f;
+                z1 = z1 - 10.0f;
+                z2 = z2 - 10.0f;
+                x1 = -x1;
+                x2 = -x2;
+                x1 = x1 * Constantes.ESCALA_CASA;
+                x2 = x2 * Constantes.ESCALA_CASA;
+                z1 = z1 * Constantes.ESCALA_CASA;
+                z2 = z2 * Constantes.ESCALA_CASA;
+
+                float dx = x2 - x1;
+                float dz = z2 - z1;
+                float longitud = (float) Math.sqrt(dx * dx + dz * dz);
+                float centroX = (x1 + x2) / 2.0f;
+                float centroZ = (z1 + z2) / 2.0f;
+                float angulo = (float) Math.toDegrees(Math.atan2(dz, dx));
+
+                glPushMatrix();
+                glTranslatef(centroX, alturaBase, centroZ);
+                glRotatef(-angulo, 0f, 1f, 0f);
+
+                // Marcos horizontales (suelo y techo)
+                Cubo.dibujar(0f, 0.05f, 0f, longitud, 0.1f, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
+                Cubo.dibujar(0f, altura - 0.05f, 0f, longitud, 0.1f, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
+
+                // Marcos laterales y centrales
+                // Asumiendo paneles de aproximadamente 1m de ancho
+                int numPaneles = Math.max(1, Math.round(longitud / 1.0f));
+                float anchoPanel = longitud / numPaneles;
+                float altoVentana = altura - 0.2f;
+                float yVentana = altura / 2f;
+
+                // Marco izquierdo
+                Cubo.dibujar(-longitud / 2f + 0.05f, yVentana, 0f, 0.1f, altoVentana, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
+
+                // Cristales y marcos separadores
+                for (int i = 0; i < numPaneles; i++) {
+                        float xCentroPanel = -longitud / 2f + (i * anchoPanel) + (anchoPanel / 2f);
+
+                        // Cristal transparente
+                        glEnable(GL_BLEND);
+                        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                        glDepthMask(false);
+                        Cubo.dibujar(xCentroPanel, yVentana, 0f, anchoPanel - 0.1f, altoVentana, 0.02f, 0.4f, 0.6f, 0.8f, 0.35f);
+                        glDepthMask(true);
+                        glDisable(GL_BLEND);
+
+                        // Marco separador derecho del panel (excepto en el último que es el borde
+                        // derecho)
+                        if (i < numPaneles - 1) {
+                                float xMarco = -longitud / 2f + ((i + 1) * anchoPanel);
+                                Cubo.dibujar(xMarco, yVentana, 0f, 0.1f, altoVentana, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
+                        }
+                }
+
+                // Marco derecho
+                Cubo.dibujar(longitud / 2f - 0.05f, yVentana, 0f, 0.1f, altoVentana, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
 
                 glPopMatrix();
         }
