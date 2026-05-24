@@ -11,6 +11,7 @@ import camara.CamaraLibre;
 import personaje.Girasol;
 import utilidades.Constantes;
 import objetos.Escalera3D;
+import objetos.Oficina;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -339,6 +340,8 @@ public class VentanaOpenGL {
             dibujarPiso();
 
             dibujarCasaGeoGebra();
+
+            dibujarMuebles();
 
             if (modoCamara != CAMARA_PRIMERA_PERSONA) {
                 girasol.dibujar();
@@ -873,6 +876,12 @@ public class VentanaOpenGL {
         Cubo.dibujar(0f, 0f, 0f, longitud, altura, grosor, 1f, 1f, 1f);
 
         glPopMatrix();
+    }
+
+    private void dibujarMuebles() {
+        if (nivelVisible >= 1) {
+            Oficina.dibujar();
+        }
     }
 
     private void cerrar() {
