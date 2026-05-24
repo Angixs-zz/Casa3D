@@ -18,6 +18,10 @@ import objetos.BanoPrincipal;
 import objetos.Cocina;
 import objetos.Gimnasio;
 import objetos.Recamara1;
+import objetos.AreaLimpieza;
+import objetos.Auto;
+import objetos.PlantasPrimerPiso;
+import objetos.Auto;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -913,6 +917,10 @@ public class VentanaOpenGL {
                         BanoPrincipal.dibujar();
                         Gimnasio.dibujar();
                         Recamara1.dibujar();
+                        AreaLimpieza.dibujar();
+                        PlantasPrimerPiso.dibujar();
+                        Auto.dibujar();
+
                 }
         }
 
