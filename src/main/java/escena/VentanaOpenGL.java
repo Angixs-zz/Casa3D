@@ -22,6 +22,8 @@ import objetos.AreaLimpieza;
 import objetos.Auto;
 import objetos.PlantasPrimerPiso;
 import objetos.Auto;
+import piso2.Recamara2p2;
+import piso2.BanoPrincipalp2;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -1135,6 +1137,10 @@ public class VentanaOpenGL {
                         PlantasPrimerPiso.dibujar();
                         Auto.dibujar();
 
+                }
+                if (nivelVisible >= 2) {
+                        Recamara2p2.dibujar();
+                        BanoPrincipalp2.dibujar();
                 }
         }
 
