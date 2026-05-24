@@ -153,4 +153,67 @@ public class Colisiones {
 
         return (float) Math.sqrt(dx * dx + dz * dz);
     }
+
+    // ==========================================================
+    // SISTEMA DE COLISIONES PARA MUEBLES (ESCALABLE)
+    // ==========================================================
+    public static boolean hayColisionConMuebles(float xJugador, float zJugador, float yJugador, float radioJugador) {
+        // Por ahora, todos los muebles están en la planta baja (y < 3.0f)
+        if (yJugador > 3.0f) {
+            return false;
+        }
+
+        float radioGeo = radioJugador / Constantes.ESCALA_CASA;
+        float xGeo = (-xJugador / Constantes.ESCALA_CASA) + Constantes.CENTRO_GEOGEBRA_X;
+        float zGeo = (zJugador / Constantes.ESCALA_CASA) + Constantes.CENTRO_GEOGEBRA_Z;
+
+        // Lista de Cajas Delimitadoras (AABB) de los muebles en coordenadas de GeoGebra
+        // Formato: { xMin, zMin, xMax, zMax }
+        float[][] boundingBoxesMuebles = {
+            // === MUEBLES DE LA OFICINA ===
+            // Escritorio en L (sus 3 secciones)
+            {0.2f, 8.0f, 3.8f, 8.4f},
+            {3.2f, 7.0f, 3.8f, 8.0f},
+            {1.9f, 6.5f, 3.8f, 7.0f},
+            // Silla de oficina
+            {2.15f, 7.15f, 2.85f, 7.85f},
+            // Sofá Largo
+            {0.1f, 5.7f, 0.9f, 8.1f},
+            // Sillones individuales de visita
+            {1.3f, 5.45f, 2.1f, 6.25f}, // Sillon 1
+            {2.1f, 5.45f, 2.9f, 6.25f}, // Sillon 2
+            // Gabinete lateral (junto al sofá)
+            {0.1f, 8.0f, 0.9f, 8.4f},
+            // Planta de esquina (junto al sofá)
+            {0.3f, 5.35f, 0.7f, 5.75f}
+            
+            // Aquí puedes agregar fácilmente las colisiones para la sala, comedor, cocina, etc.
+        };
+
+        for (float[] mueble : boundingBoxesMuebles) {
+            float xMin = mueble[0];
+            float zMin = mueble[1];
+            float xMax = mueble[2];
+            float zMax = mueble[3];
+
+            if (colisionCirculoRectangulo(xGeo, zGeo, radioGeo, xMin, zMin, xMax, zMax)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean colisionCirculoRectangulo(float cX, float cZ, float radio, float rXMin, float rZMin, float rXMax, float rZMax) {
+        // Encuentra el punto más cercano en el rectángulo al centro del círculo
+        float closestX = Math.max(rXMin, Math.min(cX, rXMax));
+        float closestZ = Math.max(rZMin, Math.min(cZ, rZMax));
+
+        // Calcula la distancia entre el centro del círculo y este punto más cercano
+        float distanciaX = cX - closestX;
+        float distanciaZ = cZ - closestZ;
+
+        // Si la distancia es menor al radio, hay colisión
+        return (distanciaX * distanciaX + distanciaZ * distanciaZ) < (radio * radio);
+    }
 }

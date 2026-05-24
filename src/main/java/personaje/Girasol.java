@@ -16,10 +16,15 @@ public class Girasol {
     private float z;
 
     private float rotacionY;
+    private float rotacionX = 0f;
     private float escala;
 
+    private double mouseAnteriorX = 0;
+    private double mouseAnteriorY = 0;
+    private boolean primerMovimientoMouse = true;
+
     public Girasol(float x, float y, float z) {
-        this(x, y, z, 0.7f);
+        this(x, y, z, 0.5f); // Tamaño del girasol más pequeño
     }
 
     public Girasol(float x, float y, float z, float escala) {
@@ -37,7 +42,9 @@ public class Girasol {
     public void actualizar(long ventana, Casa casa) {
         float velocidadMovimiento = 0.07f;
         float velocidadRotacion = 2.2f;
-        float radioJugador = 0.12f;
+        float radioJugador = 0.05f; // Hitbox considerablemente más pequeña
+
+        actualizarMouse(ventana);
 
         if (glfwGetKey(ventana, GLFW_KEY_A) == GLFW_PRESS) {
             rotacionY += velocidadRotacion;
@@ -75,6 +82,10 @@ public class Girasol {
                 radioJugador);
 
         if (!colision) {
+            colision = Colisiones.hayColisionConMuebles(nuevoX, nuevoZ, y, radioJugador);
+        }
+
+        if (!colision) {
             x = nuevoX;
             z = nuevoZ;
         }
@@ -84,6 +95,40 @@ public class Girasol {
         if (y < 0f) {
             y = 0f;
         }
+    }
+
+    private void actualizarMouse(long ventana) {
+        double[] posicionX = new double[1];
+        double[] posicionY = new double[1];
+
+        glfwGetCursorPos(ventana, posicionX, posicionY);
+
+        double mouseX = posicionX[0];
+        double mouseY = posicionY[0];
+
+        if (primerMovimientoMouse) {
+            mouseAnteriorX = mouseX;
+            mouseAnteriorY = mouseY;
+            primerMovimientoMouse = false;
+        }
+
+        double diferenciaX = mouseX - mouseAnteriorX;
+        double diferenciaY = mouseY - mouseAnteriorY;
+
+        mouseAnteriorX = mouseX;
+        mouseAnteriorY = mouseY;
+
+        float sensibilidad = 0.15f;
+
+        // Requiere mantener clic izquierdo para rotar la cámara con el ratón
+        if (glfwGetMouseButton(ventana, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+            rotacionY += diferenciaX * sensibilidad;
+            rotacionX += diferenciaY * sensibilidad;
+        }
+
+        // Limitar la rotación vertical para no dar la vuelta completa
+        if (rotacionX > 80f) rotacionX = 80f;
+        if (rotacionX < -80f) rotacionX = -80f;
     }
 
     private void aplicarEscaleras() {
@@ -239,6 +284,10 @@ public class Girasol {
 
     public float getRotacionY() {
         return rotacionY;
+    }
+
+    public float getRotacionX() {
+        return rotacionX;
     }
 
     public float getAlturaOjos() {

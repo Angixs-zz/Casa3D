@@ -52,7 +52,7 @@ public class Oficina {
 
         // Silla de oficina (Z=7.5, X=2.5, dentro de la "L", viendo hacia el
         // este/computadora)
-        dibujarSilla(2.5f, y, 7.5f, -90.0f);
+        dibujarSilla(2.5f, y, 7.5f, 90.0f);
 
         // =====================================================
         // MACETAS CON PLANTAS (En hilera sobre el escritorio contra la ventana
@@ -70,7 +70,7 @@ public class Oficina {
         // ESTANTERÍA Y GABINETES
         // =====================================================
         // Estante flotante arriba del escritorio (Pared superior g1)
-        dibujarEstanteAncho(2.5f, y, 8.35f, 180.0f);
+        dibujarEstanteAncho(2.0f, y, 8.35f, 180.0f);
 
         // Gabinete lateral de madera al final del sofá (Esquina superior izquierda,
         // Z=8.2, X=0.5)
@@ -88,8 +88,8 @@ public class Oficina {
         // =====================================================
         // SILLONES PARA VISITAS (Abajo, orientados al norte)
         // =====================================================
-        dibujarSillonIndividual(1.7f, y, 5.85f, 180.0f);
-        dibujarSillonIndividual(2.5f, y, 5.85f, 180.0f);
+        dibujarSillonIndividual(1.7f, y, 5.85f, 0.0f);
+        dibujarSillonIndividual(2.5f, y, 5.85f, 0.0f);
     }
 
     private static void dibujarCuboPorGeo(float xMin, float zMin, float xMax, float zMax, float yBase, float altura,
@@ -165,9 +165,12 @@ public class Oficina {
 
         float r = 0.35f, g = 0.18f, b = 0.08f;
 
+        // 1. MANTENEMOS TU LARGO NUEVO
+        float largoEstante = 5.6f;
+
         // 2 repisas flotantes pegadas a g1
-        Cubo.dibujar(0f, 1.6f, 0f, 2.8f, 0.1f, 0.3f, r, g, b);
-        Cubo.dibujar(0f, 2.1f, 0f, 2.8f, 0.1f, 0.3f, r, g, b);
+        Cubo.dibujar(0f, 1.6f, 0f, largoEstante, 0.1f, 0.3f, r, g, b);
+        Cubo.dibujar(0f, 2.1f, 0f, largoEstante, 0.1f, 0.3f, r, g, b);
 
         // Generar libros
         float[][] colores = {
@@ -175,11 +178,13 @@ public class Oficina {
                 { 0.9f, 0.9f, 0.2f }, { 0.7f, 0.2f, 0.7f }, { 0.2f, 0.8f, 0.8f }
         };
 
-        for (int i = -9; i <= 9; i++) {
+        // 2. AMPLIAMOS LOS LÍMITES DEL BUCLE PARA LLENAR EL NUEVO ESPACIO
+        // Fuimos de -12 a 12, ahora vamos de -19 a 19 para abarcar todo el 5.6f
+        for (int i = -19; i <= 19; i++) {
             float posX = i * 0.14f;
 
-            float[] c1 = colores[(i + 15) % colores.length];
-            float[] c2 = colores[(i + 18) % colores.length];
+            float[] c1 = colores[Math.abs(i + 15) % colores.length];
+            float[] c2 = colores[Math.abs(i + 18) % colores.length];
 
             float altoLibro = 0.3f + (Math.abs(i % 3) * 0.05f);
             float centroY = (altoLibro / 2f) + 0.05f;

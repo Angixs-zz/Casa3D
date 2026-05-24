@@ -386,6 +386,7 @@ public class VentanaOpenGL {
 
     private void aplicarCamaraPrimeraPersona() {
         float rotacion = girasol.getRotacionY();
+        float rotacionX = girasol.getRotacionX();
         float radianes = (float) Math.toRadians(rotacion);
 
         float direccionX = (float) Math.sin(radianes);
@@ -399,6 +400,7 @@ public class VentanaOpenGL {
         float camaraY = girasol.getAlturaOjos();
         float camaraZ = girasol.getZ() + direccionZ * distanciaOjosAtras;
 
+        glRotatef(rotacionX, 1f, 0f, 0f);
         glRotatef(-rotacion, 0f, 1f, 0f);
 
         glTranslatef(
