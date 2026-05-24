@@ -289,15 +289,18 @@ public class VentanaOpenGL {
                     float gZ = girasol.getZ();
 
                     Puerta puertaMasCercana = null;
-                    double distanciaMinima = 2.5; // Radio máximo de interacción
+                    double distanciaMinima = 1.9; // Radio máximo de interacción
 
                     for (Puerta puerta : casa.getPuertas()) {
                         int nivelPuerta = 1;
-                        if (puerta.getY() > 3.0f) nivelPuerta = 2;
-                        if (puerta.getY() > 6.0f) nivelPuerta = 3;
+                        if (puerta.getY() > 3.0f)
+                            nivelPuerta = 2;
+                        if (puerta.getY() > 6.0f)
+                            nivelPuerta = 3;
 
                         // Solo interactuar con puertas visibles
-                        if (nivelPuerta > nivelVisible) continue;
+                        if (nivelPuerta > nivelVisible)
+                            continue;
 
                         float dx = puerta.getX() - gX;
                         float dy = puerta.getY() - gY;
@@ -466,8 +469,10 @@ public class VentanaOpenGL {
         // Dibujar las puertas
         for (Puerta puerta : casa.getPuertas()) {
             int nivelPuerta = 1;
-            if (puerta.getY() > 3.0f) nivelPuerta = 2;
-            if (puerta.getY() > 6.0f) nivelPuerta = 3;
+            if (puerta.getY() > 3.0f)
+                nivelPuerta = 2;
+            if (puerta.getY() > 6.0f)
+                nivelPuerta = 3;
 
             if (nivelPuerta <= nivelVisible) {
                 puerta.dibujar();
