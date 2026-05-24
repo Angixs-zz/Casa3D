@@ -99,28 +99,74 @@ public class Escalera3D {
         }
         
         // ==========================================
-        // BARANDALES NEGROS MODERNOS
+        // BARANDALES NEGROS MODERNOS (Estilo Imagen)
         // ==========================================
-        // Barandal Tramo 1 (lado interior Z = 0)
-        float railY1 = midH / 2.0f + 0.5f;
-        Cubo.dibujar(0.9f, railY1, 0.02f, 4.2f, 0.03f, 0.03f, colBarandal[0], colBarandal[1], colBarandal[2]); // pasamanos inclinado
-        Cubo.dibujar(2.8f, midH / 4.0f + 0.5f, 0.02f, 0.04f, 1.0f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]); // postes verticales
-        Cubo.dibujar(0.9f, midH / 2.0f + 0.5f, 0.02f, 0.04f, 1.0f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
-        Cubo.dibujar(-1.0f, 3.0f * midH / 4.0f + 0.5f, 0.02f, 0.04f, 1.0f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
-
-        // Barandal Tramo 2 (lado interior Z = 0)
-        float railY2 = midH + midH / 2.0f + 0.5f;
-        Cubo.dibujar(0.9f, railY2, -0.02f, 4.2f, 0.03f, 0.03f, colBarandal[0], colBarandal[1], colBarandal[2]);
-        Cubo.dibujar(-1.0f, midH + midH / 4.0f + 0.5f, -0.02f, 0.04f, 1.0f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
-        Cubo.dibujar(0.9f, midH + midH / 2.0f + 0.5f, -0.02f, 0.04f, 1.0f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
-        Cubo.dibujar(2.8f, midH + 3.0f * midH / 4.0f + 0.5f, -0.02f, 0.04f, 1.0f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        float altoBarandal = 0.9f;
+        int numPostes1 = 4;
         
-        // Barandal de protección del descanso (X = -3.0f en la meseta)
-        Cubo.dibujar(-2.95f, midH + 0.5f, 0.0f, 0.03f, 0.03f, 4.8f, colBarandal[0], colBarandal[1], colBarandal[2]); // pasamanos
-        Cubo.dibujar(-2.95f, midH + 0.5f, -2.3f, 0.04f, 1.0f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]); // postes descanso
-        Cubo.dibujar(-2.95f, midH + 0.5f, 0.0f, 0.04f, 1.0f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
-        Cubo.dibujar(-2.95f, midH + 0.5f, 2.3f, 0.04f, 1.0f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        // Barandal Tramo 1 (lado interior Z = 0.02f)
+        dibujarBarandalTramo(xInicio1, 0f, xFin1, midH, 0.02f, altoBarandal, colBarandal, numPostes1);
+
+        // Barandal de protección del descanso (X = -2.95f en la meseta)
+        float zInicioDescanso = -2.45f;
+        float zFinDescanso = 2.45f;
+        int numPostesDescanso = 5;
+        float dxDescanso = 0f;
+        float dzDescanso = zFinDescanso - zInicioDescanso;
+        float cxDescanso = -2.95f;
+        float czDescanso = (zInicioDescanso + zFinDescanso) / 2.0f;
+        float lengthDescanso = Math.abs(dzDescanso);
+        
+        glPushMatrix();
+        glTranslatef(cxDescanso, midH, czDescanso);
+        glRotatef(90f, 0f, 1f, 0f); // Rotar 90 grados en Y para que corra a lo largo de Z
+        Cubo.dibujar(0f, altoBarandal, 0f, lengthDescanso, 0.04f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        Cubo.dibujar(0f, altoBarandal * 0.66f, 0f, lengthDescanso, 0.02f, 0.02f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        Cubo.dibujar(0f, altoBarandal * 0.33f, 0f, lengthDescanso, 0.02f, 0.02f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        glPopMatrix();
+        
+        for(int i=0; i<=numPostesDescanso; i++) {
+            float t = (float)i / numPostesDescanso;
+            float pz = zInicioDescanso + t * dzDescanso;
+            Cubo.dibujar(cxDescanso, midH + altoBarandal/2.0f, pz, 0.04f, altoBarandal, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        }
+
+        // Barandal Tramo 2 (lado interior Z = -0.02f)
+        dibujarBarandalTramo(xInicio2, midH, xFin2, alturaTotal, -0.02f, altoBarandal, colBarandal, numPostes1);
+
+        // Barandal Tramo 2 (lado EXTERIOR Z = -2.45f, protegiendo el hueco de la pared invisible)
+        dibujarBarandalTramo(xInicio2, midH, xFin2, alturaTotal, -2.45f, altoBarandal, colBarandal, numPostes1);
+        
+        // Barandal del descanso (lado EXTERIOR Z = -2.45f)
+        dibujarBarandalTramo(-1.2f, midH, -3.0f, midH, -2.45f, altoBarandal, colBarandal, 2);
 
         glPopMatrix();
+    }
+
+    private static void dibujarBarandalTramo(float xInicio, float yInicio, float xFin, float yFin, float z, float altoBarandal, float[] colBarandal, int numPostes) {
+        float dx = xFin - xInicio;
+        float dy = yFin - yInicio;
+        float cx = (xInicio + xFin) / 2.0f;
+        float cy = (yInicio + yFin) / 2.0f;
+        
+        float length = (float) Math.sqrt(dx*dx + dy*dy);
+        float angle = (float) Math.toDegrees(Math.atan2(dy, dx));
+        
+        // Barras inclinadas
+        glPushMatrix();
+        glTranslatef(cx, cy, z);
+        glRotatef(angle, 0f, 0f, 1f);
+        Cubo.dibujar(0f, altoBarandal, 0f, length, 0.04f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        Cubo.dibujar(0f, altoBarandal * 0.66f, 0f, length, 0.02f, 0.02f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        Cubo.dibujar(0f, altoBarandal * 0.33f, 0f, length, 0.02f, 0.02f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        glPopMatrix();
+        
+        // Postes verticales
+        for(int i=0; i<=numPostes; i++) {
+            float t = (float)i / numPostes;
+            float px = xInicio + t * dx;
+            float py = yInicio + t * dy;
+            Cubo.dibujar(px, py + altoBarandal/2.0f, z, 0.04f, altoBarandal, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        }
     }
 }

@@ -174,11 +174,11 @@ public class VentanaOpenGL {
                 // ==========================================================
                 float puertaGymTraseraX = convertirXGeoAOpenGL(4.9f);
                 float puertaGymTraseraZ = convertirZGeoAOpenGL(18.6f);
-                float anchoGymTrasera = (5.7f - 4.9f) * Constantes.ESCALA_CASA;
+
                 casa.agregarPuerta(
                                 new Puerta("Puerta GYM Trasera", puertaGymTraseraX, 0.0f, puertaGymTraseraZ,
-                                                anchoGymTrasera, alto, true, 90f,
-                                                180.0f));
+                                                ancho, alto, true, -90f,
+                                                0.0f));
 
                 // ==========================================================
                 // 5. PUERTA Baño2
@@ -546,6 +546,12 @@ public class VentanaOpenGL {
 
                 dibujarLosas();
                 dibujarEscaleras();
+
+                // Barandales de pasillo y hueco de escalera
+                if (nivelVisible >= 2) {
+                        // Barandal del pasillo desde C(4.9, 12.0) a N1(4.9, 13.9) en Piso 2
+                        dibujarBarandalRecto(4.9f, 12.0f, 4.9f, 13.9f, 3.2f);
+                }
 
                 // Dibujar las puertas
                 for (Puerta puerta : casa.getPuertas()) {
@@ -1002,8 +1008,10 @@ public class VentanaOpenGL {
                 glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 glDepthMask(false);
-                Cubo.dibujar(-longitud / 4f, yVentana, 0f, longitud / 2f - 0.1f, altoVentana - 0.2f, 0.02f, 0.4f, 0.6f, 0.8f, 0.35f);
-                Cubo.dibujar(longitud / 4f, yVentana, 0f, longitud / 2f - 0.1f, altoVentana - 0.2f, 0.02f, 0.4f, 0.6f, 0.8f, 0.35f);
+                Cubo.dibujar(-longitud / 4f, yVentana, 0f, longitud / 2f - 0.1f, altoVentana - 0.2f, 0.02f, 0.4f, 0.6f,
+                                0.8f, 0.35f);
+                Cubo.dibujar(longitud / 4f, yVentana, 0f, longitud / 2f - 0.1f, altoVentana - 0.2f, 0.02f, 0.4f, 0.6f,
+                                0.8f, 0.35f);
                 glDepthMask(true);
                 glDisable(GL_BLEND);
 
@@ -1057,7 +1065,8 @@ public class VentanaOpenGL {
                         glEnable(GL_BLEND);
                         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                         glDepthMask(false);
-                        Cubo.dibujar(xCentroPanel, yVentana, 0f, anchoPanel - 0.1f, altoVentana, 0.02f, 0.4f, 0.6f, 0.8f, 0.35f);
+                        Cubo.dibujar(xCentroPanel, yVentana, 0f, anchoPanel - 0.1f, altoVentana, 0.02f, 0.4f, 0.6f,
+                                        0.8f, 0.35f);
                         glDepthMask(true);
                         glDisable(GL_BLEND);
 
@@ -1073,6 +1082,44 @@ public class VentanaOpenGL {
                 Cubo.dibujar(longitud / 2f - 0.05f, yVentana, 0f, 0.1f, altoVentana, grosor * 1.05f, 0.1f, 0.1f, 0.1f);
 
                 glPopMatrix();
+        }
+
+        private void dibujarBarandalRecto(float x1, float z1, float x2, float z2, float y) {
+                float opX1 = convertirXGeoAOpenGL(x1);
+                float opZ1 = convertirZGeoAOpenGL(z1);
+                float opX2 = convertirXGeoAOpenGL(x2);
+                float opZ2 = convertirZGeoAOpenGL(z2);
+
+                float dx = opX2 - opX1;
+                float dz = opZ2 - opZ1;
+                float cx = (opX1 + opX2) / 2.0f;
+                float cz = (opZ1 + opZ2) / 2.0f;
+                float length = (float) Math.sqrt(dx * dx + dz * dz);
+                float angle = (float) Math.toDegrees(Math.atan2(dz, dx));
+
+                float altoBarandal = 0.9f;
+                float[] colBarandal = { 0.1f, 0.1f, 0.1f };
+
+                glPushMatrix();
+                glTranslatef(cx, y, cz);
+                glRotatef(-angle, 0f, 1f, 0f);
+
+                Cubo.dibujar(0f, altoBarandal, 0f, length, 0.04f, 0.04f, colBarandal[0], colBarandal[1],
+                                colBarandal[2]);
+                Cubo.dibujar(0f, altoBarandal * 0.66f, 0f, length, 0.02f, 0.02f, colBarandal[0], colBarandal[1],
+                                colBarandal[2]);
+                Cubo.dibujar(0f, altoBarandal * 0.33f, 0f, length, 0.02f, 0.02f, colBarandal[0], colBarandal[1],
+                                colBarandal[2]);
+                glPopMatrix();
+
+                int numPostes = Math.max(1, (int) (length / 0.5f));
+                for (int i = 0; i <= numPostes; i++) {
+                        float t = (float) i / numPostes;
+                        float px = opX1 + t * dx;
+                        float pz = opZ1 + t * dz;
+                        Cubo.dibujar(px, y + altoBarandal / 2.0f, pz, 0.04f, altoBarandal, 0.04f, colBarandal[0],
+                                        colBarandal[1], colBarandal[2]);
+                }
         }
 
         private void dibujarMuebles() {

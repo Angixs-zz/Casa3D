@@ -184,7 +184,7 @@ public class Casa {
         agregarPared("k1", "O1", "P1", 0.0);
         // La pared l1 se reemplaza por la puerta con bisagra en P1 (hacia W1)
         agregarPared("Dintel Puerta P1", "P1", "W1", 2.7, 0.5);
-        
+
         agregarVentana("m1", "W1", "Z1");
         agregarPared("n1", "Z1", "Q1", 0.0);
         agregarPared("p1", "Q1", "M1", 0.0);
@@ -227,6 +227,8 @@ public class Casa {
 
         // Dintel Recamara 1
         agregarPared("Dintel Recamara 1", "R1", "C2", 2.7, 0.5);
+
+        agregarPared("Dintel GYM Trasera", "V1", "P1", 2.7, 0.5);
     }
 
     private void crearPuntosSegundaPlanta() {
@@ -385,7 +387,7 @@ public class Casa {
 
         agregarPared("P2_l3", "P2_P1", "P2_Q1", alturaSegundoPiso);
         agregarPared("P2_d1", "P2_C", "P2_G", alturaSegundoPiso);
-        agregarPared("P2_m3", "P2_F", "P2_D", alturaSegundoPiso);
+        // agregarPared("P2_m3", "P2_F", "P2_D", alturaSegundoPiso);
         agregarPared("P2_n3", "P2_K", "P2_K1", alturaSegundoPiso);
         agregarPared("P2_p3", "P2_S2", "P2_T2", alturaSegundoPiso);
         agregarPared("P2_q3", "P2_K", "P2_L", alturaSegundoPiso);
@@ -506,7 +508,7 @@ public class Casa {
         agregarPared("P3_a1", "P3_N", "P3_O", alturaTercerPiso);
         agregarPared("P3_b1", "P3_O", "P3_F", alturaTercerPiso);
         agregarPared("P3_c1", "P3_F", "P3_C", alturaTercerPiso); // Restaurada para colisión invisible
-        agregarPared("P3_d1", "P3_D", "P3_H", alturaTercerPiso);
+        // agregarPared("P3_d1", "P3_D", "P3_H", alturaTercerPiso);
         agregarPared("P3_e1", "P3_G", "P3_F", alturaTercerPiso);
 
         agregarPared("P3_f2", "P3_O", "P3_P", alturaTercerPiso);
