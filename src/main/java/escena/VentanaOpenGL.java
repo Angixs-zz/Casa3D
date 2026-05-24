@@ -13,6 +13,7 @@ import utilidades.Constantes;
 import objetos.Escalera3D;
 import objetos.Oficina;
 import objetos.SalaEstar;
+import objetos.BanoMedio;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -125,7 +126,7 @@ public class VentanaOpenGL {
                 // ==========================================================
                 // Coordenadas exactas del Punto O (abajo en el plano)
                 float puertabanox = convertirXGeoAOpenGL(4.9f);
-                float puertabanoy = convertirZGeoAOpenGL(9.5f);
+                float puertabanoy = convertirZGeoAOpenGL(9.6f);
 
                 // false = eje Z (muro vertical entre U y O).
                 // rotacionBase = 0.0f hace que la puerta cerrada suba desde O hacia U.
@@ -903,6 +904,7 @@ public class VentanaOpenGL {
                 if (nivelVisible >= 1) {
                         Oficina.dibujar();
                         SalaEstar.dibujar();
+                        BanoMedio.dibujar();
                 }
         }
 

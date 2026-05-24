@@ -151,8 +151,8 @@ public class Casa {
         agregarPared("c", "K", "N1", 0.0);
         agregarPared("d", "N1", "B1", 0.0); // Restaurada para colisión invisible
         agregarPared("e", "A1", "D2", 0.0);
-        agregarPared("pared_bano_fondo", "D2", "D3", 0.0, 1.6); // Pared física para cerrar el baño (altura 1.6 para no
-                                                                // obstruir escaleras)
+        agregarPared("pared_bano_fondo", "D2", "K", 0.0, 1.6); // Pared física para cerrar el baño (altura 1.6 para no
+                                                               // obstruir escaleras)
 
         agregarPared("f1", "C1", "V", 0.0);
         agregarPared("g1", "V", "W", 0.0);
