@@ -71,17 +71,24 @@ public class Colisiones {
 
             if (pisoPuerta != pisoJugador) continue;
 
-            float px1, pz1, px2, pz2;
+            float px1 = puerta.getX();
+            float pz1 = puerta.getZ();
+            float rotBase = puerta.getRotacionBase();
+            float px2 = px1;
+            float pz2 = pz1;
+
             if (puerta.isEjeX()) {
-                px1 = puerta.getX();
-                pz1 = puerta.getZ();
-                px2 = puerta.getX() + puerta.getAncho();
-                pz2 = puerta.getZ();
+                if (rotBase == 180.0f || rotBase == -180.0f) {
+                    px2 = px1 - puerta.getAncho();
+                } else {
+                    px2 = px1 + puerta.getAncho();
+                }
             } else {
-                px1 = puerta.getX();
-                pz1 = puerta.getZ();
-                px2 = puerta.getX();
-                pz2 = puerta.getZ() + puerta.getAncho();
+                if (rotBase == 180.0f || rotBase == -180.0f) {
+                    pz2 = pz1 - puerta.getAncho();
+                } else {
+                    pz2 = pz1 + puerta.getAncho();
+                }
             }
 
             float distancia = distanciaPuntoSegmento(xJugador, zJugador, px1, pz1, px2, pz2);

@@ -11,8 +11,9 @@ public class Puerta {
     private boolean abierta;
     private float anguloActual; 
     private float anguloApertura; // 90.0f o -90.0f según hacia dónde abre
+    private float rotacionBase; // Rotación inicial para alinear la puerta cerrada
 
-    public Puerta(String nombre, float x, float y, float z, float ancho, float alto, boolean esEjeX, float anguloApertura) {
+    public Puerta(String nombre, float x, float y, float z, float ancho, float alto, boolean esEjeX, float anguloApertura, float rotacionBase) {
         this.nombre = nombre;
         this.x = x;
         this.y = y;
@@ -21,6 +22,7 @@ public class Puerta {
         this.alto = alto;
         this.esEjeX = esEjeX;
         this.anguloApertura = anguloApertura;
+        this.rotacionBase = rotacionBase;
         this.abierta = false;
         this.anguloActual = 0.0f;
     }
@@ -59,7 +61,7 @@ public class Puerta {
         glPushMatrix();
         glTranslatef(x, y + alto / 2.0f, z);
         
-        glRotatef(anguloActual, 0.0f, 1.0f, 0.0f);
+        glRotatef(rotacionBase + anguloActual, 0.0f, 1.0f, 0.0f);
 
         glBegin(GL_QUADS);
         // Color café para la puerta
@@ -109,4 +111,5 @@ public class Puerta {
     public float getAlto() { return alto; }
     public boolean isEjeX() { return esEjeX; }
     public String getNombre() { return nombre; }
+    public float getRotacionBase() { return rotacionBase; }
 }

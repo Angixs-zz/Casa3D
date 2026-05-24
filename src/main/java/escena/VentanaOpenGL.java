@@ -75,14 +75,15 @@ public class VentanaOpenGL {
 
         casa = new Casa();
         
-        // Agregar la puerta principal
-        float pX = convertirXGeoAOpenGL(4.8f);
-        float pZ = convertirZGeoAOpenGL(0.2f);
-        float ancho = 1.4f * Constantes.ESCALA_CASA; // 1.4 unidades en GeoGebra escaladas
+        // Agregar la puerta principal en base a C(4.8, 1.6) y G(5.9, 1.6)
+        float pX = convertirXGeoAOpenGL(4.8f); // Bisagra en C
+        float pZ = convertirZGeoAOpenGL(1.6f); // C está en Z=1.6
+        float ancho = 1.1f * Constantes.ESCALA_CASA; // Distancia en X de 4.8 a 5.9 es 1.1
         float alto = 2.2f; 
-        // true para eje X, false para eje Z. Está sobre eje Z. 
-        // 90.0f abre hacia adentro/izquierda
-        casa.agregarPuerta(new Puerta("Puerta Principal", pX, 0.0f, pZ, ancho, alto, false, 90.0f));
+        // true = eje X. 
+        // rotacionBase = 180.0f para que se extienda hacia -X (hacia G) en OpenGL
+        // anguloApertura = 90.0f para que abra hacia el interior
+        casa.agregarPuerta(new Puerta("Puerta Principal", pX, 0.0f, pZ, ancho, alto, true, 90.0f, 180.0f));
 
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
