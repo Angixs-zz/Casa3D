@@ -1,6 +1,7 @@
 package objetos;
 
 import escena.Casa;
+import objetos.Puerta;
 import utilidades.Constantes;
 
 public class Colisiones {
@@ -55,6 +56,36 @@ public class Colisiones {
             float grosorPared = (float) pared.getGrosor() * Constantes.ESCALA_CASA;
 
             if (distancia < radioJugador + grosorPared) {
+                return true;
+            }
+        }
+
+        // Revisar colisión con puertas cerradas
+        for (Puerta puerta : casa.getPuertas()) {
+            if (puerta.isAbierta()) continue;
+
+            // Determinar piso de la puerta según su Y base
+            int pisoPuerta = 1;
+            if (puerta.getY() > 3.0f) pisoPuerta = 2;
+            if (puerta.getY() > 6.0f) pisoPuerta = 3;
+
+            if (pisoPuerta != pisoJugador) continue;
+
+            float px1, pz1, px2, pz2;
+            if (puerta.isEjeX()) {
+                px1 = puerta.getX();
+                pz1 = puerta.getZ();
+                px2 = puerta.getX() + puerta.getAncho();
+                pz2 = puerta.getZ();
+            } else {
+                px1 = puerta.getX();
+                pz1 = puerta.getZ();
+                px2 = puerta.getX();
+                pz2 = puerta.getZ() + puerta.getAncho();
+            }
+
+            float distancia = distanciaPuntoSegmento(xJugador, zJugador, px1, pz1, px2, pz2);
+            if (distancia < radioJugador + 0.1f) { // 0.1f es un grosor de colisión estimado para la puerta
                 return true;
             }
         }

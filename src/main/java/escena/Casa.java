@@ -3,12 +3,14 @@ package escena;
 import java.util.ArrayList;
 
 import objetos.Pared;
+import objetos.Puerta;
 import objetos.Punto2D;
 
 public class Casa {
 
     private ArrayList<Punto2D> puntos;
     private ArrayList<Pared> paredes;
+    private ArrayList<Puerta> puertas;
 
     private double alturaPared = 3.2;
     private double grosorPared = 0.15;
@@ -16,6 +18,7 @@ public class Casa {
     public Casa() {
         puntos = new ArrayList<>();
         paredes = new ArrayList<>();
+        puertas = new ArrayList<>();
 
         crearPuntosPrimeraPlanta();
         crearParedesPrimeraPlanta();
@@ -25,6 +28,14 @@ public class Casa {
 
         crearPuntosTerceraPlanta();
         crearParedesTerceraPlanta();
+    }
+
+    public void agregarPuerta(Puerta puerta) {
+        puertas.add(puerta);
+    }
+
+    public ArrayList<Puerta> getPuertas() {
+        return puertas;
     }
 
     private Punto2D buscarPunto(String nombre) {

@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL;
 import objetos.Pared;
 import objetos.Punto2D;
 import objetos.Cubo;
+import objetos.Puerta;
 import camara.CamaraLibre;
 import personaje.Girasol;
 import utilidades.Constantes;
@@ -29,6 +30,7 @@ public class VentanaOpenGL {
     private int nivelVisible = 3;
 
     private int modoCamara = 1;
+    private boolean ePressed = false;
 
     private static final int CAMARA_LIBRE = 1;
     private static final int CAMARA_PRIMERA_PERSONA = 2;
@@ -72,6 +74,16 @@ public class VentanaOpenGL {
         GL.createCapabilities();
 
         casa = new Casa();
+        
+        // Agregar la puerta principal
+        float pX = convertirXGeoAOpenGL(4.8f);
+        float pZ = convertirZGeoAOpenGL(0.2f);
+        float ancho = 1.4f * Constantes.ESCALA_CASA; // 1.4 unidades en GeoGebra escaladas
+        float alto = 2.2f; 
+        // true para eje X, false para eje Z. Está sobre eje Z. 
+        // 90.0f abre hacia adentro/izquierda
+        casa.agregarPuerta(new Puerta("Puerta Principal", pX, 0.0f, pZ, ancho, alto, false, 90.0f));
+
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
 
@@ -103,6 +115,35 @@ public class VentanaOpenGL {
                 modoCamara = CAMARA_PRIMERA_PERSONA;
             if (glfwGetKey(ventana, GLFW_KEY_F3) == GLFW_PRESS)
                 modoCamara = CAMARA_TERCERA_PERSONA;
+
+            if (glfwGetKey(ventana, GLFW_KEY_E) == GLFW_PRESS) {
+                if (!ePressed) {
+                    ePressed = true;
+                    float gX = girasol.getX();
+                    float gY = girasol.getY();
+                    float gZ = girasol.getZ();
+
+                    for (Puerta puerta : casa.getPuertas()) {
+                        float dx = puerta.getX() - gX;
+                        float dy = puerta.getY() - gY;
+                        float dz = puerta.getZ() - gZ;
+                        double distancia = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                        // Si el Girasol está lo suficientemente cerca
+                        if (distancia < 2.5f) {
+                            puerta.interactuar();
+                            System.out.println("Interactuando con: " + puerta.getNombre());
+                            break;
+                        }
+                    }
+                }
+            } else {
+                ePressed = false;
+            }
+
+            for (Puerta puerta : casa.getPuertas()) {
+                puerta.actualizar(2.5f);
+            }
 
             if (modoCamara == CAMARA_LIBRE) {
                 camaraLibre.actualizar(ventana);
@@ -241,6 +282,11 @@ public class VentanaOpenGL {
 
         dibujarLosas();
         dibujarEscaleras();
+        
+        // Dibujar las puertas
+        for (Puerta puerta : casa.getPuertas()) {
+            puerta.dibujar();
+        }
     }
 
     private void dibujarEscaleras() {
