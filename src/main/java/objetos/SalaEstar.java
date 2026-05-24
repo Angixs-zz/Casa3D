@@ -4,6 +4,7 @@ import utilidades.Constantes;
 
 import static org.lwjgl.opengl.GL11.*;
 
+
 public class SalaEstar {
 
     private static final float Y = Constantes.ALTURA_PISO_1;
@@ -47,6 +48,83 @@ public class SalaEstar {
                 7.2f,
                 6.0f,
                 45f);
+
+        dibujarMuebleYTV();
+
+        // ==== NUEVAS MESAS ====
+        dibujarMesaRectangularCentro();
+        dibujarMesaCircular();
+    }
+
+    private static void dibujarMuebleYTV() {
+        // Coordenadas calculadas a partir de C3, D3, E3, F3
+        float centroXGeo = 4.1f;
+        float centroZGeo = 7.75f;
+
+        float anchoGeo = 0.4f; // Eje X (4.3 - 3.9)
+        float largoGeo = 2.3f; // Eje Z (8.9 - 6.6)
+
+        float x = convertirXGeoAOpenGL(centroXGeo);
+        float z = convertirZGeoAOpenGL(centroZGeo);
+
+        float ancho = escalar(anchoGeo);
+        float largo = escalar(largoGeo);
+
+        // Altura del mueble de la TV
+        float altoMueble = 0.45f;
+
+        glPushMatrix();
+        glTranslatef(x, Y, z);
+
+        // 1. Mueble de TV (Mesa) - Color gris oscuro / madera oscura
+        Cubo.dibujar(
+                0f,
+                altoMueble / 2f, // Y centrado en su propia altura
+                0f,
+                ancho,
+                altoMueble,
+                largo,
+                0.20f, 0.20f, 0.20f); // Gris oscuro
+
+        // 2. Base de la Televisión (el "pie" o soporte central)
+        float altoBase = 0.05f;
+        float yBase = altoMueble + (altoBase / 2f);
+        Cubo.dibujar(
+                0f,
+                yBase,
+                0f,
+                escalar(0.15f),
+                altoBase,
+                escalar(0.50f),
+                0.10f, 0.10f, 0.10f); // Casi negro
+
+        float altoCuello = 0.08f;
+        float yCuello = altoMueble + altoBase + (altoCuello / 2f);
+        Cubo.dibujar(
+                0f,
+                yCuello,
+                0f,
+                escalar(0.05f),
+                altoCuello,
+                escalar(0.15f),
+                0.10f, 0.10f, 0.10f); // Casi negro
+
+        // 3. Pantalla Plana
+        float altoTV = 1.9f;
+        float grosorTV = escalar(0.04f); // Muy delgada
+        float largoTV = escalar(1.8f); // Un poco más corta que el mueble (2.3)
+        float yPantalla = altoMueble + altoBase + altoCuello + (altoTV / 2f);
+
+        Cubo.dibujar(
+                0f,
+                yPantalla,
+                0f,
+                grosorTV,
+                altoTV,
+                largoTV,
+                0.05f, 0.05f, 0.05f); // Pantalla negra
+
+        glPopMatrix();
     }
 
     private static void dibujarSillonSeccionalGrande() {
@@ -439,5 +517,134 @@ public class SalaEstar {
                 0.52f);
 
         glPopMatrix();
+    }
+
+    private static void dibujarMesaRectangularCentro() {
+        // Puntos G3=(5.9, 7.7) , H3=(5.9, 6.8) , I3=(6.6, 6.8) , J3=(6.6, 7.7)
+        float centroXGeo = 6.25f; // (5.9 + 6.6) / 2
+        float centroZGeo = 7.25f; // (6.8 + 7.7) / 2
+
+        float anchoGeo = 0.7f; // Eje X (6.6 - 5.9)
+        float largoGeo = 0.9f; // Eje Z (7.7 - 6.8)
+
+        float x = convertirXGeoAOpenGL(centroXGeo);
+        float z = convertirZGeoAOpenGL(centroZGeo);
+
+        float ancho = escalar(anchoGeo);
+        float largo = escalar(largoGeo);
+
+        float altoMesa = 0.40f;
+        float grosorTabla = 0.05f;
+
+        glPushMatrix();
+        glTranslatef(x, Y, z);
+
+        // 1. Superficie de la mesa (Color Madera Clara / Beige)
+        Cubo.dibujar(
+                0f,
+                altoMesa - (grosorTabla / 2f),
+                0f,
+                ancho,
+                grosorTabla,
+                largo,
+                0.80f, 0.72f, 0.62f);
+
+        // 2. Patas de la mesa (Estilo bloque en los extremos o 4 patitas finas)
+        // Pata delantera izquierda
+        Cubo.dibujar(-ancho / 2f + 0.04f, altoMesa / 2f, -largo / 2f + 0.04f, 0.05f, altoMesa, 0.05f, 0.3f, 0.3f, 0.3f);
+        // Pata delantera derecha
+        Cubo.dibujar(ancho / 2f - 0.04f, altoMesa / 2f, -largo / 2f + 0.04f, 0.05f, altoMesa, 0.05f, 0.3f, 0.3f, 0.3f);
+        // Pata trasera izquierda
+        Cubo.dibujar(-ancho / 2f + 0.04f, altoMesa / 2f, largo / 2f - 0.04f, 0.05f, altoMesa, 0.05f, 0.3f, 0.3f, 0.3f);
+        // Pata trasera derecha
+        Cubo.dibujar(ancho / 2f - 0.04f, altoMesa / 2f, largo / 2f - 0.04f, 0.05f, altoMesa, 0.05f, 0.3f, 0.3f, 0.3f);
+
+        glPopMatrix();
+    }
+
+    private static void dibujarCilindro(float radioBase, float radioTope, float altura, int lados) {
+        // Dibujar el cuerpo del cilindro
+        glBegin(GL_QUAD_STRIP);
+        for (int i = 0; i <= lados; i++) {
+            float angulo = (float) (2.0 * Math.PI * i / lados);
+            float x = (float) Math.cos(angulo);
+            float y = (float) Math.sin(angulo);
+            
+            // Vértice base
+            glVertex3f(x * radioBase, y * radioBase, 0f);
+            // Vértice tope
+            glVertex3f(x * radioTope, y * radioTope, altura);
+        }
+        glEnd();
+    }
+
+    private static void dibujarDisco(float radioInterior, float radioExterior, int lados) {
+        if (radioInterior == 0f) {
+            glBegin(GL_TRIANGLE_FAN);
+            glVertex3f(0f, 0f, 0f); // Centro
+            for (int i = 0; i <= lados; i++) {
+                float angulo = (float) (2.0 * Math.PI * i / lados);
+                float x = (float) Math.cos(angulo);
+                float y = (float) Math.sin(angulo);
+                glVertex3f(x * radioExterior, y * radioExterior, 0f);
+            }
+            glEnd();
+        } else {
+            glBegin(GL_QUAD_STRIP);
+            for (int i = 0; i <= lados; i++) {
+                float angulo = (float) (2.0 * Math.PI * i / lados);
+                float x = (float) Math.cos(angulo);
+                float y = (float) Math.sin(angulo);
+                
+                glVertex3f(x * radioInterior, y * radioInterior, 0f);
+                glVertex3f(x * radioExterior, y * radioExterior, 0f);
+            }
+            glEnd();
+        }
+    }
+
+    private static void dibujarMesaCircular() {
+        // Puntos K3=(4.8, 6.3) a N3=(5.4, 6.9). Caja de 0.6 x 0.6
+        float centroXGeo = 5.1f; // (4.8 + 5.4) / 2
+        float centroZGeo = 6.6f; // (6.3 + 6.9) / 2
+
+        float x = convertirXGeoAOpenGL(centroXGeo);
+        float z = convertirZGeoAOpenGL(centroZGeo);
+
+        // Diámetro es 0.6 en geogebra, el radio para OpenGL es la mitad escalado
+        float radio = escalar(0.6f) / 2f;
+        float altoMesa = 0.55f; // Un poco más alta por ser lateral/esquina
+        float grosorTabla = 0.04f;
+
+        glPushMatrix();
+        glTranslatef(x, Y, z);
+
+        // Rotamos en X para que los discos y cilindros miren hacia arriba (eje Y)
+        glPushMatrix();
+        glRotatef(-90f, 1f, 0f, 0f);
+
+        // --- 1. Base Central (Pata única cilíndrica de metal) ---
+        glColor3f(0.2f, 0.2f, 0.2f); // Gris oscuro/metalizado
+        dibujarCilindro(radio * 0.15f, radio * 0.15f, altoMesa - grosorTabla, 16);
+
+        // Soporte del suelo (un pequeño disco en la base)
+        dibujarDisco(0f, radio * 0.6f, 16);
+
+        // --- 2. Tapa de la Mesa Redonda ---
+        // Nos movemos hacia arriba en la altura local para poner la tapa
+        glTranslatef(0f, 0f, altoMesa - grosorTabla);
+
+        // Color de la tapa (Madera oscura o cristal)
+        glColor3f(0.4f, 0.25f, 0.15f);
+
+        // Borde de la mesa (cilindro muy corto para darle grosor 3D)
+        dibujarCilindro(radio, radio, grosorTabla, 32);
+
+        // Tapa superior del círculo
+        glTranslatef(0f, 0f, grosorTabla);
+        dibujarDisco(0f, radio, 32);
+
+        glPopMatrix(); // Salir de la rotación
+        glPopMatrix(); // Salir de la posición general
     }
 }

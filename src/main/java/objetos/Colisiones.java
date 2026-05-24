@@ -185,9 +185,22 @@ public class Colisiones {
             // Gabinete lateral (junto al sofá)
             {0.1f, 8.0f, 0.9f, 8.4f},
             // Planta de esquina (junto al sofá)
-            {0.3f, 5.35f, 0.7f, 5.75f}
+            {0.3f, 5.35f, 0.7f, 5.75f},
             
-            // Aquí puedes agregar fácilmente las colisiones para la sala, comedor, cocina, etc.
+            // === MUEBLES DE LA SALA DE ESTAR ===
+            // Sillón Seccional Grande (L-shape dividido en 2 rectángulos)
+            {6.4f, 8.4f, 7.8f, 9.3f}, // Tumbona
+            {7.0f, 6.8f, 7.8f, 8.4f}, // Brazo Largo
+            // Sillón Corto Horizontal
+            {5.17f, 8.72f, 5.93f, 9.18f},
+            // Sillón Individual (Rotado 45°, aproximación AABB)
+            {6.85f, 5.65f, 7.55f, 6.35f},
+            // Mueble de TV
+            {3.9f, 6.6f, 4.3f, 8.9f},
+            // Mesa Rectangular de Centro
+            {5.9f, 6.8f, 6.6f, 7.7f},
+            // Mesa Circular Esquinera
+            {4.8f, 6.3f, 5.4f, 6.9f}
         };
 
         for (float[] mueble : boundingBoxesMuebles) {
