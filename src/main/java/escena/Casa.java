@@ -493,6 +493,13 @@ public class Casa {
         agregarPared("P3_j2", "P3_S", "P3_T", alturaTercerPiso);
         agregarPared("P3_k2", "P3_T", "P3_U", alturaTercerPiso);
         agregarPared("P3_l2", "P3_U", "P3_V", alturaTercerPiso);
+
+        // ==========================================================
+        // DINTEL Cuarto (Tercer Piso)
+        // ==========================================================
+        // 9.1 es la altura base (6.4 del piso + 2.7 de la puerta) y 0.5 es el alto del
+        // dintel
+        agregarPared("Dintel 3er Piso", "P3_E", "P3_D", 9.1, 0.5);
     }
 
     public void mostrarPuntos() {
