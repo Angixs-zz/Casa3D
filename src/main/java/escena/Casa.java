@@ -91,7 +91,7 @@ public class Casa {
         agregarPunto("R", 4.8, 5.4);
         agregarPunto("S", 5.8, 5.4);
         agregarPunto("T", 4.5, 6.5);
-        agregarPunto("U", 3.9, 6.5);
+        agregarPunto("U", 3.8, 6.5);
         agregarPunto("V", 3.9, 8.4);
         agregarPunto("W", 0.1, 8.4);
         agregarPunto("Z", 4.9, 9.5);
@@ -185,6 +185,15 @@ public class Casa {
         agregarPared("l2", "M", "L", 0.0);
         agregarPared("m2", "L", "Q1", 0.0);
         agregarPared("n2", "M1", "N1", 0.0);
+
+        // Dintel Puerta Principal (Hueco entre C y G)
+        agregarPared("Dintel Principal", "C", "G", 2.7, 0.5);
+
+        // Dintel Cuarto S (Hueco entre R y S)
+        agregarPared("Dintel Cuarto S", "R", "S", 2.7, 0.5);
+
+        // Dintel Despacho (Hueco entre O y U)
+        agregarPared("Dintel Despacho", "O", "U", 2.7, 0.5);
     }
 
     private void crearPuntosSegundaPlanta() {

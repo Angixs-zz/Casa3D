@@ -79,11 +79,11 @@ public class VentanaOpenGL {
         // CONSTANTES GENERALES PARA LAS PUERTAS (Compartidas)
         // ==========================================================
         float ancho = 1.1f * Constantes.ESCALA_CASA; // Ancho estándar de 1.1 unidades GeoGebra
-        float alto = 3.2f; // Altura estándar de 3.2f
+        float alto = 2.7f; // Altura estándar de 3.2f
 
         // ==========================================================
         // 1. PUERTA PRINCIPAL (Muro Horizontal)
-        // ==========================================================
+        // =================================w=========================
         // Agregar la puerta principal en base a C(4.8, 1.6) y G(5.9, 1.6)
         float pX = convertirXGeoAOpenGL(4.8f); // Bisagra en C
         float pZ = convertirZGeoAOpenGL(1.6f); // C está en Z=1.6
@@ -115,7 +115,7 @@ public class VentanaOpenGL {
         // anguloApertura = -90.0f hace que la puerta gire hacia la izquierda (interior
         // del despacho).
         casa.agregarPuerta(
-                new Puerta("Puerta Despacho", puertaDespachoX, 0.0f, puertaDespachoZ, ancho, alto, false, 90.0f, 0.0f));
+                new Puerta("Puerta Despacho", puertaDespachoX, 0.0f, puertaDespachoZ, ancho, alto, false, 70.0f, 0.0f));
 
         // ==========================================================
         // 3. PUERTA Baño
@@ -128,7 +128,7 @@ public class VentanaOpenGL {
         // rotacionBase = 0.0f hace que la puerta cerrada suba desde O hacia U.
         // anguloApertura = -90.0f hace que la puerta gire hacia la izquierda (interior
         // del despacho).
-        casa.agregarPuerta(new Puerta("Puerta Baño", puertabanox, 0.0f, puertabanoy, ancho, alto, false, -90.0f, 0.0f));
+        casa.agregarPuerta(new Puerta("Puerta Baño", puertabanox, 0.0f, puertabanoy, ancho, alto, false, -70.0f, 0.0f));
 
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);

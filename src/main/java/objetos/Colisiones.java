@@ -12,26 +12,38 @@ public class Colisiones {
             float yJugador,
             Casa casa,
             float radioJugador) {
-            
+
         // Determinar en qué piso está el jugador según su coordenada Y
         int pisoJugador = 1;
-        if (yJugador >= 3.0f) pisoJugador = 2;
-        if (yJugador >= 6.2f) pisoJugador = 3;
+        if (yJugador >= 3.0f)
+            pisoJugador = 2;
+        if (yJugador >= 6.2f)
+            pisoJugador = 3;
 
         for (Pared pared : casa.getParedes()) {
             float alturaBase = (float) pared.getAlturaBase();
 
             // Determinar a qué piso pertenece la pared según su alturaBase
             int pisoPared = 1;
-            if (alturaBase > 3.0f) pisoPared = 2;
-            if (alturaBase > 6.0f) pisoPared = 3;
+            if (alturaBase > 3.0f)
+                pisoPared = 2;
+            if (alturaBase > 6.0f)
+                pisoPared = 3;
 
             // Solo revisa paredes del piso donde está el jugador
             if (pisoPared != pisoJugador) {
                 continue;
             }
 
-            // Si es la pared de fondo del baño bajo la escalera, no colisiona si el jugador está arriba en la escalera (yJugador >= 1.0f)
+            // CORRECCIÓN VERTICAL (3D): Omitir colisión si el personaje pasa completamente
+            // por debajo de una pared elevada (dintel) o por encima de una baja.
+            float alturaPersonaje = 1.6f; // Altura estimada de la caja de impacto del personaje
+            if ((yJugador + alturaPersonaje) < alturaBase || yJugador > (alturaBase + pared.getAltura())) {
+                continue;
+            }
+
+            // Si es la pared de fondo del baño bajo la escalera, no colisiona si el jugador
+            // está arriba en la escalera (yJugador >= 1.0f)
             if (pared.getNombre().equals("pared_bano_fondo") && yJugador >= 1.0f) {
                 continue;
             }
@@ -64,10 +76,13 @@ public class Colisiones {
         for (Puerta puerta : casa.getPuertas()) {
             // Determinar piso de la puerta según su Y base
             int pisoPuerta = 1;
-            if (puerta.getY() > 3.0f) pisoPuerta = 2;
-            if (puerta.getY() > 6.0f) pisoPuerta = 3;
+            if (puerta.getY() > 3.0f)
+                pisoPuerta = 2;
+            if (puerta.getY() > 6.0f)
+                pisoPuerta = 3;
 
-            if (pisoPuerta != pisoJugador) continue;
+            if (pisoPuerta != pisoJugador)
+                continue;
 
             float px1 = puerta.getX();
             float pz1 = puerta.getZ();
@@ -83,7 +98,7 @@ public class Colisiones {
             }
 
             float distancia = distanciaPuntoSegmento(xJugador, zJugador, px1, pz1, px2, pz2);
-            if (distancia < radioJugador + 0.1f) { // 0.1f es un grosor de colisión estimado para la puerta
+            if (distancia < radioJugador + 0.1f) {
                 return true;
             }
         }
