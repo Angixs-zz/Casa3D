@@ -73,6 +73,556 @@ public class Cocina {
 
         // Alacenas adicionales sobre lavabo y refrigerador
         dibujarAlacenasExtra();
+        dibujarMesaComedor6Sillas();
+        dibujarVitrinaVinos();
+        dibujarRepisasVinosLaterales();
+        dibujarTVComedor();
+    }
+
+    // =====================================================
+    // TELEVISIÓN EN COMEDOR
+    // =====================================================
+    private static void dibujarTVComedor() {
+        // Pared D1 (0.1, 14.0) a E1 (3.9, 14.0)
+        // Centro X = 2.0, Z = 14.0 (A la pared)
+        float xCentroGeo = 2.0f;
+        float zCentroGeo = 13.95f; // Ligeramente despegado de la pared para evitar z-fighting
+
+        float x = convertirXGeoAOpenGL(xCentroGeo);
+        float z = convertirZGeoAOpenGL(zCentroGeo);
+
+        float anchoTV = escalar(2.2f); // Pantalla grande
+        float altoTV = 1.2f;
+        float grosorTV = escalar(0.08f);
+
+        glPushMatrix();
+        glTranslatef(x, Y, z);
+        
+        // Marco de la TV (Negro)
+        Cubo.dibujar(
+                0f,
+                1.50f, // Altura en la pared
+                0f,
+                anchoTV,
+                altoTV,
+                grosorTV,
+                0.05f, 0.05f, 0.05f);
+
+        // Pantalla de la TV (Gris oscuro / efecto apagado)
+        Cubo.dibujar(
+                0f,
+                1.50f,
+                -grosorTV / 2f - 0.005f, // Al frente del marco
+                anchoTV * 0.96f,
+                altoTV * 0.92f,
+                0.01f,
+                0.12f, 0.12f, 0.15f); // Gris azulado oscuro
+
+        glPopMatrix();
+    }
+
+    private static void dibujarRepisasVinosLaterales() {
+        // Pegadas a la pared izquierda (X aprox 0.1). Las ponemos en xGeo = 0.16f.
+        dibujarRepisaVinosPared(0.16f, 11.95f, 90f);
+        dibujarRepisaVinosPared(0.16f, 13.55f, 90f);
+    }
+
+    private static void dibujarRepisaVinosPared(float xGeo, float zGeo, float rotacionY) {
+        float x = convertirXGeoAOpenGL(xGeo);
+        float z = convertirZGeoAOpenGL(zGeo);
+
+        glPushMatrix();
+        glTranslatef(x, Y, z);
+        glRotatef(rotacionY, 0f, 1f, 0f);
+
+        /*
+         * Soporte vertical de madera estilo rústico (como la foto)
+         * Pegado a la pared.
+         */
+        Cubo.dibujar(
+                0f,
+                1.30f,
+                0f,
+                escalar(0.25f), // Ancho de la tabla (Z visual)
+                1.30f,          // Alto de la tabla
+                escalar(0.05f), // Grosor (despegue de la pared)
+                0.35f, 0.18f, 0.08f); // Madera oscura rústica
+
+        // Botellas alternando direcciones (cuello izq, cuello der)
+        float startY = 0.75f;
+        float sepY = 0.22f; // Separación vertical entre botellas
+        
+        dibujarBotellaColgadaPared(0f, startY, 0.06f, true);
+        dibujarBotellaColgadaPared(0f, startY + sepY * 1, 0.06f, false);
+        dibujarBotellaColgadaPared(0f, startY + sepY * 2, 0.06f, true);
+        dibujarBotellaColgadaPared(0f, startY + sepY * 3, 0.06f, false);
+        dibujarBotellaColgadaPared(0f, startY + sepY * 4, 0.06f, true);
+        dibujarBotellaColgadaPared(0f, startY + sepY * 5, 0.06f, false);
+
+        glPopMatrix();
+    }
+
+    private static void dibujarBotellaColgadaPared(
+            float zLocal,
+            float yLocal,
+            float xLocal,
+            boolean apuntaIzquierda) {
+
+        float direccion = apuntaIzquierda ? -1f : 1f;
+
+        glPushMatrix();
+        glTranslatef(xLocal, yLocal, zLocal);
+
+        // Cuerpo oscuro de la botella
+        Cubo.dibujar(
+                0f,
+                0f,
+                0f,
+                escalar(0.40f), // Largo
+                0.08f,          // Alto (diámetro)
+                escalar(0.08f), // Profundidad (diámetro)
+                0.15f, 0.20f, 0.15f); // Verde oscuro botella
+
+        // Etiqueta clara rústica (blanco amarillento)
+        Cubo.dibujar(
+                0f,
+                0.005f,
+                0f,
+                escalar(0.20f),
+                0.082f,
+                escalar(0.082f),
+                0.92f, 0.88f, 0.80f);
+
+        // Cuello de la botella
+        Cubo.dibujar(
+                direccion * escalar(0.26f),
+                0f,
+                0f,
+                escalar(0.12f),
+                0.035f,
+                escalar(0.035f),
+                0.15f, 0.20f, 0.15f);
+
+        // Tapa/cápsula naranja
+        Cubo.dibujar(
+                direccion * escalar(0.35f),
+                0f,
+                0f,
+                escalar(0.06f),
+                0.038f,
+                escalar(0.038f),
+                0.95f, 0.40f, 0.10f); // Naranja fuerte
+
+        glPopMatrix();
+    }
+
+    private static void dibujarBotellaColgada(
+            float xLocal,
+            float yLocal,
+            float zLocal,
+            boolean apuntaIzquierda) {
+
+        float direccion = apuntaIzquierda ? -1f : 1f;
+
+        glPushMatrix();
+        glTranslatef(xLocal, yLocal, zLocal);
+
+        // Cuerpo oscuro de la botella acostada
+        Cubo.dibujar(
+                0f,
+                0f,
+                0f,
+                escalar(0.55f),
+                0.10f,
+                escalar(0.10f),
+                0.04f,
+                0.04f,
+                0.03f);
+
+        // Etiqueta clara al centro
+        Cubo.dibujar(
+                0f,
+                0.01f,
+                0f,
+                escalar(0.22f),
+                0.11f,
+                escalar(0.11f),
+                0.88f,
+                0.82f,
+                0.65f);
+
+        // Cuello de la botella
+        Cubo.dibujar(
+                direccion * escalar(0.34f),
+                0f,
+                0f,
+                escalar(0.18f),
+                0.07f,
+                escalar(0.07f),
+                0.03f,
+                0.03f,
+                0.025f);
+
+        // Tapa naranja
+        Cubo.dibujar(
+                direccion * escalar(0.46f),
+                0f,
+                0f,
+                escalar(0.08f),
+                0.075f,
+                escalar(0.075f),
+                0.90f,
+                0.35f,
+                0.08f);
+
+        // Soportes pequeños negros sobre la madera
+        Cubo.dibujar(
+                -escalar(0.17f),
+                -0.08f,
+                0f,
+                escalar(0.05f),
+                0.08f,
+                escalar(0.12f),
+                0.02f,
+                0.02f,
+                0.02f);
+
+        Cubo.dibujar(
+                escalar(0.17f),
+                -0.08f,
+                0f,
+                escalar(0.05f),
+                0.08f,
+                escalar(0.12f),
+                0.02f,
+                0.02f,
+                0.02f);
+
+        glPopMatrix();
+    }
+
+    private static void dibujarMesaComedor6Sillas() {
+        /*
+         * Mesa comedor en el rectángulo:
+         * L4 = (1.1, 13.3)
+         * M4 = (1.1, 12.2)
+         * N4 = (3.0, 12.2)
+         * O4 = (3.0, 13.3)
+         */
+
+        float xCentroGeo = 2.05f;
+        float zCentroGeo = 12.75f;
+
+        float x = convertirXGeoAOpenGL(xCentroGeo);
+        float z = convertirZGeoAOpenGL(zCentroGeo);
+
+        float anchoMesa = escalar(1.10f);
+        float fondoMesa = escalar(0.58f);
+
+        glPushMatrix();
+        glTranslatef(x, Y, z);
+
+        // Cubierta de la mesa
+        Cubo.dibujar(
+                0f,
+                0.78f,
+                0f,
+                anchoMesa,
+                0.10f,
+                fondoMesa,
+                0.46f,
+                0.28f,
+                0.14f);
+
+        // Base central de la mesa
+        Cubo.dibujar(
+                0f,
+                0.40f,
+                0f,
+                escalar(0.16f),
+                0.70f,
+                escalar(0.16f),
+                0.16f,
+                0.16f,
+                0.16f);
+
+        // Base inferior
+        Cubo.dibujar(
+                0f,
+                0.05f,
+                0f,
+                escalar(0.48f),
+                0.10f,
+                escalar(0.48f),
+                0.10f,
+                0.10f,
+                0.10f);
+
+        glPopMatrix();
+
+        // =====================================================
+        // 6 SILLAS ALREDEDOR
+        // 2 arriba, 2 abajo, 1 izquierda, 1 derecha
+        // =====================================================
+
+        // Arriba
+        dibujarSillaComedor(1.55f, 13.28f, 0f);
+        dibujarSillaComedor(2.55f, 13.28f, 0f);
+
+        // Abajo
+        dibujarSillaComedor(1.55f, 12.22f, 180f);
+        dibujarSillaComedor(2.55f, 12.22f, 180f);
+
+        // Izquierda
+        dibujarSillaComedor(1.02f, 12.75f, 90f);
+
+        // Derecha
+        dibujarSillaComedor(3.08f, 12.75f, 270f);
+    }
+
+    private static void dibujarSillaComedor(float xGeo, float zGeo, float rotacionY) {
+        float x = convertirXGeoAOpenGL(xGeo);
+        float z = convertirZGeoAOpenGL(zGeo);
+
+        glPushMatrix();
+        glTranslatef(x, Y, z);
+        glRotatef(rotacionY, 0f, 1f, 0f);
+
+        // Asiento
+        Cubo.dibujar(
+                0f,
+                0.45f,
+                0f,
+                escalar(0.28f),
+                0.08f,
+                escalar(0.28f),
+                0.30f,
+                0.18f,
+                0.10f);
+
+        // Respaldo
+        Cubo.dibujar(
+                0f,
+                0.80f,
+                escalar(0.12f),
+                escalar(0.28f),
+                0.55f,
+                escalar(0.08f),
+                0.26f,
+                0.16f,
+                0.09f);
+
+        // Patas
+        Cubo.dibujar(-escalar(0.10f), 0.20f, -escalar(0.10f), escalar(0.05f), 0.40f, escalar(0.05f), 0.14f, 0.14f,
+                0.14f);
+        Cubo.dibujar(escalar(0.10f), 0.20f, -escalar(0.10f), escalar(0.05f), 0.40f, escalar(0.05f), 0.14f, 0.14f,
+                0.14f);
+        Cubo.dibujar(-escalar(0.10f), 0.20f, escalar(0.10f), escalar(0.05f), 0.40f, escalar(0.05f), 0.14f, 0.14f,
+                0.14f);
+        Cubo.dibujar(escalar(0.10f), 0.20f, escalar(0.10f), escalar(0.05f), 0.40f, escalar(0.05f), 0.14f, 0.14f, 0.14f);
+
+        glPopMatrix();
+    }
+
+    private static void dibujarVitrinaVinos() {
+        /*
+         * Vitrina / mueble transparente para vinos:
+         *
+         * P4 = (0.2, 12.2)
+         * Q4 = (0.6, 12.2)
+         * R4 = (0.6, 13.3)
+         * S4 = (0.2, 13.3)
+         */
+
+        float xCentroGeo = 0.40f;
+        float zCentroGeo = 12.75f;
+
+        float x = convertirXGeoAOpenGL(xCentroGeo);
+        float z = convertirZGeoAOpenGL(zCentroGeo);
+
+        float ancho = escalar(0.34f);
+        float fondo = escalar(1.02f);
+        float altura = 2.20f;
+
+        glPushMatrix();
+        glTranslatef(x, Y, z);
+
+        // Base inferior oscura
+        Cubo.dibujar(
+                0f,
+                0.05f,
+                0f,
+                ancho,
+                0.10f,
+                fondo,
+                0.10f,
+                0.10f,
+                0.12f);
+
+        // Techo de la vitrina
+        Cubo.dibujar(
+                0f,
+                altura,
+                0f,
+                ancho,
+                0.10f,
+                fondo,
+                0.12f,
+                0.12f,
+                0.15f);
+
+        // Laterales (simulando vidrio)
+        Cubo.dibujar(
+                -ancho / 2f + escalar(0.02f),
+                altura / 2f,
+                0f,
+                escalar(0.04f),
+                altura,
+                fondo,
+                0.78f,
+                0.88f,
+                0.92f);
+
+        Cubo.dibujar(
+                ancho / 2f - escalar(0.02f),
+                altura / 2f,
+                0f,
+                escalar(0.04f),
+                altura,
+                fondo,
+                0.78f,
+                0.88f,
+                0.92f);
+
+        // Parte trasera
+        Cubo.dibujar(
+                0f,
+                altura / 2f,
+                fondo / 2f - escalar(0.02f),
+                ancho,
+                altura,
+                escalar(0.04f),
+                0.75f,
+                0.84f,
+                0.90f);
+
+        // Puerta frontal de vidrio
+        Cubo.dibujar(
+                0f,
+                altura / 2f,
+                -fondo / 2f + escalar(0.02f),
+                ancho,
+                altura,
+                escalar(0.04f),
+                0.84f,
+                0.92f,
+                0.96f);
+
+        // Manija
+        Cubo.dibujar(
+                ancho / 2f - escalar(0.05f),
+                1.10f,
+                -fondo / 2f + escalar(0.04f),
+                escalar(0.03f),
+                0.40f,
+                escalar(0.03f),
+                0.70f,
+                0.70f,
+                0.70f);
+
+        // Repisas internas
+        Cubo.dibujar(
+                0f,
+                0.62f,
+                0f,
+                ancho * 0.90f,
+                0.04f,
+                fondo * 0.90f,
+                0.18f,
+                0.18f,
+                0.20f);
+
+        Cubo.dibujar(
+                0f,
+                1.18f,
+                0f,
+                ancho * 0.90f,
+                0.04f,
+                fondo * 0.90f,
+                0.18f,
+                0.18f,
+                0.20f);
+
+        Cubo.dibujar(
+                0f,
+                1.74f,
+                0f,
+                ancho * 0.90f,
+                0.04f,
+                fondo * 0.90f,
+                0.18f,
+                0.18f,
+                0.20f);
+
+        // Botellas / vinos
+        dibujarBotellaVinoLocal(0f, 0.34f, -fondo * 0.25f, 0.35f, 0.35f, 0.35f);
+        dibujarBotellaVinoLocal(0f, 0.34f, 0f, 0.45f, 0.12f, 0.12f);
+        dibujarBotellaVinoLocal(0f, 0.34f, fondo * 0.25f, 0.78f, 0.72f, 0.22f);
+
+        dibujarBotellaVinoLocal(0f, 0.90f, -fondo * 0.25f, 0.20f, 0.45f, 0.18f);
+        dibujarBotellaVinoLocal(0f, 0.90f, 0f, 0.52f, 0.18f, 0.18f);
+        dibujarBotellaVinoLocal(0f, 0.90f, fondo * 0.25f, 0.72f, 0.65f, 0.22f);
+
+        dibujarBotellaVinoLocal(0f, 1.46f, -fondo * 0.25f, 0.38f, 0.12f, 0.12f);
+        dibujarBotellaVinoLocal(0f, 1.46f, 0f, 0.55f, 0.16f, 0.16f);
+        dibujarBotellaVinoLocal(0f, 1.46f, fondo * 0.25f, 0.78f, 0.24f, 0.18f);
+
+        glPopMatrix();
+    }
+
+    private static void dibujarBotellaVinoLocal(
+            float xLocal,
+            float yBase,
+            float zLocal,
+            float r,
+            float g,
+            float b) {
+
+        // Cuerpo de la botella
+        Cubo.dibujar(
+                xLocal,
+                yBase + 0.18f,
+                zLocal,
+                escalar(0.10f),
+                0.36f,
+                escalar(0.10f),
+                r,
+                g,
+                b);
+
+        // Cuello
+        Cubo.dibujar(
+                xLocal,
+                yBase + 0.42f,
+                zLocal,
+                escalar(0.05f),
+                0.14f,
+                escalar(0.05f),
+                r * 0.8f,
+                g * 0.8f,
+                b * 0.8f);
+
+        // Tapa
+        Cubo.dibujar(
+                xLocal,
+                yBase + 0.51f,
+                zLocal,
+                escalar(0.04f),
+                0.04f,
+                escalar(0.04f),
+                0.82f,
+                0.72f,
+                0.25f);
     }
 
     private static void dibujarAlacenaAlta() {
@@ -289,7 +839,7 @@ public class Cocina {
         // Alacena sobre el lavabo (llena el hueco horizontal)
         dibujarGabineteAltoPorGeo(
                 1.47f, 8.66f,
-                2.43f, 9.00f, 
+                2.43f, 9.00f,
                 1.55f, 1.65f);
 
         // Alacena sobre el refrigerador (espacio U3 a I4)
@@ -297,10 +847,10 @@ public class Cocina {
         // El techo está a 3.20m.
         float yBaseRefri = 2.14f;
         float alturaRefri = 3.20f - yBaseRefri;
-        
+
         dibujarGabineteAltoPorGeo(
                 0.20f, 9.80f,
-                0.70f, 10.30f, 
+                0.70f, 10.30f,
                 yBaseRefri, alturaRefri);
     }
 
@@ -815,7 +1365,7 @@ public class Cocina {
         float z = convertirZGeoAOpenGL(zCentroGeo);
 
         float anchoMesa = escalar(1.9f);
-        
+
         glPushMatrix();
         glTranslatef(x, Y, z);
 
@@ -885,16 +1435,16 @@ public class Cocina {
     private static void dibujarCopaInvertida(float x, float y, float z) {
         // Cristal transparente / blancuzco
         float r = 0.85f, g = 0.9f, b = 0.95f;
-        
+
         // Base de la copa (pegada al rack)
         Cubo.dibujar(x, y + 0.10f, z, 0.06f, 0.01f, 0.06f, r, g, b);
-        
+
         // Tallo delgado
         Cubo.dibujar(x, y + 0.05f, z, 0.01f, 0.09f, 0.01f, r, g, b);
-        
+
         // Cáliz ancho (cuerpo de la copa)
         Cubo.dibujar(x, y - 0.02f, z, 0.07f, 0.05f, 0.07f, r, g, b);
-        
+
         // Borde superior de la copa (abajo en este caso porque está invertida)
         Cubo.dibujar(x, y - 0.06f, z, 0.05f, 0.04f, 0.05f, r, g, b);
     }
