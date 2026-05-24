@@ -74,16 +74,29 @@ public class VentanaOpenGL {
         GL.createCapabilities();
 
         casa = new Casa();
-        
+
         // Agregar la puerta principal en base a C(4.8, 1.6) y G(5.9, 1.6)
         float pX = convertirXGeoAOpenGL(4.8f); // Bisagra en C
         float pZ = convertirZGeoAOpenGL(1.6f); // C está en Z=1.6
         float ancho = 1.1f * Constantes.ESCALA_CASA; // Distancia en X de 4.8 a 5.9 es 1.1
-        float alto = 3.2f; 
-        // true = eje X. 
+        float alto = 3.2f;
+        // true = eje X.
         // rotacionBase = 180.0f para que se extienda hacia -X (hacia G) en OpenGL
         // anguloApertura = 90.0f para que abra hacia el interior
         casa.agregarPuerta(new Puerta("Puerta Principal", pX, 0.0f, pZ, ancho, alto, true, 90.0f, 180.0f));
+
+        // ==========================================================
+        // PUERTA ENTRE S Y R (Bisagra en S, abre hacia la otra habitación)
+        // ==========================================================
+        float pXs = convertirXGeoAOpenGL(5.8f); // Bisagra exacta en el Punto S
+        float pZs = convertirZGeoAOpenGL(5.4f); // Coordenada Z del muro
+        float anchoRS = 1.0f * Constantes.ESCALA_CASA; // Ancho del hueco de S a R
+
+        // Al poner la bisagra en S (5.8), la rotacionBase en 0.0f hace que apunte hacia
+        // R (4.8)
+        // El anguloApertura de 90.0f positivo hace que gire hacia adentro (la otra
+        // habitación)
+        casa.agregarPuerta(new Puerta("Puerta Cuarto S", pXs, 0.0f, pZs, anchoRS, alto, true, -90.0f, 0.0f));
 
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
@@ -283,7 +296,7 @@ public class VentanaOpenGL {
 
         dibujarLosas();
         dibujarEscaleras();
-        
+
         // Dibujar las puertas
         for (Puerta puerta : casa.getPuertas()) {
             puerta.dibujar();
