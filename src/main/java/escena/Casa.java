@@ -276,6 +276,7 @@ public class Casa {
         agregarPunto("P2_S2", 6.6, 3.7);
         agregarPunto("P2_T2", 6.6, 4.0);
         agregarPunto("P2_U2", 2.6, 15.4);
+        agregarPunto("P2_V2", 3.9, 8.6);
     }
 
     private void crearParedesSegundaPlanta() {
@@ -365,6 +366,21 @@ public class Casa {
         agregarPared("P2_n3", "P2_K", "P2_K1", alturaSegundoPiso);
         agregarPared("P2_p3", "P2_S2", "P2_T2", alturaSegundoPiso);
         agregarPared("P2_q3", "P2_K", "P2_L", alturaSegundoPiso);
+        agregarPared("P2_r3", "P2_M", "P2_V2", alturaSegundoPiso);
+
+        // Dintel Pozo Luz
+        agregarPared("Dintel Pozo LUz", "P2_V2", "P2_M1", 5.9, 0.5);
+
+        // Dintel Recamara 4
+        agregarPared("Dintel Recamara 4", "P2_Q", "P2_M", 5.9, 0.5);
+
+        // Dintel Recamara principal
+        agregarPared("Dintel Recamara Principal", "P2_Q", "P2_L1", 5.9, 0.5);
+
+        // Dintel CLOSET
+        agregarPared("Dintel Closet", "P2_S", "P2_L1", 5.9, 0.5);
+        // Dintel BAÑOPRINCIPAL
+        agregarPared("Dintel BAÑO PRINCIPAL", "P2_A1", "P2_R", 5.9, 0.5);
     }
 
     private void crearPuntosTerceraPlanta() {

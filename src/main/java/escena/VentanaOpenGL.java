@@ -154,6 +154,92 @@ public class VentanaOpenGL {
         casa.agregarPuerta(
                 new Puerta("Puerta Recamara 1", puertaReca1x, 0.0f, puertaReca1y, ancho, alto, false, 80f, 0.0f));
 
+        // ==========================================================
+        // 7. PUERTA Pozo
+        // ==========================================================
+        float puertaPozox = convertirXGeoAOpenGL(3.9f);
+        float puertaPozoy = convertirZGeoAOpenGL(9.5f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Pozo", puertaPozox, 3.2f, puertaPozoy, ancho, alto, false, -80f, 180.0f));
+
+        // ==========================================================
+        // 7. Recamara 4
+        // ==========================================================
+        float puertaRecamara4x = convertirXGeoAOpenGL(3.9f);
+        float puertaRecamara4y = convertirZGeoAOpenGL(7.9f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Pozo", puertaRecamara4x, 3.2f, puertaRecamara4y, ancho, alto, false, -80f, 180.0f));
+
+        // ==========================================================
+        // 7. Recamara Principal
+        // ==========================================================
+        float puertaRecaPrincipalx = convertirXGeoAOpenGL(3.9f);
+        float puertaRecaPrincipaly = convertirZGeoAOpenGL(7.0f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Pozo", puertaRecaPrincipalx, 3.2f, puertaRecaPrincipaly, ancho, alto, false, -80f,
+                        270.0f));
+
+        // ==========================================================
+        // 7. Closet
+        // ==========================================================
+        float puertaClosetx = convertirXGeoAOpenGL(4.9f);
+        float puertaClosety = convertirZGeoAOpenGL(5.9f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Closet", puertaClosetx, 3.2f, puertaClosety, ancho, alto, false, -80f, 360.0f));
+
+        // ==========================================================
+        // 7. BañoPrincipal
+        // ==========================================================
+        float puertaBañoPrincipalx = convertirXGeoAOpenGL(4.9f);
+        float puertaBañoPrincipaly = convertirZGeoAOpenGL(4.3f);
+        casa.agregarPuerta(
+                new Puerta("Puerta BañoPrincipal", puertaBañoPrincipalx, 3.2f, puertaBañoPrincipaly, ancho, alto, false,
+                        -80f, 360.0f));
+
+        // ==========================================================
+        // 7. PUERTA Baño2da
+        // ==========================================================
+        float puertaBaño2dax = convertirXGeoAOpenGL(2.6f);
+        float puertaBaño2day = convertirZGeoAOpenGL(15.4f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Baño2da", puertaBaño2dax, 3.2f, puertaBaño2day, ancho, alto, false, -80f, 180.0f));
+
+        // ==========================================================
+        // 7. PUERTA Recamara2
+        // ==========================================================
+        float puertaRecamara2x = convertirXGeoAOpenGL(3.9f);
+        float puertaRecamara2y = convertirZGeoAOpenGL(16.1f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Recamara2", puertaRecamara2x, 3.2f, puertaRecamara2y, ancho, alto, false, 80f,
+                        0.0f));
+
+        // ==========================================================
+        // 7. PUERTA Lavanderia
+        // ==========================================================
+        float puertaLavanderiax = convertirXGeoAOpenGL(3.9f);
+        float puertaLavanderiay = convertirZGeoAOpenGL(17.3f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Lavanderia", puertaLavanderiax, 3.2f, puertaLavanderiay, ancho, alto, false, 80f,
+                        270.0f));
+
+        // ==========================================================
+        // 7. PUERTA Area Libre
+        // ==========================================================
+        float puertaArealibrex = convertirXGeoAOpenGL(6.0f);
+        float puertaArealibrey = convertirZGeoAOpenGL(17.3f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Area Libre", puertaArealibrex, 3.2f, puertaArealibrey, ancho, alto, false, 80f,
+                        360.0f));
+
+        // ==========================================================
+        // 7. PUERTA Recamara3
+        // ==========================================================
+        float puertaRecamara3x = convertirXGeoAOpenGL(4.9f);
+        float puertaRecamara3y = convertirZGeoAOpenGL(17.0f);
+        casa.agregarPuerta(
+                new Puerta("Puerta Recamara 3", puertaRecamara3x, 3.2f, puertaRecamara3y, ancho, alto, false, 80f,
+                        180.0f));
+
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
 
