@@ -282,12 +282,12 @@ public class Casa {
     private void crearParedesSegundaPlanta() {
         double alturaSegundoPiso = 3.2;
 
-        agregarPared("P2_f", "P2_I", "P2_J", alturaSegundoPiso);
+        // agregarPared("P2_f", "P2_I", "P2_J", alturaSegundoPiso);
         agregarPared("P2_g", "P2_J", "P2_Q2", alturaSegundoPiso);
         agregarPared("P2_h", "P2_Q2", "P2_C1", alturaSegundoPiso);
         agregarPared("P2_i", "P2_C1", "P2_H1", alturaSegundoPiso);
-        agregarPared("P2_j", "P2_H1", "P2_I1", alturaSegundoPiso);
-        agregarPared("P2_k", "P2_I1", "P2_I", alturaSegundoPiso);
+        // agregarPared("P2_j", "P2_H1", "P2_I1", alturaSegundoPiso);
+        // agregarPared("P2_k", "P2_I1", "P2_I", alturaSegundoPiso);
 
         agregarPared("P2_l", "P2_H1", "P2_D1", alturaSegundoPiso);
         agregarPared("P2_m", "P2_D1", "P2_E1", alturaSegundoPiso);
