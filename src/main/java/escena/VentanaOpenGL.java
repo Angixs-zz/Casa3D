@@ -437,10 +437,10 @@ public class VentanaOpenGL {
          */
 
         // Lado izquierdo de llegada de escalera
-        dibujarLosaSegundoPisoPorCoordenadas(4.9f, 9.5f, 5.8f, 12.0f, altura);
+        // dibujarLosaSegundoPisoPorCoordenadas(4.9f, 9.5f, 5.8f, 12.0f, altura);
 
         // Lado derecho de llegada de escalera
-        dibujarLosaSegundoPisoPorCoordenadas(7.2f, 9.5f, 7.9f, 12.0f, altura);
+        // dibujarLosaSegundoPisoPorCoordenadas(7.2f, 9.5f, 7.9f, 12.0f, altura);
         // Losa del pasillo del blancon con eslaera
         dibujarLosaSegundoPisoPorCoordenadas(3.9f, 9.5f, 4.9f, 13.9f, altura);
         // Piso después de la escalera

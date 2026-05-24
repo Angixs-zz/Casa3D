@@ -10,7 +10,7 @@ public class Casa {
     private ArrayList<Punto2D> puntos;
     private ArrayList<Pared> paredes;
 
-    private double alturaPared = 3.0;
+    private double alturaPared = 3.2;
     private double grosorPared = 0.15;
 
     public Casa() {
