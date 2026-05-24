@@ -14,7 +14,10 @@ import objetos.Escalera3D;
 import objetos.Oficina;
 import objetos.SalaEstar;
 import objetos.BanoMedio;
+import objetos.BanoPrincipal;
 import objetos.Cocina;
+import objetos.Gimnasio;
+import objetos.Recamara1;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -907,6 +910,9 @@ public class VentanaOpenGL {
                         SalaEstar.dibujar();
                         BanoMedio.dibujar();
                         Cocina.dibujar();
+                        BanoPrincipal.dibujar();
+                        Gimnasio.dibujar();
+                        Recamara1.dibujar();
                 }
         }
 
