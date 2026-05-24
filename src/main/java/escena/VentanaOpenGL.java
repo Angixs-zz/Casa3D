@@ -114,8 +114,21 @@ public class VentanaOpenGL {
         // rotacionBase = 0.0f hace que la puerta cerrada suba desde O hacia U.
         // anguloApertura = -90.0f hace que la puerta gire hacia la izquierda (interior
         // del despacho).
-        casa.agregarPuerta(new Puerta("Puerta Despacho", puertaDespachoX, 0.0f, puertaDespachoZ, ancho, alto, false,
-                -90.0f, 0.0f));
+        casa.agregarPuerta(
+                new Puerta("Puerta Despacho", puertaDespachoX, 0.0f, puertaDespachoZ, ancho, alto, false, 90.0f, 0.0f));
+
+        // ==========================================================
+        // 3. PUERTA Baño
+        // ==========================================================
+        // Coordenadas exactas del Punto O (abajo en el plano)
+        float puertabanox = convertirXGeoAOpenGL(4.9f);
+        float puertabanoy = convertirZGeoAOpenGL(9.5f);
+
+        // false = eje Z (muro vertical entre U y O).
+        // rotacionBase = 0.0f hace que la puerta cerrada suba desde O hacia U.
+        // anguloApertura = -90.0f hace que la puerta gire hacia la izquierda (interior
+        // del despacho).
+        casa.agregarPuerta(new Puerta("Puerta Baño", puertabanox, 0.0f, puertabanoy, ancho, alto, false, -90.0f, 0.0f));
 
         camaraLibre = new CamaraLibre();
         girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
@@ -156,18 +169,26 @@ public class VentanaOpenGL {
                     float gY = girasol.getY();
                     float gZ = girasol.getZ();
 
+                    Puerta puertaMasCercana = null;
+                    double distanciaMinima = 2.5; // Radio máximo de interacción
+
                     for (Puerta puerta : casa.getPuertas()) {
                         float dx = puerta.getX() - gX;
                         float dy = puerta.getY() - gY;
                         float dz = puerta.getZ() - gZ;
                         double distancia = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-                        // Si el Girasol está lo suficientemente cerca
-                        if (distancia < 2.5f) {
-                            puerta.interactuar();
-                            System.out.println("Interactuando con: " + puerta.getNombre());
-                            break;
+                        // Evalúa TODAS las puertas y se queda solo con la más cercana
+                        if (distancia < distanciaMinima) {
+                            distanciaMinima = distancia;
+                            puertaMasCercana = puerta;
                         }
+                    }
+
+                    // Si encontró una puerta en el rango, interactúa con ella
+                    if (puertaMasCercana != null) {
+                        puertaMasCercana.interactuar();
+                        System.out.println("Interactuando con: " + puertaMasCercana.getNombre());
                     }
                 }
             } else {
