@@ -497,6 +497,7 @@ public class Casa {
 
         // --- SEMIMUROS (perímetro exterior y divisiones internas) ---
         agregarPared("P3_f", "P3_J", "P3_I", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_pareddeescaleras", "P3_N", "P3_C", alturaBase3, alturaSemiMuro);
         agregarPared("P3_g", "P3_I", "P3_G", alturaBase3, alturaSemiMuro);
         // P3_h: E->G = PARED COMPLETA
         agregarPared("P3_h", "P3_G", "P3_E", alturaBase3);

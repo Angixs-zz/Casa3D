@@ -40,6 +40,7 @@ import piso3.PergolaBancoP3;
 import piso3.TerrazaP3;
 import piso3.PergolaBancoP3;
 import piso3.ComedorP3;
+import piso3.EstructurasTechoP3;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -1197,6 +1198,7 @@ public class VentanaOpenGL {
                         TerrazaP3.dibujar();
                         PergolaBancoP3.dibujar();
                         ComedorP3.dibujar();
+                        EstructurasTechoP3.dibujar();
                 }
         }
 
