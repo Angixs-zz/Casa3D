@@ -32,6 +32,9 @@ import piso2.SalaEstarP2;
 import piso2.PozoLuzP2;
 import piso2.Recamara4P2;
 import piso2.ClosetP2;
+import piso2.BanoP2;
+import piso2.RecamaraPrincipalP2;
+import piso2.BalconP2;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -1156,6 +1159,9 @@ public class VentanaOpenGL {
                         PozoLuzP2.dibujar();
                         Recamara4P2.dibujar();
                         ClosetP2.dibujar();
+                        BanoP2.dibujar();
+                        RecamaraPrincipalP2.dibujar();
+                        BalconP2.dibujar();
                 }
         }
 
