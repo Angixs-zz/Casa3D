@@ -491,67 +491,72 @@ public class Casa {
     }
 
     private void crearParedesTerceraPlanta() {
-        double alturaTercerPiso = 6.4;
+        double alturaBase3 = 6.4;  // Altura de inicio del piso 3
+        double alturaSemiMuro = 1.0; // Altura de los semimuros
+        // Paredes completas: solo E->G, G->F, F->C, F->O, N->O
 
-        agregarPared("P3_f", "P3_J", "P3_I", alturaTercerPiso);
-        agregarPared("P3_g", "P3_I", "P3_G", alturaTercerPiso);
-        agregarPared("P3_h", "P3_G", "P3_E", alturaTercerPiso);
-        agregarPared("P3_i", "P3_J", "P3_L1", alturaTercerPiso);
-        agregarPared("P3_j", "P3_L1", "P3_K", alturaTercerPiso);
+        // --- SEMIMUROS (perímetro exterior y divisiones internas) ---
+        agregarPared("P3_f",  "P3_J",  "P3_I",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_g",  "P3_I",  "P3_G",  alturaBase3, alturaSemiMuro);
+        // P3_h: E->G = PARED COMPLETA
+        agregarPared("P3_h",  "P3_G",  "P3_E",  alturaBase3);
+        agregarPared("P3_i",  "P3_J",  "P3_L1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_j",  "P3_L1", "P3_K",  alturaBase3, alturaSemiMuro);
 
-        agregarPared("P3_k", "P3_L", "P3_M", alturaTercerPiso);
-        agregarPared("P3_l", "P3_M", "P3_M1", alturaTercerPiso);
-        agregarPared("P3_m", "P3_M1", "P3_K1", alturaTercerPiso);
-        agregarPared("P3_n", "P3_K1", "P3_J1", alturaTercerPiso);
-        agregarPared("P3_p", "P3_J1", "P3_I1", alturaTercerPiso);
-        agregarPared("P3_q", "P3_I1", "P3_M1", alturaTercerPiso);
+        agregarPared("P3_k",  "P3_L",  "P3_M",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_l",  "P3_M",  "P3_M1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_m",  "P3_M1", "P3_K1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_n",  "P3_K1", "P3_J1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_p",  "P3_J1", "P3_I1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_q",  "P3_I1", "P3_M1", alturaBase3, alturaSemiMuro);
 
-        agregarPared("P3_r", "P3_L", "P3_K", alturaTercerPiso);
-        agregarPared("P3_s", "P3_L1", "P3_M", alturaTercerPiso);
-        agregarPared("P3_t", "P3_I1", "P3_C1", alturaTercerPiso);
+        agregarPared("P3_r",  "P3_L",  "P3_K",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_s",  "P3_L1", "P3_M",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_t",  "P3_I1", "P3_C1", alturaBase3, alturaSemiMuro);
 
-        agregarPared("P3_a", "P3_C1", "P3_B1", alturaTercerPiso);
-        agregarPared("P3_b", "P3_B1", "P3_E1", alturaTercerPiso);
-        agregarPared("P3_c", "P3_E1", "P3_D1", alturaTercerPiso);
-        agregarPared("P3_d", "P3_D1", "P3_C1", alturaTercerPiso);
-        agregarPared("P3_e", "P3_D1", "P3_Z", alturaTercerPiso);
+        agregarPared("P3_a",  "P3_C1", "P3_B1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_b",  "P3_B1", "P3_E1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_c",  "P3_E1", "P3_D1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_d",  "P3_D1", "P3_C1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_e",  "P3_D1", "P3_Z",  alturaBase3, alturaSemiMuro);
 
-        agregarPared("P3_f1", "P3_Z", "P3_A1", alturaTercerPiso);
-        agregarPared("P3_g1", "P3_A1", "P3_E1", alturaTercerPiso);
-        agregarPared("P3_h1", "P3_Z", "P3_W", alturaTercerPiso);
-        agregarPared("P3_i1", "P3_W", "P3_H1", alturaTercerPiso);
-        agregarPared("P3_j1", "P3_H1", "P3_N1", alturaTercerPiso);
-        agregarPared("P3_k1", "P3_N1", "P3_V", alturaTercerPiso);
-        agregarPared("P3_l1", "P3_V", "P3_W", alturaTercerPiso);
+        agregarPared("P3_f1", "P3_Z",  "P3_A1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_g1", "P3_A1", "P3_E1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_h1", "P3_Z",  "P3_W",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_i1", "P3_W",  "P3_H1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_j1", "P3_H1", "P3_N1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_k1", "P3_N1", "P3_V",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_l1", "P3_V",  "P3_W",  alturaBase3, alturaSemiMuro);
 
-        agregarPared("P3_m1", "P3_G1", "P3_H1", alturaTercerPiso);
-        agregarPared("P3_n1", "P3_G1", "P3_F1", alturaTercerPiso);
-        agregarPared("P3_p1", "P3_F1", "P3_A1", alturaTercerPiso);
+        agregarPared("P3_m1", "P3_G1", "P3_H1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_n1", "P3_G1", "P3_F1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_p1", "P3_F1", "P3_A1", alturaBase3, alturaSemiMuro);
 
-        agregarPared("P3_q1", "P3_R1", "P3_O1", alturaTercerPiso);
-        agregarPared("P3_r1", "P3_O1", "P3_P1", alturaTercerPiso);
-        agregarPared("P3_s1", "P3_P1", "P3_Q1", alturaTercerPiso);
-        agregarPared("P3_t1", "P3_Q1", "P3_R1", alturaTercerPiso);
+        agregarPared("P3_q1", "P3_R1", "P3_O1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_r1", "P3_O1", "P3_P1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_s1", "P3_P1", "P3_Q1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_t1", "P3_Q1", "P3_R1", alturaBase3, alturaSemiMuro);
 
-        agregarPared("P3_a1", "P3_N", "P3_O", alturaTercerPiso);
-        agregarPared("P3_b1", "P3_O", "P3_F", alturaTercerPiso);
-        agregarPared("P3_c1", "P3_F", "P3_C", alturaTercerPiso); // Restaurada para colisión invisible
-        // agregarPared("P3_d1", "P3_D", "P3_H", alturaTercerPiso);
-        agregarPared("P3_e1", "P3_G", "P3_F", alturaTercerPiso);
+        // P3_a1: N->O = PARED COMPLETA
+        agregarPared("P3_a1", "P3_N",  "P3_O",  alturaBase3);
+        // P3_b1: O->F = PARED COMPLETA
+        agregarPared("P3_b1", "P3_O",  "P3_F",  alturaBase3);
+        // P3_c1: F->C = PARED COMPLETA
+        agregarPared("P3_c1", "P3_F",  "P3_C",  alturaBase3);
+        // P3_e1: G->F = PARED COMPLETA
+        agregarPared("P3_e1", "P3_G",  "P3_F",  alturaBase3);
 
-        agregarPared("P3_f2", "P3_O", "P3_P", alturaTercerPiso);
-        agregarPared("P3_g2", "P3_P", "P3_Q", alturaTercerPiso);
-        agregarPared("P3_h2", "P3_Q", "P3_R", alturaTercerPiso);
-        agregarPared("P3_i2", "P3_R", "P3_S", alturaTercerPiso);
-        agregarPared("P3_j2", "P3_S", "P3_T", alturaTercerPiso);
-        agregarPared("P3_k2", "P3_T", "P3_U", alturaTercerPiso);
-        agregarPared("P3_l2", "P3_U", "P3_V", alturaTercerPiso);
+        agregarPared("P3_f2", "P3_O",  "P3_P",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_g2", "P3_P",  "P3_Q",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_h2", "P3_Q",  "P3_R",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_i2", "P3_R",  "P3_S",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_j2", "P3_S",  "P3_T",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_k2", "P3_T",  "P3_U",  alturaBase3, alturaSemiMuro);
+        agregarPared("P3_l2", "P3_U",  "P3_V",  alturaBase3, alturaSemiMuro);
 
         // ==========================================================
         // DINTEL Cuarto (Tercer Piso)
         // ==========================================================
-        // 9.1 es la altura base (6.4 del piso + 2.7 de la puerta) y 0.5 es el alto del
-        // dintel
         agregarPared("Dintel 3er Piso", "P3_E", "P3_D", 9.1, 0.5);
     }
 
