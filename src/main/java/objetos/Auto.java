@@ -70,10 +70,10 @@ public class Auto {
         // Base principal del auto
         Cubo.dibujar(
                 0f,
-                0.30f,
+                escalar(0.30f),
                 0f,
                 escalar(1.38f),
-                0.35f,
+                escalar(0.35f),
                 escalar(3.55f),
                 0.78f,
                 0.05f,
@@ -82,10 +82,10 @@ public class Auto {
         // Franja lateral izquierda
         Cubo.dibujar(
                 -escalar(0.60f),
-                0.42f,
+                escalar(0.42f),
                 0f,
                 escalar(0.12f),
-                0.20f,
+                escalar(0.20f),
                 escalar(3.20f),
                 0.72f,
                 0.04f,
@@ -94,10 +94,10 @@ public class Auto {
         // Franja lateral derecha
         Cubo.dibujar(
                 escalar(0.60f),
-                0.42f,
+                escalar(0.42f),
                 0f,
                 escalar(0.12f),
-                0.20f,
+                escalar(0.20f),
                 escalar(3.20f),
                 0.72f,
                 0.04f,
@@ -111,10 +111,10 @@ public class Auto {
         // Cabina principal
         Cubo.dibujar(
                 0f,
-                0.78f,
+                escalar(0.78f),
                 0.15f,
                 escalar(1.10f),
-                0.45f,
+                escalar(0.45f),
                 escalar(1.55f),
                 0.82f,
                 0.08f,
@@ -123,10 +123,10 @@ public class Auto {
         // Techo
         Cubo.dibujar(
                 0f,
-                1.08f,
+                escalar(1.08f),
                 0.15f,
                 escalar(0.92f),
-                0.14f,
+                escalar(0.14f),
                 escalar(1.05f),
                 0.70f,
                 0.05f,
@@ -140,10 +140,10 @@ public class Auto {
         // Cofre / frente del auto
         Cubo.dibujar(
                 0f,
-                0.52f,
+                escalar(0.52f),
                 -escalar(1.10f),
                 escalar(1.24f),
-                0.16f,
+                escalar(0.16f),
                 escalar(1.05f),
                 0.82f,
                 0.08f,
@@ -152,10 +152,10 @@ public class Auto {
         // Cajuela / parte trasera
         Cubo.dibujar(
                 0f,
-                0.56f,
+                escalar(0.56f),
                 escalar(1.20f),
                 escalar(1.20f),
-                0.18f,
+                escalar(0.18f),
                 escalar(0.88f),
                 0.80f,
                 0.06f,
@@ -164,10 +164,10 @@ public class Auto {
         // Defensa delantera
         Cubo.dibujar(
                 0f,
-                0.18f,
+                escalar(0.18f),
                 -escalar(1.72f),
                 escalar(1.22f),
-                0.14f,
+                escalar(0.14f),
                 escalar(0.18f),
                 0.10f,
                 0.10f,
@@ -176,10 +176,10 @@ public class Auto {
         // Defensa trasera
         Cubo.dibujar(
                 0f,
-                0.18f,
+                escalar(0.18f),
                 escalar(1.72f),
                 escalar(1.18f),
-                0.14f,
+                escalar(0.14f),
                 escalar(0.18f),
                 0.12f,
                 0.12f,
@@ -193,10 +193,10 @@ public class Auto {
         // Ventana lateral izquierda
         Cubo.dibujar(
                 -escalar(0.38f),
-                0.92f,
+                escalar(0.92f),
                 0.18f,
                 escalar(0.20f),
-                0.20f,
+                escalar(0.20f),
                 escalar(1.05f),
                 0.18f,
                 0.30f,
@@ -205,10 +205,10 @@ public class Auto {
         // Ventana lateral derecha
         Cubo.dibujar(
                 escalar(0.38f),
-                0.92f,
+                escalar(0.92f),
                 0.18f,
                 escalar(0.20f),
-                0.20f,
+                escalar(0.20f),
                 escalar(1.05f),
                 0.18f,
                 0.30f,
@@ -217,10 +217,10 @@ public class Auto {
         // Ventana trasera
         Cubo.dibujar(
                 0f,
-                0.90f,
+                escalar(0.90f),
                 escalar(0.88f),
                 escalar(0.76f),
-                0.18f,
+                escalar(0.18f),
                 escalar(0.28f),
                 0.18f,
                 0.30f,
@@ -234,10 +234,10 @@ public class Auto {
         // Parabrisas frontal
         Cubo.dibujar(
                 0f,
-                0.88f,
+                escalar(0.88f),
                 -escalar(0.58f),
                 escalar(0.78f),
-                0.20f,
+                escalar(0.20f),
                 escalar(0.30f),
                 0.18f,
                 0.30f,
@@ -246,10 +246,10 @@ public class Auto {
         // Marco del parabrisas
         Cubo.dibujar(
                 0f,
-                0.90f,
+                escalar(0.90f),
                 -escalar(0.58f),
                 escalar(0.88f),
-                0.05f,
+                escalar(0.05f),
                 escalar(0.36f),
                 0.10f,
                 0.10f,
@@ -280,10 +280,10 @@ public class Auto {
         // Llanta exterior
         Cubo.dibujar(
                 xLocal,
-                0.20f,
+                escalar(0.20f),
                 zLocal,
                 escalar(0.22f),
-                0.40f,
+                escalar(0.40f),
                 escalar(0.52f),
                 0.04f,
                 0.04f,
@@ -292,10 +292,10 @@ public class Auto {
         // Rin
         Cubo.dibujar(
                 xLocal,
-                0.20f,
+                escalar(0.20f),
                 zLocal,
                 escalar(0.12f),
-                0.18f,
+                escalar(0.18f),
                 escalar(0.28f),
                 0.65f,
                 0.65f,
@@ -309,10 +309,10 @@ public class Auto {
         // Faros delanteros
         Cubo.dibujar(
                 -escalar(0.36f),
-                0.40f,
+                escalar(0.40f),
                 -escalar(1.55f),
                 escalar(0.20f),
-                0.10f,
+                escalar(0.10f),
                 escalar(0.08f),
                 0.92f,
                 0.92f,
@@ -320,10 +320,10 @@ public class Auto {
 
         Cubo.dibujar(
                 escalar(0.36f),
-                0.40f,
+                escalar(0.40f),
                 -escalar(1.55f),
                 escalar(0.20f),
-                0.10f,
+                escalar(0.10f),
                 escalar(0.08f),
                 0.92f,
                 0.92f,
@@ -332,10 +332,10 @@ public class Auto {
         // Parrilla frontal
         Cubo.dibujar(
                 0f,
-                0.34f,
+                escalar(0.34f),
                 -escalar(1.50f),
                 escalar(0.40f),
-                0.10f,
+                escalar(0.10f),
                 escalar(0.06f),
                 0.10f,
                 0.10f,
@@ -344,10 +344,10 @@ public class Auto {
         // Faros traseros
         Cubo.dibujar(
                 -escalar(0.34f),
-                0.42f,
+                escalar(0.42f),
                 escalar(1.57f),
                 escalar(0.18f),
-                0.08f,
+                escalar(0.08f),
                 escalar(0.08f),
                 0.85f,
                 0.12f,
@@ -355,10 +355,10 @@ public class Auto {
 
         Cubo.dibujar(
                 escalar(0.34f),
-                0.42f,
+                escalar(0.42f),
                 escalar(1.57f),
                 escalar(0.18f),
-                0.08f,
+                escalar(0.08f),
                 escalar(0.08f),
                 0.85f,
                 0.12f,
@@ -367,10 +367,10 @@ public class Auto {
         // Espejo izquierdo
         Cubo.dibujar(
                 -escalar(0.73f),
-                0.72f,
+                escalar(0.72f),
                 -escalar(0.15f),
                 escalar(0.08f),
-                0.10f,
+                escalar(0.10f),
                 escalar(0.16f),
                 0.10f,
                 0.10f,
@@ -379,10 +379,10 @@ public class Auto {
         // Espejo derecho
         Cubo.dibujar(
                 escalar(0.73f),
-                0.72f,
+                escalar(0.72f),
                 -escalar(0.15f),
                 escalar(0.08f),
-                0.10f,
+                escalar(0.10f),
                 escalar(0.16f),
                 0.10f,
                 0.10f,
@@ -391,10 +391,10 @@ public class Auto {
         // Placa delantera
         Cubo.dibujar(
                 0f,
-                0.22f,
+                escalar(0.22f),
                 -escalar(1.61f),
                 escalar(0.24f),
-                0.08f,
+                escalar(0.08f),
                 escalar(0.03f),
                 0.96f,
                 0.96f,
@@ -403,10 +403,10 @@ public class Auto {
         // Placa trasera
         Cubo.dibujar(
                 0f,
-                0.22f,
+                escalar(0.22f),
                 escalar(1.61f),
                 escalar(0.24f),
-                0.08f,
+                escalar(0.08f),
                 escalar(0.03f),
                 0.96f,
                 0.96f,
