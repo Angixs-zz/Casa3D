@@ -776,11 +776,8 @@ public class VentanaOpenGL {
                 dibujarLosaSegundoPisoPorCoordenadas(3.5f, 3.5f, 4.9f, 7.9f, altura);
 
                 // Pasillo / conexión hacia zona media
-                dibujarLosaSegundoPisoPorCoordenadas(3.8f, 7.9f, 4.9f, 9.5f, altura); // Se eliminó X=0.1 a 3.8
-                // dibujarLosaSegundoPisoPorCoordenadas(0.1f, 9.5f, 3.9f, 13.9f, altura); (Original)
-                // Se eliminó la sección G1, F1, E1, D1 (X=0.8 a 3.8, Z=9.5 a 10.3)
-                dibujarLosaSegundoPisoPorCoordenadas(0.1f, 9.5f, 0.8f, 10.3f, altura); // Pasillo pegado a W-Z
-                dibujarLosaSegundoPisoPorCoordenadas(0.1f, 10.3f, 3.9f, 13.9f, altura); // Resto del pasillo
+                dibujarLosaSegundoPisoPorCoordenadas(0.1f, 7.9f, 4.9f, 9.5f, altura);
+                dibujarLosaSegundoPisoPorCoordenadas(0.1f, 9.5f, 3.9f, 13.9f, altura);
 
                 // Closet / habitación entre E, H, T, S, R, L1
                 // Esta es la zona que dijiste que faltaba piso.
