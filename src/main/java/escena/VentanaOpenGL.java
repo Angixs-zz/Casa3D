@@ -317,6 +317,19 @@ public class VentanaOpenGL {
                                                 false, -80f,
                                                 0.0f));
 
+                // ==========================================================
+                // PUERTA Balcon Recamara Principal
+                // ==========================================================
+                /*
+                 * float puertaBalconX = convertirXGeoAOpenGL(1.2f);
+                 * float puertaBalconZ = convertirZGeoAOpenGL(1.6f);
+                 * Puerta puertaBalcon = new Puerta("Puerta Balcon", puertaBalconX, 3.2f,
+                 * puertaBalconZ, 1.1f * Constantes.ESCALA_CASA, alto,
+                 * true, -90f, 180.0f);
+                 * puertaBalcon.interactuar(); // Abrirla por defecto
+                 */
+                // casa.agregarPuerta(puertaBalcon);
+
                 camaraLibre = new CamaraLibre();
                 girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
 

@@ -92,6 +92,26 @@ public class Casa {
         }
     }
 
+    private void agregarVentanaPiso2(String nombre, String puntoInicio, String puntoFin) {
+        Punto2D inicio = buscarPunto(puntoInicio);
+        Punto2D fin = buscarPunto(puntoFin);
+        if (inicio != null && fin != null) {
+            Pared ventana = new Pared(nombre, inicio, fin, alturaPared, grosorPared, 3.2);
+            ventana.setTipo(Pared.TIPO_VENTANA);
+            paredes.add(ventana);
+        }
+    }
+
+    private void agregarVentanalPiso2(String nombre, String puntoInicio, String puntoFin) {
+        Punto2D inicio = buscarPunto(puntoInicio);
+        Punto2D fin = buscarPunto(puntoFin);
+        if (inicio != null && fin != null) {
+            Pared ventanal = new Pared(nombre, inicio, fin, alturaPared, grosorPared, 3.2);
+            ventanal.setTipo(Pared.TIPO_VENTANAL);
+            paredes.add(ventanal);
+        }
+    }
+
     private void crearPuntosPrimeraPlanta() {
         agregarPunto("C", 4.8, 1.6);
         agregarPunto("D", 4.8, 0.2);
@@ -251,6 +271,7 @@ public class Casa {
         agregarPunto("P2_S", 4.9, 5.9);
         agregarPunto("P2_T", 7.9, 5.9);
         agregarPunto("P2_U", 7.9, 4.3);
+        agregarPunto("P2_U_aux", 7.1, 4.3);
         agregarPunto("P2_V", 6.6, 4.3);
         agregarPunto("P2_W", 6.6, 3.5);
         agregarPunto("P2_Z", 4.9, 3.5);
@@ -258,6 +279,7 @@ public class Casa {
         agregarPunto("P2_A1", 4.9, 4.3);
         agregarPunto("P2_B1", 6.6, 1.6);
         agregarPunto("P2_C1", 2.6, 1.6);
+        agregarPunto("P2_Q2_aux", 2.3, 1.6);
         agregarPunto("P2_D1", 5.9, 1.6);
         agregarPunto("P2_E1", 5.9, 0.2);
         agregarPunto("P2_F1", 7.9, 0.2);
@@ -269,6 +291,7 @@ public class Casa {
         agregarPunto("P2_L1", 4.9, 7.0);
         agregarPunto("P2_M1", 3.9, 9.5);
         agregarPunto("P2_N1", 4.9, 13.9);
+        agregarPunto("P2_N4", 2.8, 9.5);
         agregarPunto("P2_O1", 7.9, 13.9);
         agregarPunto("P2_P1", 5.8, 13.9);
         agregarPunto("P2_Q1", 7.3, 13.9);
@@ -309,7 +332,7 @@ public class Casa {
 
         // agregarPared("P2_f", "P2_I", "P2_J", alturaSegundoPiso);
         agregarPared("P2_g", "P2_J", "P2_Q2", alturaSegundoPiso);
-        agregarPared("P2_h", "P2_Q2", "P2_C1", alturaSegundoPiso);
+        agregarVentanalPiso2("Ventanal Q2_aux-C1", "P2_Q2_aux", "P2_C1"); // Ventanal con puerta
         agregarPared("P2_i", "P2_C1", "P2_H1", alturaSegundoPiso);
         // agregarPared("P2_j", "P2_H1", "P2_I1", alturaSegundoPiso);
         // agregarPared("P2_k", "P2_I1", "P2_I", alturaSegundoPiso);
@@ -322,13 +345,14 @@ public class Casa {
         agregarPared("P2_r", "P2_B1", "P2_D1", alturaSegundoPiso);
 
         agregarPared("P2_s", "P2_B1", "P2_R2", alturaSegundoPiso);
-        agregarPared("P2_t", "P2_R2", "P2_W", alturaSegundoPiso);
+        agregarVentanaPiso2("Ventana R2-W", "P2_R2", "P2_W"); // Ventana W a R2
         agregarPared("P2_a", "P2_W", "P2_Z", alturaSegundoPiso);
         agregarPared("P2_b", "P2_Z", "P2_A1", alturaSegundoPiso);
 
         agregarPared("P2_c", "P2_W", "P2_S2", alturaSegundoPiso);
         agregarPared("P2_d", "P2_V", "P2_T2", alturaSegundoPiso);
-        agregarPared("P2_e", "P2_V", "P2_U", alturaSegundoPiso);
+        agregarPared("P2_e", "P2_V", "P2_U_aux", alturaSegundoPiso);
+        agregarVentanaPiso2("Ventana U_aux-U", "P2_U_aux", "P2_U"); // Ventana de U_aux a U
         agregarPared("P2_f1", "P2_T", "P2_U", alturaSegundoPiso);
         agregarPared("P2_g1", "P2_T", "P2_S", alturaSegundoPiso);
         agregarPared("P2_h1", "P2_S", "P2_R", alturaSegundoPiso);
@@ -337,7 +361,7 @@ public class Casa {
         agregarPared("P2_j1", "P2_J1", "P2_N", alturaSegundoPiso);
         agregarPared("P2_k1", "P2_N", "P2_O", alturaSegundoPiso);
         agregarPared("P2_l1", "P2_O", "P2_P", alturaSegundoPiso);
-        agregarPared("P2_m1", "P2_P", "P2_Q", alturaSegundoPiso);
+        agregarVentanaPiso2("Ventana P-Q", "P2_P", "P2_Q"); // Ventana P a Q (p6 a q6)
         agregarPared("P2_n1", "P2_J1", "P2_K", alturaSegundoPiso);
         agregarPared("P2_p1", "P2_K1", "P2_M", alturaSegundoPiso);
 
@@ -353,8 +377,9 @@ public class Casa {
         agregarPared("P2_b1", "P2_O1", "P2_Q1", alturaSegundoPiso);
         agregarPared("P2_c1", "P2_P1", "P2_N1", alturaSegundoPiso);
 
-        // Esta sí existe: L con M1
-        agregarPared("P2_e1", "P2_L", "P2_M1", alturaSegundoPiso);
+        // Esta es L con N4
+        agregarPared("P2_e1", "P2_L", "P2_N4", alturaSegundoPiso);
+        agregarVentanalPiso2("Ventanal M1-N4", "P2_M1", "P2_N4"); // Ventanal M1 a N4
 
         agregarPared("P2_f2", "P2_T1", "P2_S1", alturaSegundoPiso);
         agregarPared("P2_g2", "P2_S1", "P2_Z1", alturaSegundoPiso);
@@ -380,18 +405,21 @@ public class Casa {
         agregarPared("P2_e2", "P2_G2", "P2_F2", alturaSegundoPiso);
         agregarPared("P2_f3", "P2_H2", "P2_N2", alturaSegundoPiso);
         agregarPared("P2_g3", "P2_N2", "P2_O2", alturaSegundoPiso);
-        agregarPared("P2_h3", "P2_O2", "P2_P2", alturaSegundoPiso);
-        agregarPared("P2_i3", "P2_P2", "P2_C2", alturaSegundoPiso);
-        agregarPared("P2_j3", "P2_O2", "P2_M2", alturaSegundoPiso);
-        agregarPared("P2_k3", "P2_J2", "P2_I2", alturaSegundoPiso);
+        agregarPared("Semimuro O2-P2", "P2_O2", "P2_P2", alturaSegundoPiso, 1.0); // Semimuro
+        agregarPared("Semimuro P2-C2", "P2_P2", "P2_C2", alturaSegundoPiso, 1.0); // Semimuro
+        agregarVentanaPiso2("Ventana O2-M2", "P2_O2", "P2_M2"); // Ventana O2 a M2 (q3 a m2)
+        agregarVentanaPiso2("Ventana J2-I2", "P2_J2", "P2_I2"); // Ventana J2 a I2
 
-        agregarPared("P2_l3", "P2_P1", "P2_Q1", alturaSegundoPiso);
+        agregarVentanaPiso2("Ventana P1-Q1", "P2_P1", "P2_Q1"); // Ventana P1 a Q1
         agregarPared("P2_d1", "P2_C", "P2_G", alturaSegundoPiso);
         // agregarPared("P2_m3", "P2_F", "P2_D", alturaSegundoPiso);
-        agregarPared("P2_n3", "P2_K", "P2_K1", alturaSegundoPiso);
+        agregarVentanaPiso2("Ventana K-K1", "P2_K", "P2_K1"); // Ventana de K a K1
         agregarPared("P2_p3", "P2_S2", "P2_T2", alturaSegundoPiso);
-        agregarPared("P2_q3", "P2_K", "P2_L", alturaSegundoPiso);
+        agregarPared("Semimuro K-L", "P2_K", "P2_L", alturaSegundoPiso, 1.0); // Semimuro pozo de luz
         agregarPared("P2_r3", "P2_M", "P2_V2", alturaSegundoPiso);
+
+        // Dintel Puerta Balcon
+        agregarPared("Dintel Puerta Balcon", "P2_Q2", "P2_Q2_aux", 5.9, 0.5);
 
         // Dintel Pozo Luz
         agregarPared("Dintel Pozo LUz", "P2_V2", "P2_M1", 5.9, 0.5);

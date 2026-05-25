@@ -339,10 +339,10 @@ public class BalconP2 {
     private static void dibujarBarandalBalcon() {
         // Segmento J -> I: (0.1, 1.6) a (0.1, 0.2)
         dibujarTramoBarandal(0.1f, 1.6f, 0.1f, 0.2f);
-        
+
         // Segmento I -> I1: (0.1, 0.2) a (4.8, 0.2)
         dibujarTramoBarandal(0.1f, 0.2f, 4.8f, 0.2f);
-        
+
         // Segmento I1 -> H1: (4.8, 0.2) a (4.8, 1.6)
         dibujarTramoBarandal(4.8f, 0.2f, 4.8f, 1.6f);
     }
@@ -352,47 +352,51 @@ public class BalconP2 {
         float maxX = Math.max(x1Geo, x2Geo);
         float minZ = Math.min(z1Geo, z2Geo);
         float maxZ = Math.max(z1Geo, z2Geo);
-        
+
         boolean esVertical = (Math.abs(maxX - minX) < 0.01f);
-        
+
         float grosorMuro = 0.08f;
         float grosorCristal = 0.02f;
         float grosorPasamanos = 0.10f;
-        
+
         // Muro Inferior
         float muroMinX = esVertical ? minX - grosorMuro / 2f : minX;
         float muroMaxX = esVertical ? maxX + grosorMuro / 2f : maxX;
         float muroMinZ = !esVertical ? minZ - grosorMuro / 2f : minZ;
         float muroMaxZ = !esVertical ? maxZ + grosorMuro / 2f : maxZ;
-        
+
         dibujarCuboPorGeo(muroMinX, muroMinZ, muroMaxX, muroMaxZ, Y, 0.50f, 0.90f, 0.90f, 0.92f); // Pared abajo
-        
+
         // Cristal / Hueco del barandal
         float cristalMinX = esVertical ? minX - grosorCristal / 2f : minX;
         float cristalMaxX = esVertical ? maxX + grosorCristal / 2f : maxX;
         float cristalMinZ = !esVertical ? minZ - grosorCristal / 2f : minZ;
         float cristalMaxZ = !esVertical ? maxZ + grosorCristal / 2f : maxZ;
-        
-        dibujarCuboPorGeo(cristalMinX, cristalMinZ, cristalMaxX, cristalMaxZ, Y + 0.50f, 0.60f, 0.55f, 0.75f, 0.85f); // Cristal translúcido
-        
+
+        dibujarCuboPorGeo(cristalMinX, cristalMinZ, cristalMaxX, cristalMaxZ, Y + 0.50f, 0.60f, 0.55f, 0.75f, 0.85f); // Cristal
+                                                                                                                      // translúcido
+
         // Pasamanos Superior
         float pasaMinX = esVertical ? minX - grosorPasamanos / 2f : minX;
         float pasaMaxX = esVertical ? maxX + grosorPasamanos / 2f : maxX;
         float pasaMinZ = !esVertical ? minZ - grosorPasamanos / 2f : minZ;
         float pasaMaxZ = !esVertical ? maxZ + grosorPasamanos / 2f : maxZ;
-        
-        dibujarCuboPorGeo(pasaMinX, pasaMinZ, pasaMaxX, pasaMaxZ, Y + 1.10f, 0.06f, 0.12f, 0.12f, 0.12f); // Barandal negro metálico
+
+        dibujarCuboPorGeo(pasaMinX, pasaMinZ, pasaMaxX, pasaMaxZ, Y + 1.10f, 0.06f, 0.12f, 0.12f, 0.12f); // Barandal
+                                                                                                          // negro
+                                                                                                          // metálico
 
         // Postes metálicos de soporte cada ~0.8m
         float largoGeo = (float) Math.sqrt(Math.pow(maxX - minX, 2) + Math.pow(maxZ - minZ, 2));
         int numPostes = (int) (largoGeo / 0.8f);
-        if (numPostes < 1) numPostes = 1;
-        
+        if (numPostes < 1)
+            numPostes = 1;
+
         for (int i = 0; i <= numPostes; i++) {
             float frac = (float) i / numPostes;
             float px = minX + (maxX - minX) * frac;
             float pz = minZ + (maxZ - minZ) * frac;
-            
+
             dibujarCuboPorGeo(px - 0.02f, pz - 0.02f, px + 0.02f, pz + 0.02f, Y + 0.50f, 0.60f, 0.10f, 0.10f, 0.10f);
         }
     }
