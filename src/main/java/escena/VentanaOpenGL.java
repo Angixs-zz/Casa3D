@@ -36,6 +36,10 @@ import piso2.BanoP2;
 import piso2.RecamaraPrincipalP2;
 import piso2.BalconP2;
 import piso2.Piso3;
+import piso3.PergolaBancoP3;
+import piso3.TerrazaP3;
+import piso3.PergolaBancoP3;
+import piso3.ComedorP3;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -743,6 +747,7 @@ public class VentanaOpenGL {
 
                 if (nivelVisible >= 3) {
                         dibujarLosaTercerPiso();
+                        dibujarLosaCuartoPiso(); // Techo del piso 3
                 }
         }
 
@@ -771,8 +776,11 @@ public class VentanaOpenGL {
                 dibujarLosaSegundoPisoPorCoordenadas(3.5f, 3.5f, 4.9f, 7.9f, altura);
 
                 // Pasillo / conexión hacia zona media
-                dibujarLosaSegundoPisoPorCoordenadas(0.1f, 7.9f, 4.9f, 9.5f, altura);
-                dibujarLosaSegundoPisoPorCoordenadas(0.1f, 9.5f, 3.9f, 13.9f, altura);
+                dibujarLosaSegundoPisoPorCoordenadas(3.8f, 7.9f, 4.9f, 9.5f, altura); // Se eliminó X=0.1 a 3.8
+                // dibujarLosaSegundoPisoPorCoordenadas(0.1f, 9.5f, 3.9f, 13.9f, altura); (Original)
+                // Se eliminó la sección G1, F1, E1, D1 (X=0.8 a 3.8, Z=9.5 a 10.3)
+                dibujarLosaSegundoPisoPorCoordenadas(0.1f, 9.5f, 0.8f, 10.3f, altura); // Pasillo pegado a W-Z
+                dibujarLosaSegundoPisoPorCoordenadas(0.1f, 10.3f, 3.9f, 13.9f, altura); // Resto del pasillo
 
                 // Closet / habitación entre E, H, T, S, R, L1
                 // Esta es la zona que dijiste que faltaba piso.
@@ -831,7 +839,7 @@ public class VentanaOpenGL {
                 dibujarLosaPorCoordenadas(0.1f, 2.6f, 6.6f, 5.0f, altura);
 
                 // Parte central izquierda
-                dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 9.5f, altura);
+                dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 7.9f, altura); // Se eliminó de Z=7.9 a 9.5 (Z, D1, E1, A1)
                 dibujarLosaPorCoordenadas(0.1f, 9.5f, 3.8f, 14.0f, altura);
 
                 // Parte izquierda superior
@@ -862,6 +870,16 @@ public class VentanaOpenGL {
                 dibujarLosaPorCoordenadas(0.1f, 4.3f, 4.9f, 7.0f, altura);
                 // pasilo de arriba
                 dibujarLosaPorCoordenadas(3.8f, 7.0f, 4.9f, 13.9f, altura);
+        }
+
+        private void dibujarLosaCuartoPiso() {
+                float altura = 9.6f; // 3.2 * 3
+
+                /*
+                 * TECHO DEL TERCER PISO (Sección C, F, G, E)
+                 * C(4.9, 12.0), F(7.9, 12.0), G(7.9, 9.5), E(4.9, 9.5)
+                 */
+                dibujarLosaPorCoordenadas(4.9f, 9.5f, 7.9f, 12.0f, altura);
         }
 
         private void dibujarLosaPorCoordenadas(
@@ -1179,6 +1197,9 @@ public class VentanaOpenGL {
                 }
                 if (nivelVisible >= 3) {
                         Piso3.dibujar();
+                        TerrazaP3.dibujar();
+                        PergolaBancoP3.dibujar();
+                        ComedorP3.dibujar();
                 }
         }
 

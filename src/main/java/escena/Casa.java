@@ -448,7 +448,7 @@ public class Casa {
 
     private void crearPuntosTerceraPlanta() {
         agregarPunto("P3_C", 4.9, 12.0);
-        agregarPunto("P3_D", 4.9, 10.7);
+        agregarPunto("P3_D", 4.9, 10.6);
         agregarPunto("P3_E", 4.9, 9.5);
         agregarPunto("P3_F", 7.9, 12.0);
         agregarPunto("P3_G", 7.9, 9.5);
@@ -508,7 +508,7 @@ public class Casa {
         agregarPared("P3_m", "P3_M1", "P3_K1", alturaBase3, alturaSemiMuro);
         agregarPared("P3_n", "P3_K1", "P3_J1", alturaBase3, alturaSemiMuro);
         agregarPared("P3_p", "P3_J1", "P3_I1", alturaBase3, alturaSemiMuro);
-        agregarPared("P3_q", "P3_I1", "P3_M1", alturaBase3, alturaSemiMuro);
+        // agregarPared("P3_q", "P3_I1", "P3_M1", alturaBase3, alturaSemiMuro);
 
         agregarPared("P3_r", "P3_L", "P3_K", alturaBase3, alturaSemiMuro);
         agregarPared("P3_s", "P3_L1", "P3_M", alturaBase3, 0.5); // 1/4 muro (jardin)
@@ -545,6 +545,9 @@ public class Casa {
         agregarPared("P3_c1", "P3_F", "P3_C", alturaBase3);
         // P3_e1: G->F = PARED COMPLETA
         agregarPared("P3_e1", "P3_G", "P3_F", alturaBase3);
+
+        agregarPared("P3_C1", "P3_F", "P3_C", alturaBase3);
+        agregarPared("P3_nuevo1", "P3_D", "P3_C", alturaBase3);
 
         agregarPared("P3_f2", "P3_O", "P3_P", alturaBase3, alturaSemiMuro);
         agregarPared("P3_g2", "P3_P", "P3_Q", alturaBase3, alturaSemiMuro);
