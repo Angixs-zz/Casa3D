@@ -35,6 +35,7 @@ import piso2.ClosetP2;
 import piso2.BanoP2;
 import piso2.RecamaraPrincipalP2;
 import piso2.BalconP2;
+import piso2.Piso3;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -1175,6 +1176,9 @@ public class VentanaOpenGL {
                         BanoP2.dibujar();
                         RecamaraPrincipalP2.dibujar();
                         BalconP2.dibujar();
+                }
+                if (nivelVisible >= 3) {
+                        Piso3.dibujar();
                 }
         }
 
