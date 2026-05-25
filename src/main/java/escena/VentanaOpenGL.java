@@ -24,7 +24,12 @@ import objetos.PlantasPrimerPiso;
 import objetos.Auto;
 import piso2.Recamara2p2;
 import piso2.BanoPrincipalp2;
+import piso2.LavanderiaP2;
 import piso2.Recamara3P2;
+import piso2.LavanderiaP2;
+import piso2.SalaEstarP2;
+import piso2.PozoLuzP2;
+import piso2.Recamara4P2;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -1144,6 +1149,10 @@ public class VentanaOpenGL {
                         Recamara2p2.dibujar();
                         BanoPrincipalp2.dibujar();
                         Recamara3P2.dibujar();
+                        LavanderiaP2.dibujar();
+                        SalaEstarP2.dibujar();
+                        PozoLuzP2.dibujar();
+                        Recamara4P2.dibujar();
                 }
         }
 
