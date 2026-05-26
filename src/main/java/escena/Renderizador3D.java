@@ -46,6 +46,9 @@ public class Renderizador3D extends JPanel implements KeyListener {
         ArrayList<Pared> paredes = casa.getParedes();
 
         for (Pared pared : paredes) {
+            if (pared instanceof objetos.ParedInvisible) {
+                continue;
+            }
             Punto2D a = pared.getInicio();
             Punto2D b = pared.getFin();
 
@@ -166,3 +169,4 @@ private int[] proyectar(double x, double y, double z) {
     public void keyTyped(KeyEvent e) {
     }
 }
+

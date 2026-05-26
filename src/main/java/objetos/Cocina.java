@@ -7,6 +7,12 @@ import static org.lwjgl.opengl.GL11.*;
 public class Cocina {
 
     private static final float Y = Constantes.ALTURA_PISO_1;
+    public static int texturaCocinaAzul = 0;
+    public static int texturaCocinaMadera = 0;
+    public static int texturaMaderaParaCocina = 0;
+    public static int texturaRefri = 0;
+    public static int texturaSillaBlanca = 0;
+    public static int texturaSillaGris = 0;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -139,14 +145,18 @@ public class Cocina {
          * Soporte vertical de madera estilo rústico (como la foto)
          * Pegado a la pared.
          */
-        Cubo.dibujar(
-                0f,
-                1.30f,
-                0f,
-                escalar(0.25f), // Ancho de la tabla (Z visual)
-                1.30f,          // Alto de la tabla
-                escalar(0.05f), // Grosor (despegue de la pared)
-                0.35f, 0.18f, 0.08f); // Madera oscura rústica
+        if (texturaCocinaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 1.30f, 0f, escalar(0.25f), 1.30f, escalar(0.05f), texturaCocinaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    1.30f,
+                    0f,
+                    escalar(0.25f), // Ancho de la tabla (Z visual)
+                    1.30f,          // Alto de la tabla
+                    escalar(0.05f), // Grosor (despegue de la pared)
+                    0.35f, 0.18f, 0.08f); // Madera oscura rústica
+        }
 
         // Botellas alternando direcciones (cuello izq, cuello der)
         float startY = 0.75f;
@@ -323,16 +333,20 @@ public class Cocina {
         glTranslatef(x, Y, z);
 
         // Cubierta de la mesa
-        Cubo.dibujar(
-                0f,
-                0.78f,
-                0f,
-                anchoMesa,
-                0.10f,
-                fondoMesa,
-                0.46f,
-                0.28f,
-                0.14f);
+        if (texturaMaderaParaCocina != 0) {
+            Cubo.dibujarConTextura(0f, 0.78f, 0f, anchoMesa, 0.10f, fondoMesa, texturaMaderaParaCocina);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.78f,
+                    0f,
+                    anchoMesa,
+                    0.10f,
+                    fondoMesa,
+                    0.46f,
+                    0.28f,
+                    0.14f);
+        }
 
         // Base central de la mesa
         Cubo.dibujar(
@@ -389,28 +403,36 @@ public class Cocina {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Asiento
-        Cubo.dibujar(
-                0f,
-                0.45f,
-                0f,
-                escalar(0.28f),
-                0.08f,
-                escalar(0.28f),
-                0.30f,
-                0.18f,
-                0.10f);
+        if (texturaSillaGris != 0) {
+            Cubo.dibujarConTextura(0f, 0.45f, 0f, escalar(0.28f), 0.08f, escalar(0.28f), texturaSillaGris);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.45f,
+                    0f,
+                    escalar(0.28f),
+                    0.08f,
+                    escalar(0.28f),
+                    0.30f,
+                    0.18f,
+                    0.10f);
+        }
 
         // Respaldo
-        Cubo.dibujar(
-                0f,
-                0.80f,
-                escalar(0.12f),
-                escalar(0.28f),
-                0.55f,
-                escalar(0.08f),
-                0.26f,
-                0.16f,
-                0.09f);
+        if (texturaSillaGris != 0) {
+            Cubo.dibujarConTextura(0f, 0.80f, escalar(0.12f), escalar(0.28f), 0.55f, escalar(0.08f), texturaSillaGris);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.80f,
+                    escalar(0.12f),
+                    escalar(0.28f),
+                    0.55f,
+                    escalar(0.08f),
+                    0.26f,
+                    0.16f,
+                    0.09f);
+        }
 
         // Patas
         Cubo.dibujar(-escalar(0.10f), 0.20f, -escalar(0.10f), escalar(0.05f), 0.40f, escalar(0.05f), 0.14f, 0.14f,
@@ -651,16 +673,20 @@ public class Cocina {
         glTranslatef(x, Y, z);
 
         // Cuerpo principal azul oscuro
-        Cubo.dibujar(
-                0f,
-                altura / 2f,
-                0f,
-                ancho,
-                altura,
-                fondo,
-                0.04f,
-                0.10f,
-                0.25f);
+        if (texturaCocinaAzul != 0) {
+            Cubo.dibujarConTextura(0f, altura / 2f, 0f, ancho, altura, fondo, texturaCocinaAzul);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    altura / 2f,
+                    0f,
+                    ancho,
+                    altura,
+                    fondo,
+                    0.04f,
+                    0.10f,
+                    0.25f);
+        }
 
         // Puerta superior
         Cubo.dibujar(
@@ -721,36 +747,36 @@ public class Cocina {
                 0.04f,
                 0.08f);
 
-        // Jaladeras verticales
+        // Jaladeras verticales en la cara +X (Este)
         Cubo.dibujar(
-                ancho * 0.28f,
+                ancho / 2f + 0.02f,
                 2.46f,
-                -fondo / 2f + 0.06f,
-                0.04f,
-                0.35f,
+                fondo * 0.25f,
                 0.035f,
+                0.35f,
+                0.04f,
                 0.75f,
                 0.75f,
                 0.75f);
 
         Cubo.dibujar(
-                ancho * 0.28f,
+                ancho / 2f + 0.02f,
                 1.25f,
-                -fondo / 2f + 0.06f,
-                0.04f,
-                0.35f,
+                fondo * 0.25f,
                 0.035f,
+                0.35f,
+                0.04f,
                 0.75f,
                 0.75f,
                 0.75f);
 
         Cubo.dibujar(
-                ancho * 0.28f,
+                ancho / 2f + 0.02f,
                 0.42f,
-                -fondo / 2f + 0.06f,
-                0.04f,
-                0.28f,
+                fondo * 0.25f,
                 0.035f,
+                0.28f,
+                0.04f,
                 0.75f,
                 0.75f,
                 0.75f);
@@ -777,12 +803,14 @@ public class Cocina {
         // Bloque horizontal inferior
         dibujarModuloBajoPorGeo(
                 2.43f, 8.63f,
-                3.77f, 9.10f);
+                3.77f, 9.10f,
+                "N");
 
         // Bloque vertical derecho
         dibujarModuloBajoPorGeo(
                 3.20f, 9.10f,
-                3.77f, 9.67f);
+                3.77f, 9.67f,
+                "W");
     }
 
     // =====================================================
@@ -792,12 +820,12 @@ public class Cocina {
         // Gabinete alto horizontal
         dibujarGabineteAltoPorGeo(
                 2.43f, 8.66f,
-                3.77f, 9.00f, 1.55f, 1.65f);
+                3.77f, 9.00f, 1.55f, 1.65f, "N");
 
         // Gabinete alto vertical
         dibujarGabineteAltoPorGeo(
                 3.30f, 9.10f,
-                3.77f, 9.67f, 1.55f, 1.65f);
+                3.77f, 9.67f, 1.55f, 1.65f, "W");
     }
 
     // =====================================================
@@ -807,13 +835,13 @@ public class Cocina {
         // Bloque horizontal inferior
         dibujarModuloBajoPorGeo(
                 0.23f, 8.63f,
-                1.47f, 9.10f);
+                1.47f, 9.10f, "N");
 
         // Bloque vertical izquierdo
         // OJO: ahora termina en 9.8 para dejar espacio al refrigerador
         dibujarModuloBajoPorGeo(
                 0.23f, 9.10f,
-                0.67f, 9.77f);
+                0.67f, 9.77f, "E");
     }
 
     // =====================================================
@@ -823,13 +851,13 @@ public class Cocina {
         // Gabinete alto horizontal
         dibujarGabineteAltoPorGeo(
                 0.23f, 8.66f,
-                1.47f, 9.00f, 1.55f, 1.65f);
+                1.47f, 9.00f, 1.55f, 1.65f, "N");
 
         // Gabinete alto vertical
         // También se recorta para no invadir el espacio del refrigerador
         dibujarGabineteAltoPorGeo(
                 0.23f, 9.10f,
-                0.60f, 9.77f, 1.55f, 1.65f);
+                0.60f, 9.77f, 1.55f, 1.65f, "E");
     }
 
     // =====================================================
@@ -840,7 +868,7 @@ public class Cocina {
         dibujarGabineteAltoPorGeo(
                 1.47f, 8.66f,
                 2.43f, 9.00f,
-                1.55f, 1.65f);
+                1.55f, 1.65f, "N");
 
         // Alacena sobre el refrigerador (espacio U3 a I4)
         // El refrigerador mide aprox 2.14m de alto con su base y remate superior.
@@ -851,7 +879,7 @@ public class Cocina {
         dibujarGabineteAltoPorGeo(
                 0.20f, 9.80f,
                 0.70f, 10.30f,
-                yBaseRefri, alturaRefri);
+                yBaseRefri, alturaRefri, "E");
     }
 
     // =====================================================
@@ -875,28 +903,36 @@ public class Cocina {
         glTranslatef(x, Y, z);
 
         // Mueble azul inferior
-        Cubo.dibujar(
-                0f,
-                alturaBase / 2f,
-                0f,
-                ancho,
-                alturaBase,
-                fondo,
-                0.05f,
-                0.12f,
-                0.30f);
+        if (texturaCocinaAzul != 0) {
+            Cubo.dibujarConTextura(0f, alturaBase / 2f, 0f, ancho, alturaBase, fondo, texturaCocinaAzul);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    alturaBase / 2f,
+                    0f,
+                    ancho,
+                    alturaBase,
+                    fondo,
+                    0.05f,
+                    0.12f,
+                    0.30f);
+        }
 
         // Cubierta café
-        Cubo.dibujar(
-                0f,
-                alturaBase + alturaCubierta / 2f,
-                0f,
-                ancho + 0.08f,
-                alturaCubierta,
-                fondo + 0.08f,
-                0.45f,
-                0.28f,
-                0.12f);
+        if (texturaCocinaMadera != 0) {
+            Cubo.dibujarConTextura(0f, alturaBase + alturaCubierta / 2f, 0f, ancho + 0.08f, alturaCubierta, fondo + 0.08f, texturaCocinaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    alturaBase + alturaCubierta / 2f,
+                    0f,
+                    ancho + 0.08f,
+                    alturaCubierta,
+                    fondo + 0.08f,
+                    0.45f,
+                    0.28f,
+                    0.12f);
+        }
 
         // Borde metálico exterior de la tarja
         Cubo.dibujar(
@@ -993,28 +1029,36 @@ public class Cocina {
         glTranslatef(x, Y, z);
 
         // Mueble inferior azul
-        Cubo.dibujar(
-                0f,
-                alturaBase / 2f,
-                0f,
-                ancho,
-                alturaBase,
-                fondo,
-                0.05f,
-                0.12f,
-                0.30f);
+        if (texturaRefri != 0) {
+            Cubo.dibujarConTextura(0f, alturaBase / 2f, 0f, ancho, alturaBase, fondo, texturaRefri);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    alturaBase / 2f,
+                    0f,
+                    ancho,
+                    alturaBase,
+                    fondo,
+                    0.05f,
+                    0.12f,
+                    0.30f);
+        }
 
         // Cubierta café
-        Cubo.dibujar(
-                0f,
-                alturaBase + alturaCubierta / 2f,
-                0f,
-                ancho + 0.08f,
-                alturaCubierta,
-                fondo + 0.08f,
-                0.45f,
-                0.28f,
-                0.12f);
+        if (texturaCocinaMadera != 0) {
+            Cubo.dibujarConTextura(0f, alturaBase + alturaCubierta / 2f, 0f, ancho + 0.08f, alturaCubierta, fondo + 0.08f, texturaCocinaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    alturaBase + alturaCubierta / 2f,
+                    0f,
+                    ancho + 0.08f,
+                    alturaCubierta,
+                    fondo + 0.08f,
+                    0.45f,
+                    0.28f,
+                    0.12f);
+        }
 
         // Parrilla negra
         Cubo.dibujar(
@@ -1065,38 +1109,50 @@ public class Cocina {
         Cubo.dibujar(ancho * 0.30f, 0.68f, -fondo / 2f + 0.01f, 0.06f, 0.06f, 0.03f, 0.12f, 0.12f, 0.12f);
 
         // Campana extractora
-        Cubo.dibujar(
-                0f,
-                1.55f,
-                0f,
-                ancho * 1.15f,
-                0.16f,
-                fondo * 0.80f,
-                0.75f,
-                0.75f,
-                0.72f);
+        if (texturaRefri != 0) {
+            Cubo.dibujarConTextura(0f, 1.55f, 0f, ancho * 1.15f, 0.16f, fondo * 0.80f, texturaRefri);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    1.55f,
+                    0f,
+                    ancho * 1.15f,
+                    0.16f,
+                    fondo * 0.80f,
+                    0.75f,
+                    0.75f,
+                    0.72f);
+        }
 
-        Cubo.dibujar(
-                0f,
-                1.78f,
-                0f,
-                ancho * 0.90f,
-                0.28f,
-                fondo * 0.55f,
-                0.82f,
-                0.82f,
-                0.78f);
+        if (texturaRefri != 0) {
+            Cubo.dibujarConTextura(0f, 1.78f, 0f, ancho * 0.90f, 0.28f, fondo * 0.55f, texturaRefri);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    1.78f,
+                    0f,
+                    ancho * 0.90f,
+                    0.28f,
+                    fondo * 0.55f,
+                    0.82f,
+                    0.82f,
+                    0.78f);
+        }
 
-        Cubo.dibujar(
-                0f,
-                2.56f, // Centro ajustado para llegar a 3.2
-                0f,
-                ancho * 0.40f,
-                1.28f, // Altura extendida hasta el techo (3.2m)
-                fondo * 0.30f,
-                0.70f,
-                0.70f,
-                0.68f);
+        if (texturaRefri != 0) {
+            Cubo.dibujarConTextura(0f, 2.56f, 0f, ancho * 0.40f, 1.28f, fondo * 0.30f, texturaRefri);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    2.56f, // Centro ajustado para llegar a 3.2
+                    0f,
+                    ancho * 0.40f,
+                    1.28f, // Altura extendida hasta el techo (3.2m)
+                    fondo * 0.30f,
+                    0.70f,
+                    0.70f,
+                    0.68f);
+        }
 
         glPopMatrix();
     }
@@ -1137,40 +1193,52 @@ public class Cocina {
         glTranslatef(x, Y, z);
 
         // Cuerpo principal blanco
-        Cubo.dibujar(
-                0f,
-                altura / 2f,
-                0f,
-                ancho,
-                altura,
-                fondo,
-                0.95f,
-                0.95f,
-                0.92f);
+        if (texturaRefri != 0) {
+            Cubo.dibujarConTextura(0f, altura / 2f, 0f, ancho, altura, fondo, texturaRefri);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    altura / 2f,
+                    0f,
+                    ancho,
+                    altura,
+                    fondo,
+                    0.95f,
+                    0.95f,
+                    0.92f);
+        }
 
         // Puerta superior (congelador)
-        Cubo.dibujar(
-                0f,
-                1.65f,
-                -fondo / 2f + 0.015f,
-                ancho * 0.92f,
-                0.55f,
-                0.03f,
-                0.92f,
-                0.92f,
-                0.89f);
+        if (texturaRefri != 0) {
+            Cubo.dibujarConTextura(0f, 1.65f, -fondo / 2f + 0.015f, ancho * 0.92f, 0.55f, 0.03f, texturaRefri);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    1.65f,
+                    -fondo / 2f + 0.015f,
+                    ancho * 0.92f,
+                    0.55f,
+                    0.03f,
+                    0.92f,
+                    0.92f,
+                    0.89f);
+        }
 
         // Puerta inferior (refrigerador)
-        Cubo.dibujar(
-                0f,
-                0.72f,
-                -fondo / 2f + 0.015f,
-                ancho * 0.92f,
-                1.20f,
-                0.03f,
-                0.93f,
-                0.93f,
-                0.90f);
+        if (texturaRefri != 0) {
+            Cubo.dibujarConTextura(0f, 0.72f, -fondo / 2f + 0.015f, ancho * 0.92f, 1.20f, 0.03f, texturaRefri);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.72f,
+                    -fondo / 2f + 0.015f,
+                    ancho * 0.92f,
+                    1.20f,
+                    0.03f,
+                    0.93f,
+                    0.93f,
+                    0.90f);
+        }
 
         // Separación entre puertas
         Cubo.dibujar(
@@ -1252,28 +1320,36 @@ public class Cocina {
         glTranslatef(x, Y, z);
 
         // Base azul
-        Cubo.dibujar(
-                0f,
-                0.38f,
-                0f,
-                ancho,
-                0.75f,
-                fondo,
-                0.05f,
-                0.12f,
-                0.30f);
+        if (texturaCocinaAzul != 0) {
+            Cubo.dibujarConTextura(0f, 0.38f, 0f, ancho, 0.75f, fondo, texturaCocinaAzul);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.38f,
+                    0f,
+                    ancho,
+                    0.75f,
+                    fondo,
+                    0.05f,
+                    0.12f,
+                    0.30f);
+        }
 
         // Cubierta de madera
-        Cubo.dibujar(
-                0f,
-                0.82f,
-                0f,
-                ancho + escalar(0.10f),
-                0.10f,
-                fondo + escalar(0.10f),
-                0.45f,
-                0.28f,
-                0.12f);
+        if (texturaCocinaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 0.82f, 0f, ancho + escalar(0.10f), 0.10f, fondo + escalar(0.10f), texturaCocinaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.82f,
+                    0f,
+                    ancho + escalar(0.10f),
+                    0.10f,
+                    fondo + escalar(0.10f),
+                    0.45f,
+                    0.28f,
+                    0.12f);
+        }
 
         // Detalle frontal
         Cubo.dibujar(
@@ -1304,28 +1380,36 @@ public class Cocina {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Asiento
-        Cubo.dibujar(
-                0f,
-                0.42f,
-                0f,
-                escalar(0.28f),
-                0.10f,
-                escalar(0.28f),
-                0.18f,
-                0.18f,
-                0.18f);
+        if (texturaSillaBlanca != 0) {
+            Cubo.dibujarConTextura(0f, 0.42f, 0f, escalar(0.28f), 0.10f, escalar(0.28f), texturaSillaBlanca);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.42f,
+                    0f,
+                    escalar(0.28f),
+                    0.10f,
+                    escalar(0.28f),
+                    0.18f,
+                    0.18f,
+                    0.18f);
+        }
 
         // Respaldo
-        Cubo.dibujar(
-                0f,
-                0.70f,
-                escalar(0.14f),
-                escalar(0.28f),
-                0.45f,
-                escalar(0.08f),
-                0.12f,
-                0.12f,
-                0.12f);
+        if (texturaSillaBlanca != 0) {
+            Cubo.dibujarConTextura(0f, 0.70f, escalar(0.14f), escalar(0.28f), 0.45f, escalar(0.08f), texturaSillaBlanca);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.70f,
+                    escalar(0.14f),
+                    escalar(0.28f),
+                    0.45f,
+                    escalar(0.08f),
+                    0.12f,
+                    0.12f,
+                    0.12f);
+        }
 
         // Pata central
         Cubo.dibujar(
@@ -1371,14 +1455,18 @@ public class Cocina {
 
         // 1. Viga de madera en el techo (Plafón)
         // Se coloca justo debajo del techo (3.20m)
-        Cubo.dibujar(
-                0f,
-                3.15f,
-                0f,
-                anchoMesa * 1.1f, // Ligeramente más ancha que la mesa
-                0.10f,
-                escalar(0.7f),
-                0.40f, 0.22f, 0.10f); // Madera oscura
+        if (texturaCocinaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 3.15f, 0f, anchoMesa * 1.1f, 0.10f, escalar(0.7f), texturaCocinaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    3.15f,
+                    0f,
+                    anchoMesa * 1.1f, // Ligeramente más ancha que la mesa
+                    0.10f,
+                    escalar(0.7f),
+                    0.40f, 0.22f, 0.10f); // Madera oscura
+        }
 
         // 2. Lámparas Colgantes (A los extremos)
         // Lámpara Izquierda
@@ -1398,7 +1486,11 @@ public class Cocina {
         Cubo.dibujar(anchoRack / 2f - 0.02f, 2.8f, fondoRack / 2f - 0.02f, 0.02f, 0.6f, 0.02f, 0.15f, 0.15f, 0.15f);
 
         // Repisa de madera del rack
-        Cubo.dibujar(0f, altoRack, 0f, anchoRack, 0.04f, fondoRack, 0.45f, 0.28f, 0.12f);
+        if (texturaCocinaMadera != 0) {
+            Cubo.dibujarConTextura(0f, altoRack, 0f, anchoRack, 0.04f, fondoRack, texturaCocinaMadera);
+        } else {
+            Cubo.dibujar(0f, altoRack, 0f, anchoRack, 0.04f, fondoRack, 0.45f, 0.28f, 0.12f);
+        }
         // Borde frontal metálico del rack
         Cubo.dibujar(0f, altoRack + 0.04f, fondoRack / 2f, anchoRack, 0.05f, 0.02f, 0.2f, 0.2f, 0.2f);
         Cubo.dibujar(0f, altoRack + 0.04f, -fondoRack / 2f, anchoRack, 0.05f, 0.02f, 0.2f, 0.2f, 0.2f);
@@ -1456,7 +1548,8 @@ public class Cocina {
             float xMinGeo,
             float zMinGeo,
             float xMaxGeo,
-            float zMaxGeo) {
+            float zMaxGeo,
+            String orientacion) {
 
         float centroXGeo = (xMinGeo + xMaxGeo) / 2.0f;
         float centroZGeo = (zMinGeo + zMaxGeo) / 2.0f;
@@ -1474,28 +1567,36 @@ public class Cocina {
         float alturaCubierta = 0.10f;
 
         // Mueble inferior azul
-        Cubo.dibujar(
-                x,
-                Y + alturaBase / 2f,
-                z,
-                ancho,
-                alturaBase,
-                largo,
-                0.05f,
-                0.12f,
-                0.30f);
+        if (texturaCocinaAzul != 0) {
+            Cubo.dibujarConTextura(x, Y + alturaBase / 2f, z, ancho, alturaBase, largo, texturaCocinaAzul);
+        } else {
+            Cubo.dibujar(
+                    x,
+                    Y + alturaBase / 2f,
+                    z,
+                    ancho,
+                    alturaBase,
+                    largo,
+                    0.05f,
+                    0.12f,
+                    0.30f);
+        }
 
         // Encimera café
-        Cubo.dibujar(
-                x,
-                Y + alturaBase + alturaCubierta / 2f,
-                z,
-                ancho + 0.04f,
-                alturaCubierta,
-                largo + 0.04f,
-                0.45f,
-                0.28f,
-                0.12f);
+        if (texturaCocinaMadera != 0) {
+            Cubo.dibujarConTextura(x, Y + alturaBase + alturaCubierta / 2f, z, ancho + 0.04f, alturaCubierta, largo + 0.04f, texturaCocinaMadera);
+        } else {
+            Cubo.dibujar(
+                    x,
+                    Y + alturaBase + alturaCubierta / 2f,
+                    z,
+                    ancho + 0.04f,
+                    alturaCubierta,
+                    largo + 0.04f,
+                    0.45f,
+                    0.28f,
+                    0.12f);
+        }
 
         // Zócalo inferior oscuro
         Cubo.dibujar(
@@ -1521,14 +1622,36 @@ public class Cocina {
                 0.75f,
                 0.75f);
 
+        float hx = x;
+        float hz = z;
+        float hAncho = 0f;
+        float hLargo = 0f;
+        if (orientacion.equals("N")) {
+            hz = z + largo / 2f + 0.02f;
+            hAncho = ancho * 0.45f;
+            hLargo = 0.03f;
+        } else if (orientacion.equals("S")) {
+            hz = z - largo / 2f - 0.02f;
+            hAncho = ancho * 0.45f;
+            hLargo = 0.03f;
+        } else if (orientacion.equals("E")) {
+            hx = x + ancho / 2f + 0.02f;
+            hAncho = 0.03f;
+            hLargo = largo * 0.45f;
+        } else if (orientacion.equals("W")) {
+            hx = x - ancho / 2f - 0.02f;
+            hAncho = 0.03f;
+            hLargo = largo * 0.45f;
+        }
+
         // Jaladera frontal
         Cubo.dibujar(
-                x,
+                hx,
                 Y + 0.55f,
-                z - largo / 2f + 0.03f,
-                ancho * 0.45f,
+                hz,
+                hAncho,
                 0.03f,
-                0.03f,
+                hLargo,
                 0.82f,
                 0.82f,
                 0.82f);
@@ -1543,7 +1666,8 @@ public class Cocina {
             float xMaxGeo,
             float zMaxGeo,
             float yBase,
-            float altura) {
+            float altura,
+            String orientacion) {
 
         float centroXGeo = (xMinGeo + xMaxGeo) / 2.0f;
         float centroZGeo = (zMinGeo + zMaxGeo) / 2.0f;
@@ -1557,25 +1681,51 @@ public class Cocina {
         float ancho = escalar(anchoGeo);
         float largo = escalar(largoGeo);
 
-        Cubo.dibujar(
-                x,
-                Y + yBase + altura / 2f,
-                z,
-                ancho,
-                altura,
-                largo,
-                0.04f,
-                0.10f,
-                0.25f);
+        if (texturaCocinaAzul != 0) {
+            Cubo.dibujarConTextura(x, Y + yBase + altura / 2f, z, ancho, altura, largo, texturaCocinaAzul);
+        } else {
+            Cubo.dibujar(
+                    x,
+                    Y + yBase + altura / 2f,
+                    z,
+                    ancho,
+                    altura,
+                    largo,
+                    0.04f,
+                    0.10f,
+                    0.25f);
+        }
+
+        float hx = x;
+        float hz = z;
+        float hAncho = 0f;
+        float hLargo = 0f;
+        if (orientacion.equals("N")) {
+            hz = z + largo / 2f + 0.02f;
+            hAncho = ancho * 0.40f;
+            hLargo = 0.03f;
+        } else if (orientacion.equals("S")) {
+            hz = z - largo / 2f - 0.02f;
+            hAncho = ancho * 0.40f;
+            hLargo = 0.03f;
+        } else if (orientacion.equals("E")) {
+            hx = x + ancho / 2f + 0.02f;
+            hAncho = 0.03f;
+            hLargo = largo * 0.40f;
+        } else if (orientacion.equals("W")) {
+            hx = x - ancho / 2f - 0.02f;
+            hAncho = 0.03f;
+            hLargo = largo * 0.40f;
+        }
 
         // Jaladera frontal
         Cubo.dibujar(
-                x,
-                Y + yBase + altura / 2f,
-                z - largo / 2f + 0.03f,
-                ancho * 0.40f,
+                hx,
+                Y + yBase + altura / 2f - 0.1f,
+                hz,
+                hAncho,
                 0.03f,
-                0.03f,
+                hLargo,
                 0.82f,
                 0.82f,
                 0.82f);

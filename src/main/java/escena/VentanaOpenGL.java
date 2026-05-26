@@ -10,7 +10,9 @@ import objetos.Puerta;
 import camara.CamaraLibre;
 import personaje.Girasol;
 import utilidades.Constantes;
+import utilidades.CargadorTexturas;
 import objetos.Escalera3D;
+import objetos.EstructuraCerrada;
 import objetos.Oficina;
 import objetos.SalaEstar;
 import objetos.BanoMedio;
@@ -41,6 +43,8 @@ import piso3.TerrazaP3;
 import piso3.PergolaBancoP3;
 import piso3.ComedorP3;
 import piso3.EstructurasTechoP3;
+import objetos.Fuente;
+import objetos.EstructuraCerrada;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -53,6 +57,31 @@ public class VentanaOpenGL {
         private Casa casa;
         private CamaraLibre camaraLibre;
         private Girasol girasol;
+        private int texturaParedBlanca;
+        private int texturaEscritorio;
+        private int texturaLibro;
+        private int texturaSillon;
+        private int texturaParedLadrillo;
+        private int texturaSillonIndividual;
+        private int texturaSillaOficina;
+        private int texturaCuadroOficina;
+        private int texturaSillonGrisSala;
+        private int texturaAlmohadaSala;
+        private int texturaParedAzul;
+        private int texturaCuadro2;
+        private int texturaCuadro3;
+        private int texturaCuadro4;
+        private int texturaCuadro5;
+        private int texturaParedMadera;
+        private int texturaCuadro6;
+        private int texturaCuadro7;
+        private int texturaCuadro8;
+        private int texturaAdornoSala;
+        private int texturaAdorno2;
+        private int texturaChimenea;
+        private int texturaRepisa;
+        private int texturaBano;
+        private int texturaPisoDentro;
 
         private int ancho = 1280;
         private int alto = 720;
@@ -339,6 +368,41 @@ public class VentanaOpenGL {
                 camaraLibre = new CamaraLibre();
                 girasol = new Girasol(-2.7f, 0.0f, -22.0f, 0.5f, 180f);
 
+                // Cargar la textura de las paredes
+                texturaParedBlanca = CargadorTexturas.cargarTextura("/texturas/PAREDBLANCA.jpg");
+                texturaEscritorio = CargadorTexturas.cargarTextura("/texturas/escritoriooficina.jpg");
+                texturaRepisa = CargadorTexturas.cargarTextura("/texturas/repisaoficina.jpg");
+                texturaLibro = CargadorTexturas.cargarTextura("/texturas/libro1.jpg");
+                texturaSillon = CargadorTexturas.cargarTextura("/texturas/sillonoficina.jpg");
+                texturaParedLadrillo = CargadorTexturas.cargarTextura("/texturas/ladrillooficina.jpg");
+                texturaSillonIndividual = CargadorTexturas.cargarTextura("/texturas/SILLONBLANOFI.jpg");
+                texturaSillaOficina = CargadorTexturas.cargarTextura("/texturas/SILLAOFICINA.jpg");
+                texturaCuadroOficina = CargadorTexturas.cargarTextura("/texturas/CUADROOFI.jpg");
+                texturaSillonGrisSala = CargadorTexturas.cargarTextura("/texturas/SILLONGRISSALA.jpg");
+                texturaAlmohadaSala = CargadorTexturas.cargarTextura("/texturas/ALMOHADASALA.jpg");
+                texturaParedAzul = CargadorTexturas.cargarTextura("/texturas/paredazul.jpg");
+                texturaCuadro2 = CargadorTexturas.cargarTextura("/texturas/cuadro2.jpg");
+                texturaCuadro3 = CargadorTexturas.cargarTextura("/texturas/cuadro3.jpg");
+                texturaCuadro4 = CargadorTexturas.cargarTextura("/texturas/cuadro4.jpg");
+                texturaCuadro5 = CargadorTexturas.cargarTextura("/texturas/cuadro5.jpg");
+                texturaParedMadera = CargadorTexturas.cargarTextura("/texturas/paredmadera.jpg");
+                texturaCuadro6 = CargadorTexturas.cargarTextura("/texturas/cuadro6.jpg");
+                texturaCuadro7 = CargadorTexturas.cargarTextura("/texturas/cuadro7.jpg");
+                texturaCuadro8 = CargadorTexturas.cargarTextura("/texturas/cuadro8.jpg");
+                texturaAdornoSala = CargadorTexturas.cargarTextura("/texturas/adornosala.jpg");
+                texturaAdorno2 = CargadorTexturas.cargarTextura("/texturas/adorno2.jpg");
+                texturaChimenea = CargadorTexturas.cargarTextura("/texturas/chimenea.jpg");
+                texturaRepisa = CargadorTexturas.cargarTextura("/texturas/repisaoficina.jpg");
+                texturaBano = CargadorTexturas.cargarTextura("/texturas/baño.jpg");
+                texturaPisoDentro = CargadorTexturas.cargarTextura("/texturas/PISODENTRO.jpg");
+                objetos.Cocina.texturaMaderaParaCocina = CargadorTexturas
+                                .cargarTextura("/texturas/MADERAPARACOCINA.jpg");
+                objetos.Cocina.texturaCocinaAzul = CargadorTexturas.cargarTextura("/texturas/cocinaazul.jpg");
+                objetos.Cocina.texturaCocinaMadera = CargadorTexturas.cargarTextura("/texturas/COCINAMADERA.jpg");
+                objetos.Cocina.texturaRefri = CargadorTexturas.cargarTextura("/texturas/refri.jpg");
+                objetos.Cocina.texturaSillaBlanca = CargadorTexturas.cargarTextura("/texturas/sillablanca.jpg");
+                objetos.Cocina.texturaSillaGris = CargadorTexturas.cargarTextura("/texturas/sillagris.jpg");
+
                 glEnable(GL_DEPTH_TEST);
 
                 glClearColor(
@@ -527,6 +591,9 @@ public class VentanaOpenGL {
                 dibujarPisoPrimeraPlanta();
 
                 for (Pared pared : casa.getParedes()) {
+                        if (pared instanceof objetos.ParedInvisible) {
+                                continue;
+                        }
                         int nivelPared = 1;
                         if (pared.getAlturaBase() > 3.0)
                                 nivelPared = 2;
@@ -565,6 +632,7 @@ public class VentanaOpenGL {
                                                         (float) pared.getAlturaBase());
                                 } else {
                                         dibujarPared(
+                                                        pared.getNombre(),
                                                         (float) inicio.getX(),
                                                         (float) inicio.getY(),
                                                         (float) fin.getX(),
@@ -666,9 +734,6 @@ public class VentanaOpenGL {
 
                 // Zona superior final izquierda
                 dibujarPisoPorCoordenadas(0.1f, 18.6f, 7.9f, 20.3f, alturaPiso);
-
-                // Dibujar líneas tipo duela para mayor realismo
-                // dibujarLineasPisoPrimeraPlanta();
         }
 
         private void dibujarPisoPorCoordenadas(
@@ -695,16 +760,27 @@ public class VentanaOpenGL {
                 anchoPiso = anchoPiso * Constantes.ESCALA_CASA;
                 largoPiso = largoPiso * Constantes.ESCALA_CASA;
 
-                Cubo.dibujar(
-                                centroX,
-                                altura,
-                                centroZ,
-                                anchoPiso,
-                                0.06f,
-                                largoPiso,
-                                0.55f,
-                                0.38f,
-                                0.22f);
+                if (texturaPisoDentro != 0) {
+                        Cubo.dibujarConTextura(
+                                        centroX,
+                                        altura,
+                                        centroZ,
+                                        anchoPiso,
+                                        0.06f,
+                                        largoPiso,
+                                        texturaPisoDentro);
+                } else {
+                        Cubo.dibujar(
+                                        centroX,
+                                        altura,
+                                        centroZ,
+                                        anchoPiso,
+                                        0.06f,
+                                        largoPiso,
+                                        0.55f,
+                                        0.38f,
+                                        0.22f);
+                }
         }
 
         private void dibujarLineasPisoPrimeraPlanta() {
@@ -961,6 +1037,7 @@ public class VentanaOpenGL {
         }
 
         private void dibujarPared(
+                        String nombre,
                         float x1,
                         float z1,
                         float x2,
@@ -1000,7 +1077,117 @@ public class VentanaOpenGL {
                 glTranslatef(centroX, alturaBase + altura / 2.0f, centroZ);
                 glRotatef(-angulo, 0f, 1f, 0f);
 
-                Cubo.dibujar(0f, 0f, 0f, longitud, altura, grosor, 1f, 1f, 1f);
+                if (nombre != null && nombre.equals("t") && texturaParedMadera != 0 && texturaParedBlanca != 0) {
+                        // La cara interior (+Z) apuntando hacia la sala tendrá madera (texturaInterior
+                        // en el método)
+                        // La cara exterior (-Z) apuntando hacia afuera tendrá blanco (texturaExterior
+                        // en el método)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca,
+                                        texturaParedMadera);
+
+                        if (texturaCuadro6 != 0 || texturaCuadro7 != 0) {
+                                float anchoCuadro = 2.8f; // Tamaño gigante restaurado (para cuadro 6)
+                                float altoCuadro = 1.6f;
+                                float grosorCuadro = 0.04f;
+                                float zCuadro = (grosor / 2f) + (grosorCuadro / 2f);
+
+                                if (texturaCuadro6 != 0) {
+                                        glPushMatrix();
+                                        glTranslatef(0f, 0.6f, zCuadro); // cuadro6 perfectamente centrado
+                                        glRotatef(180f, 0f, 0f, 1f);
+                                        Cubo.dibujarConTextura(0f, 0f, 0f, anchoCuadro, altoCuadro, grosorCuadro,
+                                                        texturaCuadro6);
+                                        glPopMatrix();
+                                }
+
+                                if (texturaCuadro7 != 0) {
+                                        float anchoCuadro7 = 1.0f; // Cuadro más angosto (vertical)
+                                        float altoCuadro7 = 1.8f; // Más alto para respetar su proporción
+
+                                        glPushMatrix();
+                                        // cuadro7 a la izquierda de cuadro6 (coordenadas positivas en este eje local)
+                                        glTranslatef(2.1f, 0.6f, zCuadro);
+                                        glRotatef(180f, 0f, 0f, 1f);
+                                        Cubo.dibujarConTextura(0f, 0f, 0f, anchoCuadro7, altoCuadro7, grosorCuadro,
+                                                        texturaCuadro7);
+                                        glPopMatrix();
+                                }
+                        }
+                } else if (nombre != null && nombre.equals("n") && texturaParedAzul != 0 && texturaParedLadrillo != 0) {
+                        // Textura azul de un lado (interior) y ladrillo del otro (exterior)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedLadrillo,
+                                        texturaParedAzul);
+
+                        // Dibujar los cuadros en la cara interior (+Z)
+                        float anchoCuadro = 0.4f;
+                        float altoCuadro = 0.5f;
+                        float grosorCuadro = 0.04f;
+                        float zCuadro = (grosor / 2f) + (grosorCuadro / 2f);
+
+                        if (texturaCuadro2 != 0) {
+                                // Cuadro superior izquierdo
+                                Cubo.dibujarConTextura(-0.25f, 0.35f, zCuadro, anchoCuadro, altoCuadro, grosorCuadro,
+                                                texturaCuadro2);
+                        }
+                        if (texturaCuadro3 != 0) {
+                                // Cuadro superior derecho
+                                Cubo.dibujarConTextura(0.25f, 0.35f, zCuadro, anchoCuadro, altoCuadro, grosorCuadro,
+                                                texturaCuadro3);
+                        }
+                        if (texturaCuadro4 != 0) {
+                                // Cuadro inferior izquierdo
+                                Cubo.dibujarConTextura(-0.25f, -0.25f, zCuadro, anchoCuadro, altoCuadro, grosorCuadro,
+                                                texturaCuadro4);
+                        }
+                        if (texturaCuadro5 != 0) {
+                                // Cuadro inferior derecho
+                                Cubo.dibujarConTextura(0.25f, -0.25f, zCuadro, anchoCuadro, altoCuadro, grosorCuadro,
+                                                texturaCuadro5);
+                        }
+                } else if (nombre != null && nombre.equals("s") && texturaParedLadrillo != 0
+                                && texturaParedBlanca != 0) {
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca,
+                                        texturaParedLadrillo);
+                } else if (nombre != null && nombre.equals("a") && texturaParedBlanca != 0 && texturaParedAzul != 0) {
+                        // Textura azul del lado de la sala (interior), blanca del otro lado (baño)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca,
+                                        texturaParedAzul);
+
+                        // Cuadro grande en el lado de la sala (+Z local)
+                        if (texturaCuadro8 != 0) {
+                                float anchoCuadro = 2.0f; // Tamaño adecuado grande
+                                float altoCuadro = 1.2f; // Proporción adecuada
+                                float grosorCuadro = 0.04f;
+                                float zCuadro = (grosor / 2f) + (grosorCuadro / 2f);
+                                Cubo.dibujarConTextura(0f, 0.4f, zCuadro, anchoCuadro, altoCuadro, grosorCuadro,
+                                                texturaCuadro8);
+                        }
+                } else if (nombre != null && nombre.equals("a1") && objetos.Cocina.texturaCocinaMadera != 0) {
+                        int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca
+                                        : objetos.Cocina.texturaCocinaMadera;
+                        // a1 está rotada 180 grados, por lo que el lado de la cocina es +Z (Interior) y
+                        // el otro lado es -Z (Exterior)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaOtroLado,
+                                        objetos.Cocina.texturaCocinaMadera);
+                } else if (nombre != null && nombre.equals("b1") && objetos.Cocina.texturaCocinaMadera != 0) {
+                        int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca
+                                        : objetos.Cocina.texturaCocinaMadera;
+                        // b1 tiene el lado de la cocina hacia -Z (Exterior) y el otro lado hacia +Z
+                        // (Interior)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor,
+                                        objetos.Cocina.texturaCocinaMadera, texturaOtroLado);
+                } else if (nombre != null && nombre.equals("h1") && objetos.Cocina.texturaMaderaParaCocina != 0) {
+                        int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca
+                                        : objetos.Cocina.texturaMaderaParaCocina;
+                        // h1 tiene el lado de la cocina hacia -Z (Exterior) y el otro lado hacia +Z
+                        // (Interior)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor,
+                                        objetos.Cocina.texturaMaderaParaCocina, texturaOtroLado);
+                } else if (texturaParedBlanca != 0) {
+                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca);
+                } else {
+                        Cubo.dibujar(0f, 0f, 0f, longitud, altura, grosor, 1f, 1f, 1f);
+                }
 
                 glPopMatrix();
         }
@@ -1030,10 +1217,14 @@ public class VentanaOpenGL {
                 glTranslatef(centroX, alturaBase, centroZ);
                 glRotatef(-angulo, 0f, 1f, 0f);
 
-                // Pared inferior (alféizar) - de 0 a 1m
-                Cubo.dibujar(0f, 0.5f, 0f, longitud, 1.0f, grosor, 1f, 1f, 1f);
-                // Pared superior (dintel) - de 2.5m a 3.2m
-                Cubo.dibujar(0f, 2.85f, 0f, longitud, 0.7f, grosor, 1f, 1f, 1f);
+                // Pared inferior (alféizar) y superior (dintel)
+                if (texturaParedBlanca != 0) {
+                        Cubo.dibujarConTextura(0f, 0.5f, 0f, longitud, 1.0f, grosor, texturaParedBlanca);
+                        Cubo.dibujarConTextura(0f, 2.85f, 0f, longitud, 0.7f, grosor, texturaParedBlanca);
+                } else {
+                        Cubo.dibujar(0f, 0.5f, 0f, longitud, 1.0f, grosor, 1f, 1f, 1f);
+                        Cubo.dibujar(0f, 2.85f, 0f, longitud, 0.7f, grosor, 1f, 1f, 1f);
+                }
 
                 // Marcos laterales (aluminio negro)
                 float altoVentana = 1.5f; // de 1.0m a 2.5m
@@ -1167,17 +1358,22 @@ public class VentanaOpenGL {
 
         private void dibujarMuebles() {
                 if (nivelVisible >= 1) {
-                        Oficina.dibujar();
-                        SalaEstar.dibujar();
-                        BanoMedio.dibujar();
+                        Oficina.dibujar(texturaEscritorio, texturaRepisa, texturaLibro, texturaSillon,
+                                        texturaSillonIndividual, texturaSillaOficina, texturaCuadroOficina);
+                        SalaEstar.dibujar(texturaSillonGrisSala, texturaAlmohadaSala, texturaSillon, texturaEscritorio,
+                                        texturaAdornoSala, texturaAdorno2, texturaChimenea, texturaRepisa);
+                        BanoMedio.dibujar(texturaEscritorio, texturaBano);
                         Cocina.dibujar();
                         BanoPrincipal.dibujar();
                         Gimnasio.dibujar();
                         Recamara1.dibujar();
                         AreaLimpieza.dibujar();
                         PlantasPrimerPiso.dibujar();
+                        Fuente.dibujarFuenteDoble();
 
                         Auto.dibujar();
+                        Fuente.dibujar();
+                        EstructuraCerrada.dibujar();
 
                 }
                 if (nivelVisible >= 2) {

@@ -40,13 +40,13 @@ public class PergolaBancoP3 {
          * P2 = (2.9, 4.4)
          */
 
-        dibujarBaseJardinera(0.2f, 3.9f, 2.8f, 4.3f);
-        dibujarBanco(0.2f, 3.9f, 2.8f, 4.3f);
+        dibujarBaseJardinera(0.2f, 3.9f, 2.2f, 4.3f);
+        dibujarBanco(0.2f, 3.9f, 2.2f, 4.3f);
 
-        dibujarPergola(0.2f, 3.0f, 2.9f, 4.4f);
+        dibujarPergola(0.2f, 3.0f, 2.3f, 4.4f);
 
-        dibujarPanelListonesFondo(0.25f, 4.25f, 2.85f, 4.35f);
-        dibujarPanelListonesLateral(2.75f, 3.1f, 2.85f, 4.25f);
+        dibujarPanelListonesFondo(0.25f, 4.25f, 2.25f, 4.35f);
+        dibujarPanelListonesLateral(2.15f, 3.1f, 2.25f, 4.25f);
 
         dibujarJardinerasLaterales();
         dibujarPlantasDecorativas();
@@ -340,8 +340,8 @@ public class PergolaBancoP3 {
 
         // Jardinera derecha
         dibujarCuboPorGeo(
-                2.45f, 4.02f,
-                2.75f, 4.28f,
+                1.85f, 4.02f,
+                2.15f, 4.28f,
                 Y + 0.46f,
                 0.28f,
                 0.88f, 0.88f, 0.84f);
@@ -349,7 +349,7 @@ public class PergolaBancoP3 {
 
     private static void dibujarPlantasDecorativas() {
         dibujarPlantaPequena(0.40f, 4.15f);
-        dibujarPlantaPequena(2.60f, 4.15f);
+        dibujarPlantaPequena(2.00f, 4.15f);
     }
 
     private static void dibujarPlantaPequena(float xGeo, float zGeo) {
@@ -384,3 +384,4 @@ public class PergolaBancoP3 {
         glPopMatrix();
     }
 }
+

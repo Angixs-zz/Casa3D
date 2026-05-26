@@ -24,16 +24,15 @@ public class SalaEstar {
         return valor * Constantes.ESCALA_CASA;
     }
 
-    public static void dibujar() {
-
+    public static void dibujar(int texturaSillonGrisSala, int texturaAlmohadaSala, int texturaSillonIndividual, int texturaMuebleTV, int texturaAdornoSala, int texturaAdorno2, int texturaChimenea, int texturaRepisa) {
+        
         // =====================================================
         // SALA DE ESTAR - PISO 1
-        // Solo sillones por ahora.
         // =====================================================
-
+        
         // Grupo grande: M2, N2, O2, P2, Q2, R2
         // Este sillón sigue la forma real de los segmentos.
-        dibujarSillonSeccionalGrande();
+        dibujarSillonSeccionalGrande(texturaSillonGrisSala, texturaAlmohadaSala);
 
         // Grupo rectangular: S2, T2, U2, V2
         dibujarSillonCortoHorizontal(
@@ -41,22 +40,24 @@ public class SalaEstar {
                 8.95f,
                 0.75f,
                 0.45f,
-                180f);
+                180f,
+                texturaSillonGrisSala);
 
         // Grupo rombo: W2, Z2, A3, B3
         dibujarSillonIndividual(
                 7.2f,
                 6.0f,
-                45f);
+                45f,
+                texturaSillonIndividual);
 
-        dibujarMuebleYTV();
+        dibujarMuebleYTV(texturaMuebleTV, texturaAdornoSala, texturaAdorno2, texturaChimenea);
 
-        // ==== NUEVAS MESAS ====
-        dibujarMesaRectangularCentro();
-        dibujarMesaCircular();
+        // ==== NUEVAS MESAS / SILLONES ====
+        dibujarMesaRectangularCentro(texturaRepisa);
+        dibujarSillonCircular(texturaSillonGrisSala);
     }
 
-    private static void dibujarMuebleYTV() {
+    private static void dibujarMuebleYTV(int texturaMuebleTV, int texturaAdornoSala, int texturaAdorno2, int texturaChimenea) {
         // Coordenadas calculadas a partir de C3, D3, E3, F3
         float centroXGeo = 4.1f;
         float centroZGeo = 7.75f;
@@ -70,143 +71,163 @@ public class SalaEstar {
         float ancho = escalar(anchoGeo);
         float largo = escalar(largoGeo);
 
-        // Altura del mueble de la TV
-        float altoMueble = 0.45f;
-
         glPushMatrix();
         glTranslatef(x, Y, z);
 
-        // 1. Mueble de TV (Mesa) - Color gris oscuro / madera oscura
-        Cubo.dibujar(
-                0f,
-                altoMueble / 2f, // Y centrado en su propia altura
-                0f,
-                ancho,
-                altoMueble,
-                largo,
-                0.20f, 0.20f, 0.20f); // Gris oscuro
+        // 1. BASE DEL MUEBLE (Contiene la chimenea)
+        float altoBase = 0.60f;
+        // Mueble principal (madera oscura)
+        Cubo.dibujarConTextura(0f, altoBase / 2f, 0f, ancho, altoBase, largo, texturaMuebleTV);
+        
+        // Hueco de la chimenea
+        float largoChimenea = escalar(1.0f);
+        float altoChimenea = 0.40f;
+        float profChimenea = ancho + 0.02f; // Sobresale un poco para evitar z-fighting
+        
+        // Marco de la chimenea (interior negro)
+        Cubo.dibujar(0f, altoChimenea / 2f + 0.05f, 0f, profChimenea, altoChimenea, largoChimenea, 0.1f, 0.1f, 0.1f);
+        
+        // Imagen de la chimenea (textura)
+        Cubo.dibujarConTextura(0f, altoChimenea / 2f + 0.05f, 0f, profChimenea + 0.01f, altoChimenea * 0.9f, largoChimenea * 0.9f, texturaChimenea);
 
-        // 2. Base de la Televisión (el "pie" o soporte central)
-        float altoBase = 0.05f;
-        float yBase = altoMueble + (altoBase / 2f);
-        Cubo.dibujar(
-                0f,
-                yBase,
-                0f,
-                escalar(0.15f),
-                altoBase,
-                escalar(0.50f),
-                0.10f, 0.10f, 0.10f); // Casi negro
+        // 2. SECCIÓN MEDIA (TV y estantes laterales)
+        float altoPilares = 1.20f;
+        float yMedio = altoBase + altoPilares / 2f;
+        float anchoPilar = escalar(0.45f); // Un poco más de espacio para los adornos
+        float grosorTablas = 0.04f;
+        
+        // Estantes laterales (Izquierdo)
+        Cubo.dibujarConTextura(0f, yMedio, -largo / 2f + grosorTablas / 2f, ancho, altoPilares, grosorTablas, texturaMuebleTV); // Pared exterior izq
+        Cubo.dibujarConTextura(0f, yMedio, -largo / 2f + anchoPilar - grosorTablas / 2f, ancho, altoPilares, grosorTablas, texturaMuebleTV); // Pared interior izq
+        
+        float yRepisa1 = altoBase + altoPilares * 0.33f;
+        float yRepisa2 = altoBase + altoPilares * 0.66f;
+        Cubo.dibujarConTextura(0f, yRepisa1, -largo / 2f + anchoPilar / 2f, ancho, grosorTablas, anchoPilar - grosorTablas * 2f, texturaMuebleTV);
+        Cubo.dibujarConTextura(0f, yRepisa2, -largo / 2f + anchoPilar / 2f, ancho, grosorTablas, anchoPilar - grosorTablas * 2f, texturaMuebleTV);
 
-        float altoCuello = 0.08f;
-        float yCuello = altoMueble + altoBase + (altoCuello / 2f);
-        Cubo.dibujar(
-                0f,
-                yCuello,
-                0f,
-                escalar(0.05f),
-                altoCuello,
-                escalar(0.15f),
-                0.10f, 0.10f, 0.10f); // Casi negro
+        // Estantes laterales (Derecho)
+        Cubo.dibujarConTextura(0f, yMedio, largo / 2f - grosorTablas / 2f, ancho, altoPilares, grosorTablas, texturaMuebleTV); // Pared exterior der
+        Cubo.dibujarConTextura(0f, yMedio, largo / 2f - anchoPilar + grosorTablas / 2f, ancho, altoPilares, grosorTablas, texturaMuebleTV); // Pared interior der
+        
+        Cubo.dibujarConTextura(0f, yRepisa1, largo / 2f - anchoPilar / 2f, ancho, grosorTablas, anchoPilar - grosorTablas * 2f, texturaMuebleTV);
+        Cubo.dibujarConTextura(0f, yRepisa2, largo / 2f - anchoPilar / 2f, ancho, grosorTablas, anchoPilar - grosorTablas * 2f, texturaMuebleTV);
 
-        // 3. Pantalla Plana
-        float altoTV = 1.9f;
-        float grosorTV = escalar(0.04f); // Muy delgada
-        float largoTV = escalar(1.8f); // Un poco más corta que el mueble (2.3)
-        float yPantalla = altoMueble + altoBase + altoCuello + (altoTV / 2f);
+        // ADORNOS Y FLOREROS EN LOS ESTANTES
+        float zCentroIzq = -largo / 2f + anchoPilar / 2f;
+        float zCentroDer = largo / 2f - anchoPilar / 2f;
+        
+        // Adorno en repisa izq (nivel bajo) - Florero texturizado 2
+        Cubo.dibujarConTextura(0f, altoBase + 0.10f, zCentroIzq, ancho * 0.4f, 0.20f, ancho * 0.4f, texturaAdorno2);
+        // Adorno en repisa izq (nivel medio) - Escultura texturizada 2
+        Cubo.dibujarConTextura(0f, yRepisa1 + 0.08f, zCentroIzq, ancho * 0.3f, 0.16f, ancho * 0.3f, texturaAdorno2);
+        // Adorno en repisa izq (nivel alto) - Caja decorativa azul/textura
+        Cubo.dibujarConTextura(0f, yRepisa2 + 0.06f, zCentroIzq, ancho * 0.6f, 0.12f, anchoPilar * 0.5f, texturaAdornoSala);
 
-        Cubo.dibujar(
-                0f,
-                yPantalla,
-                0f,
-                grosorTV,
-                altoTV,
-                largoTV,
-                0.05f, 0.05f, 0.05f); // Pantalla negra
+        // Adorno en repisa der (nivel bajo) - Maceta con planta
+        Cubo.dibujarConTextura(0f, altoBase + 0.08f, zCentroDer, ancho * 0.5f, 0.16f, ancho * 0.5f, texturaAdornoSala); // Maceta
+        Cubo.dibujar(0f, altoBase + 0.20f, zCentroDer, ancho * 0.4f, 0.10f, ancho * 0.4f, 0.1f, 0.7f, 0.2f); // Planta
+        // Adorno en repisa der (nivel medio) - Libros apilados horizontales
+        Cubo.dibujar(0f, yRepisa1 + 0.03f, zCentroDer, ancho * 0.6f, 0.06f, anchoPilar * 0.6f, 0.8f, 0.3f, 0.3f);
+        Cubo.dibujar(0f, yRepisa1 + 0.08f, zCentroDer, ancho * 0.5f, 0.05f, anchoPilar * 0.5f, 0.4f, 0.4f, 0.4f);
+        // Adorno en repisa der (nivel alto) - Florero texturizado
+        Cubo.dibujarConTextura(0f, yRepisa2 + 0.12f, zCentroDer, ancho * 0.3f, 0.24f, ancho * 0.3f, texturaAdornoSala);
+        
+        // Panel trasero para la TV (Centrado)
+        float largoPanel = largo - (anchoPilar * 2f);
+        float grosorPanel = escalar(0.05f);
+        Cubo.dibujarConTextura(0f, yMedio, 0f, grosorPanel, altoPilares, largoPanel, texturaMuebleTV);
+
+        // Pantalla de TV
+        float altoTV = 0.90f;
+        float largoTV = largoPanel * 0.9f;
+        float grosorTV = escalar(0.08f); // Un poco más grueso que el panel
+        Cubo.dibujar(0f, altoBase + (altoTV / 2f) + 0.15f, 0f, grosorTV, altoTV, largoTV, 0.05f, 0.05f, 0.05f);
+
+        // 3. SECCIÓN SUPERIOR (Librería)
+        float altoLibreria = 0.60f;
+        float yLibreria = altoBase + altoPilares + altoLibreria / 2f;
+        
+        // Repisa superior e inferior de la librería
+        Cubo.dibujarConTextura(0f, altoBase + altoPilares + 0.025f, 0f, ancho, 0.05f, largo, texturaMuebleTV);
+        Cubo.dibujarConTextura(0f, altoBase + altoPilares + altoLibreria - 0.025f, 0f, ancho, 0.05f, largo, texturaMuebleTV);
+        
+        // Divisores de la librería
+        Cubo.dibujarConTextura(0f, yLibreria, -largo / 2f + 0.025f, ancho, altoLibreria, 0.05f, texturaMuebleTV); // Borde izq
+        Cubo.dibujarConTextura(0f, yLibreria, largo / 2f - 0.025f, ancho, altoLibreria, 0.05f, texturaMuebleTV);  // Borde der
+        Cubo.dibujarConTextura(0f, yLibreria, -largo / 6f, ancho, altoLibreria, 0.05f, texturaMuebleTV); // Divisor 1
+        Cubo.dibujarConTextura(0f, yLibreria, largo / 6f, ancho, altoLibreria, 0.05f, texturaMuebleTV);  // Divisor 2
+
+        // Libros (simulados con cubos de colores en la librería)
+        float altoLibro = 0.25f;
+        float grosorLibro = escalar(0.15f);
+        float profLibro = ancho * 0.8f;
+        
+        // Grupo de libros 1
+        Cubo.dibujar(0f, altoBase + altoPilares + 0.05f + altoLibro / 2f, -largo / 3f, profLibro, altoLibro, grosorLibro, 0.8f, 0.2f, 0.2f);
+        Cubo.dibujar(0f, altoBase + altoPilares + 0.05f + altoLibro * 0.8f / 2f, -largo / 3f + grosorLibro, profLibro, altoLibro * 0.8f, grosorLibro * 0.8f, 0.2f, 0.3f, 0.8f);
+        
+        // Grupo de libros 2
+        Cubo.dibujar(0f, altoBase + altoPilares + 0.05f + altoLibro / 2f, 0f, profLibro, altoLibro, grosorLibro * 1.5f, 0.2f, 0.7f, 0.3f);
+        
+        // Grupo de libros 3
+        Cubo.dibujar(0f, altoBase + altoPilares + 0.05f + altoLibro * 0.9f / 2f, largo / 3f, profLibro, altoLibro * 0.9f, grosorLibro * 0.5f, 0.7f, 0.7f, 0.2f);
 
         glPopMatrix();
     }
 
-    private static void dibujarSillonSeccionalGrande() {
-        /*
-         * Forma basada en los puntos de Geogebra para un contorno L:
-         *
-         * M2 = (6.4, 9.3) -> Extremo superior de la tumbona
-         * R2 = (7.8, 9.3) -> Esquina superior derecha (respaldo exterior)
-         * Q2 = (7.8, 6.8) -> Extremo inferior del brazo largo (respaldo exterior)
-         * P2 = (7.0, 6.8) -> Extremo inferior del asiento brazo largo
-         * O2 = (7.0, 8.4) -> Esquina interior de la L
-         * N2 = (6.4, 8.4) -> Borde interior del asiento tumbona
-         *
-         * Se dibuja con bloques más grandes para un aspecto más limpio y uniforme.
-         */
-
+    private static void dibujarSillonSeccionalGrande(int texturaID, int texturaAlmohadaSala) {
         float altoAsiento = 0.35f;
-        float altoRespaldo = 0.70f;
-        float profRespaldo = 0.14f;
+        float altoRespaldo = 0.65f; // Respaldo más alto, a petición del usuario
+        float profRespaldo = 0.15f;
 
         glPushMatrix();
 
-        // --- BASE DEL ASIENTO (Gris Medio) ---
-        // Dibujar un bloque L grande para el asiento para un aspecto limpio
-        // Módulo Brazo Corto (Tumbona): Desde X=6.4, Z=9.3 hasta X=7.8, Z=8.4
-        // Módulo Brazo Largo: Desde X=7.0, Z=8.4 hasta X=7.8, Z=6.8
-
-        // Tumbona (Asiento Grande Uniforme)
-        dibujarBloqueSillonPorGeo(
+        // --- 1. BASE DEL ASIENTO ---
+        // Tumbona (Izquierda): X=[6.4, 7.0], Z=[8.4, 9.3]
+        dibujarBloqueSillonPorGeoConTextura(
                 6.4f, 8.4f,
-                7.8f, 9.3f,
+                7.0f, 9.3f,
                 altoAsiento,
-                0.70f, 0.68f, 0.63f); // Gris Medio
+                texturaID);
 
-        // Brazo Largo (Módulos de Asiento Uniformes)
-        // Usaré dos módulos para definir asientos
-        // Módulo 1: (7.0, 8.4) a (7.8, 7.6)
-        // Módulo 2: (7.0, 7.6) a (7.8, 6.8)
-        dibujarBloqueSillonPorGeo(
-                7.0f, 7.6f,
-                7.8f, 8.4f,
-                altoAsiento,
-                0.72f, 0.70f, 0.66f); // Un poco más claro para diferenciar
-        dibujarBloqueSillonPorGeo(
+        // Esquina y Brazo Largo (Derecha): X=[7.0, 7.8], Z=[6.8, 9.3]
+        dibujarBloqueSillonPorGeoConTextura(
                 7.0f, 6.8f,
-                7.8f, 7.6f,
+                7.8f, 9.3f,
                 altoAsiento,
-                0.70f, 0.68f, 0.63f); // Gris Medio
+                texturaID);
 
-        // --- RESPALDO L-CONTINUO (Gris Oscuro) ---
-        // Dibujar un respaldo L continuo alrededor del exterior
-        // Respaldo Brazo Corto (Superior): M2 -> R2
-        dibujarRespaldoEntrePuntos(
-                6.4f, 9.3f,
-                7.8f, 9.3f,
-                altoAsiento, // <-- Se pasa el parámetro aquí
+        // --- 2. RESPALDOS (Alineados al ras, sin sobresalir de la base) ---
+        // Respaldo Tumbona (Superior): Centro Z = 9.3 - 0.075 = 9.225
+        dibujarRespaldoEntrePuntosConTextura(
+                6.4f, 9.225f,
+                7.8f - profRespaldo, 9.225f, // Cortar antes de la esquina para no cruzarse
+                altoAsiento,
                 profRespaldo, altoRespaldo,
-                0.60f, 0.58f, 0.54f); // Gris Oscuro
+                texturaID);
 
-        // Respaldo Brazo Largo (Derecho): R2 -> Q2
-        dibujarRespaldoEntrePuntos(
-                7.8f, 9.3f,
-                7.8f, 6.8f,
-                altoAsiento, // <-- Se pasa el parámetro aquí
+        // Respaldo Brazo Largo (Derecho): Centro X = 7.8 - 0.075 = 7.725
+        dibujarRespaldoEntrePuntosConTextura(
+                7.725f, 9.3f,
+                7.725f, 6.8f,
+                altoAsiento,
                 profRespaldo, altoRespaldo,
-                0.60f, 0.58f, 0.54f); // Gris Oscuro
+                texturaID);
 
-        // --- ALMOHADAS (Gris y Beige Decorativas) ---
+        // --- 3. COJINES DE RESPALDO (Inclinados y realistas) ---
+        // Brazo largo (X=7.58, recargados contra el respaldo en X=7.725)
+        dibujarCojinInclinado(7.58f, 7.1f, 90f, -12f, texturaID);
+        dibujarCojinInclinado(7.58f, 7.6f, 90f, -12f, texturaID);
+        dibujarCojinInclinado(7.58f, 8.1f, 90f, -12f, texturaID);
 
-        // Almohadas Decorativas (Pequeñas, Beige Claro)
-        // Una en la esquina interior
-        dibujarCojin(7.8f, 8.4f, 0f);
-        // Una en el extremo inferior
-        dibujarCojin(7.8f, 6.8f, 0f);
+        // Tumbona (Z=9.08, recargado contra el respaldo en Z=9.225)
+        dibujarCojinInclinado(6.7f, 9.08f, 0f, 12f, texturaID);
 
-        // Almohadas de Respaldo Principales (Gris Medio)
-        // Para el brazo largo (X=7.8), almohadas modulares
-        dibujarCojinRespaldo(7.8f, 8.0f);
-        dibujarCojinRespaldo(7.8f, 7.2f);
-
-        // Para la tumbona (Z=9.3), una gran almohada de respaldo
-        dibujarCojinRespaldoGrande(7.1f, 9.3f);
+        // --- 4. ALMOHADAS DECORATIVAS (Pequeñas, con Textura ALMOHADASALA) ---
+        // Esquina interior
+        dibujarCojin(7.4f, 8.8f, -45f, texturaAlmohadaSala);
+        // Extremo inferior
+        dibujarCojin(7.45f, 6.9f, -20f, texturaAlmohadaSala);
 
         glPopMatrix();
     }
@@ -288,7 +309,7 @@ public class SalaEstar {
         float z = convertirZGeoAOpenGL(centroZGeo);
 
         Cubo.dibujar(
-                x, altoAsiento, z,
+                x, altoAsiento / 2f, z, // Centro Y es la mitad de la altura para que apoye en el piso
                 escalar(anchoGeo), altoAsiento, escalar(profGeo),
                 r, g, b);
     }
@@ -325,8 +346,7 @@ public class SalaEstar {
         glPopMatrix();
     }
 
-    private static void dibujarCojin(float xGeo, float zGeo, float rotacionY) {
-        // Almohadas decorativas beige claras
+    private static void dibujarCojin(float xGeo, float zGeo, float rotacionY, int texturaID) {
         float x = convertirXGeoAOpenGL(xGeo);
         float z = convertirZGeoAOpenGL(zGeo);
 
@@ -335,14 +355,14 @@ public class SalaEstar {
         glTranslatef(x, Y, z);
         glRotatef(rotacionY, 0f, 1f, 0f);
 
-        Cubo.dibujar(
+        Cubo.dibujarConTextura(
                 0f,
-                0.82f,
+                0.35f + 0.08f, // Apoyado perfectamente sobre el asiento de 0.35 (0.35 + 0.16/2)
                 0f,
-                escalar(0.28f),
+                escalar(0.24f), // Más cuadrado
                 0.16f,
-                escalar(0.18f),
-                0.85f, 0.85f, 0.80f); // Beige claro
+                escalar(0.24f), // Más cuadrado
+                texturaID);
 
         glPopMatrix();
     }
@@ -385,12 +405,86 @@ public class SalaEstar {
         glPopMatrix();
     }
 
+    private static void dibujarBloqueSillonPorGeoConTextura(
+            float xMinGeo, float zMinGeo,
+            float xMaxGeo, float zMaxGeo,
+            float altoAsiento,
+            int texturaID) {
+
+        float centroXGeo = (xMinGeo + xMaxGeo) / 2.0f;
+        float centroZGeo = (zMinGeo + zMaxGeo) / 2.0f;
+
+        float anchoGeo = xMaxGeo - xMinGeo;
+        float profGeo = zMaxGeo - zMinGeo;
+
+        float x = convertirXGeoAOpenGL(centroXGeo);
+        float z = convertirZGeoAOpenGL(centroZGeo);
+
+        Cubo.dibujarConTextura(
+                x, altoAsiento / 2f, z, // Centro Y es la mitad de la altura
+                escalar(anchoGeo), altoAsiento, escalar(profGeo),
+                texturaID);
+    }
+
+    private static void dibujarRespaldoEntrePuntosConTextura(
+            float x1Geo, float z1Geo,
+            float x2Geo, float z2Geo,
+            float altoAsiento,
+            float profRespaldo, float altoRespaldo,
+            int texturaID) {
+
+        float centroXGeo = (x1Geo + x2Geo) / 2.0f;
+        float centroZGeo = (z1Geo + z2Geo) / 2.0f;
+
+        float dxGeo = x2Geo - x1Geo;
+        float dzGeo = z2Geo - z1Geo;
+
+        float largoGeo = (float) Math.sqrt(dxGeo * dxGeo + dzGeo * dzGeo);
+
+        float x = convertirXGeoAOpenGL(centroXGeo);
+        float z = convertirZGeoAOpenGL(centroZGeo);
+
+        float largo = escalar(largoGeo);
+        float angulo = (float) Math.toDegrees(Math.atan2(dzGeo, dxGeo));
+
+        glPushMatrix();
+        glTranslatef(x, Y + altoAsiento + altoRespaldo / 2f, z);
+        glRotatef(-angulo, 0f, 1f, 0f);
+
+        Cubo.dibujarConTextura(
+                0f, 0f, 0f,
+                largo, altoRespaldo, profRespaldo,
+                texturaID);
+        glPopMatrix();
+    }
+
+    private static void dibujarCojinInclinado(float xGeo, float zGeo, float rotacionY, float inclinacionX, int texturaID) {
+        float x = convertirXGeoAOpenGL(xGeo);
+        float z = convertirZGeoAOpenGL(zGeo);
+
+        glPushMatrix();
+        glTranslatef(x, Y + 0.55f, z); // Centro Y descansa perfectamente sobre el asiento (0.35 + 0.40/2)
+        
+        glRotatef(rotacionY, 0f, 1f, 0f);
+        // Inclinación hacia atrás para apoyarse de forma realista en el respaldo
+        glRotatef(inclinacionX, 1f, 0f, 0f); 
+
+        Cubo.dibujarConTextura(
+                0f, 0f, 0f,
+                escalar(0.50f), // Ancho de cojín realista
+                0.40f,          // Alto
+                escalar(0.12f), // Grosor delgado y elegante
+                texturaID);
+        glPopMatrix();
+    }
+
     private static void dibujarSillonCortoHorizontal(
             float xGeo,
             float zGeo,
             float largoGeo,
             float profundidadGeo,
-            float rotacionY) {
+            float rotacionY,
+            int texturaID) {
 
         float x = convertirXGeoAOpenGL(xGeo);
         float z = convertirZGeoAOpenGL(zGeo);
@@ -402,53 +496,45 @@ public class SalaEstar {
         glTranslatef(x, Y, z);
         glRotatef(rotacionY, 0f, 1f, 0f);
 
-        // Asiento
-        Cubo.dibujar(
+        // Asiento (anclado al piso)
+        Cubo.dibujarConTextura(
                 0f,
-                0.35f,
+                0.35f / 2f, // Mitad de la altura
                 0f,
                 largo,
                 0.35f,
                 profundidad,
-                0.72f,
-                0.70f,
-                0.66f);
+                texturaID);
 
-        // Respaldo
-        Cubo.dibujar(
+        // Respaldo (Desde el piso hasta 0.85)
+        Cubo.dibujarConTextura(
                 0f,
-                0.80f,
+                0.85f / 2f, 
                 -profundidad / 2f + 0.08f,
                 largo,
-                0.80f,
+                0.85f, // Más alto
                 0.16f,
-                0.62f,
-                0.60f,
-                0.56f);
+                texturaID);
 
-        // Brazo izquierdo
-        Cubo.dibujar(
+        // Brazo izquierdo (Desde el piso hasta 0.55)
+        Cubo.dibujarConTextura(
                 -largo / 2f,
-                0.55f,
+                0.55f / 2f,
                 0f,
                 0.14f,
                 0.55f,
                 profundidad,
-                0.62f,
-                0.60f,
-                0.56f);
+                texturaID);
 
-        // Brazo derecho
-        Cubo.dibujar(
+        // Brazo derecho (Desde el piso hasta 0.55)
+        Cubo.dibujarConTextura(
                 largo / 2f,
-                0.55f,
+                0.55f / 2f,
                 0f,
                 0.14f,
                 0.55f,
                 profundidad,
-                0.62f,
-                0.60f,
-                0.56f);
+                texturaID);
 
         glPopMatrix();
     }
@@ -456,7 +542,8 @@ public class SalaEstar {
     private static void dibujarSillonIndividual(
             float xGeo,
             float zGeo,
-            float rotacionY) {
+            float rotacionY,
+            int texturaID) {
 
         float x = convertirXGeoAOpenGL(xGeo);
         float z = convertirZGeoAOpenGL(zGeo);
@@ -469,57 +556,49 @@ public class SalaEstar {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Asiento
-        Cubo.dibujar(
+        Cubo.dibujarConTextura(
                 0f,
-                0.35f,
+                0.35f / 2f,
                 0f,
                 ancho,
                 0.35f,
                 fondo,
-                0.68f,
-                0.66f,
-                0.62f);
+                texturaID);
 
-        // Respaldo
-        Cubo.dibujar(
+        // Respaldo (Desde el piso hasta 0.85)
+        Cubo.dibujarConTextura(
                 0f,
-                0.78f,
+                0.85f / 2f,
                 -fondo / 2f + 0.08f,
                 ancho,
-                0.70f,
+                0.85f,
                 0.14f,
-                0.58f,
-                0.56f,
-                0.52f);
+                texturaID);
 
         // Brazo izquierdo
-        Cubo.dibujar(
+        Cubo.dibujarConTextura(
                 -ancho / 2f,
-                0.52f,
+                0.55f / 2f,
                 0f,
                 0.12f,
-                0.50f,
+                0.55f,
                 fondo,
-                0.58f,
-                0.56f,
-                0.52f);
+                texturaID);
 
         // Brazo derecho
-        Cubo.dibujar(
+        Cubo.dibujarConTextura(
                 ancho / 2f,
-                0.52f,
+                0.55f / 2f,
                 0f,
                 0.12f,
-                0.50f,
+                0.55f,
                 fondo,
-                0.58f,
-                0.56f,
-                0.52f);
+                texturaID);
 
         glPopMatrix();
     }
 
-    private static void dibujarMesaRectangularCentro() {
+    private static void dibujarMesaRectangularCentro(int texturaRepisa) {
         // Puntos G3=(5.9, 7.7) , H3=(5.9, 6.8) , I3=(6.6, 6.8) , J3=(6.6, 7.7)
         float centroXGeo = 6.25f; // (5.9 + 6.6) / 2
         float centroZGeo = 7.25f; // (6.8 + 7.7) / 2
@@ -539,31 +618,31 @@ public class SalaEstar {
         glPushMatrix();
         glTranslatef(x, Y, z);
 
-        // 1. Superficie de la mesa (Color Madera Clara / Beige)
-        Cubo.dibujar(
+        // 1. Superficie de la mesa (Textura de repisa de oficina)
+        Cubo.dibujarConTextura(
                 0f,
                 altoMesa - (grosorTabla / 2f),
                 0f,
                 ancho,
                 grosorTabla,
                 largo,
-                0.80f, 0.72f, 0.62f);
+                texturaRepisa);
 
         // 2. Patas de la mesa (Estilo bloque en los extremos o 4 patitas finas)
         // Pata delantera izquierda
-        Cubo.dibujar(-ancho / 2f + 0.04f, altoMesa / 2f, -largo / 2f + 0.04f, 0.05f, altoMesa, 0.05f, 0.3f, 0.3f, 0.3f);
+        Cubo.dibujarConTextura(-ancho / 2f + 0.04f, altoMesa / 2f, -largo / 2f + 0.04f, 0.05f, altoMesa, 0.05f, texturaRepisa);
         // Pata delantera derecha
-        Cubo.dibujar(ancho / 2f - 0.04f, altoMesa / 2f, -largo / 2f + 0.04f, 0.05f, altoMesa, 0.05f, 0.3f, 0.3f, 0.3f);
+        Cubo.dibujarConTextura(ancho / 2f - 0.04f, altoMesa / 2f, -largo / 2f + 0.04f, 0.05f, altoMesa, 0.05f, texturaRepisa);
         // Pata trasera izquierda
-        Cubo.dibujar(-ancho / 2f + 0.04f, altoMesa / 2f, largo / 2f - 0.04f, 0.05f, altoMesa, 0.05f, 0.3f, 0.3f, 0.3f);
+        Cubo.dibujarConTextura(-ancho / 2f + 0.04f, altoMesa / 2f, largo / 2f - 0.04f, 0.05f, altoMesa, 0.05f, texturaRepisa);
         // Pata trasera derecha
-        Cubo.dibujar(ancho / 2f - 0.04f, altoMesa / 2f, largo / 2f - 0.04f, 0.05f, altoMesa, 0.05f, 0.3f, 0.3f, 0.3f);
+        Cubo.dibujarConTextura(ancho / 2f - 0.04f, altoMesa / 2f, largo / 2f - 0.04f, 0.05f, altoMesa, 0.05f, texturaRepisa);
 
         glPopMatrix();
     }
 
     private static void dibujarCilindro(float radioBase, float radioTope, float altura, int lados) {
-        // Dibujar el cuerpo del cilindro
+        // Dibujar el cuerpo del cilindro sin textura
         glBegin(GL_QUAD_STRIP);
         for (int i = 0; i <= lados; i++) {
             float angulo = (float) (2.0 * Math.PI * i / lados);
@@ -576,6 +655,46 @@ public class SalaEstar {
             glVertex3f(x * radioTope, y * radioTope, altura);
         }
         glEnd();
+    }
+
+    private static void dibujarCilindroConTextura(float radioBase, float radioTope, float altura, int lados, int texturaID) {
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texturaID);
+        glBegin(GL_QUAD_STRIP);
+        for (int i = 0; i <= lados; i++) {
+            float angulo = (float) (2.0 * Math.PI * i / lados);
+            float x = (float) Math.cos(angulo);
+            float y = (float) Math.sin(angulo);
+            float u = (float) i / lados;
+            
+            glTexCoord2f(u, 0f);
+            glVertex3f(x * radioBase, y * radioBase, 0f);
+            
+            glTexCoord2f(u, 1f);
+            glVertex3f(x * radioTope, y * radioTope, altura);
+        }
+        glEnd();
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDisable(GL_TEXTURE_2D);
+    }
+
+    private static void dibujarDiscoConTextura(float radio, int lados, int texturaID) {
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texturaID);
+        glBegin(GL_TRIANGLE_FAN);
+        glTexCoord2f(0.5f, 0.5f);
+        glVertex3f(0f, 0f, 0f); // Centro
+        for (int i = 0; i <= lados; i++) {
+            float angulo = (float) (2.0 * Math.PI * i / lados);
+            float x = (float) Math.cos(angulo);
+            float y = (float) Math.sin(angulo);
+            
+            glTexCoord2f(0.5f + x * 0.5f, 0.5f + y * 0.5f);
+            glVertex3f(x * radio, y * radio, 0f);
+        }
+        glEnd();
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDisable(GL_TEXTURE_2D);
     }
 
     private static void dibujarDisco(float radioInterior, float radioExterior, int lados) {
@@ -603,18 +722,18 @@ public class SalaEstar {
         }
     }
 
-    private static void dibujarMesaCircular() {
-        // Puntos K3=(4.8, 6.3) a N3=(5.4, 6.9). Caja de 0.6 x 0.6
-        float centroXGeo = 5.1f; // (4.8 + 5.4) / 2
-        float centroZGeo = 6.6f; // (6.3 + 6.9) / 2
+    private static void dibujarSillonCircular(int texturaSillon) {
+        // Se mueve ligeramente hacia el mueble de la chimenea (X:4.1, Z:7.75)
+        float centroXGeo = 4.8f; 
+        float centroZGeo = 7.0f;
 
         float x = convertirXGeoAOpenGL(centroXGeo);
         float z = convertirZGeoAOpenGL(centroZGeo);
 
-        // Diámetro es 0.6 en geogebra, el radio para OpenGL es la mitad escalado
-        float radio = escalar(0.6f) / 2f;
-        float altoMesa = 0.55f; // Un poco más alta por ser lateral/esquina
-        float grosorTabla = 0.04f;
+        // Hacemos el sillón más pequeño para que no choque con la puerta
+        float radio = escalar(0.40f) / 2f;
+        float altoAsiento = 0.40f; 
+        float altoBase = 0.05f;
 
         glPushMatrix();
         glTranslatef(x, Y, z);
@@ -623,26 +742,23 @@ public class SalaEstar {
         glPushMatrix();
         glRotatef(-90f, 1f, 0f, 0f);
 
-        // --- 1. Base Central (Pata única cilíndrica de metal) ---
-        glColor3f(0.2f, 0.2f, 0.2f); // Gris oscuro/metalizado
-        dibujarCilindro(radio * 0.15f, radio * 0.15f, altoMesa - grosorTabla, 16);
+        // --- 1. Base (Color oscuro) ---
+        glColor3f(0.1f, 0.1f, 0.1f);
+        dibujarCilindro(radio * 0.95f, radio * 0.95f, altoBase, 32);
+        dibujarDisco(0f, radio * 0.95f, 32);
 
-        // Soporte del suelo (un pequeño disco en la base)
-        dibujarDisco(0f, radio * 0.6f, 16);
-
-        // --- 2. Tapa de la Mesa Redonda ---
-        // Nos movemos hacia arriba en la altura local para poner la tapa
-        glTranslatef(0f, 0f, altoMesa - grosorTabla);
-
-        // Color de la tapa (Madera oscura o cristal)
-        glColor3f(0.4f, 0.25f, 0.15f);
-
-        // Borde de la mesa (cilindro muy corto para darle grosor 3D)
-        dibujarCilindro(radio, radio, grosorTabla, 32);
-
-        // Tapa superior del círculo
-        glTranslatef(0f, 0f, grosorTabla);
-        dibujarDisco(0f, radio, 32);
+        // --- 2. Cojín del sillón ---
+        glTranslatef(0f, 0f, altoBase);
+        
+        // Restaurar color a blanco puro antes de aplicar textura
+        glColor3f(1.0f, 1.0f, 1.0f);
+        
+        // Borde del sillón
+        dibujarCilindroConTextura(radio, radio, altoAsiento - altoBase, 32, texturaSillon);
+        
+        // Tapa superior del asiento
+        glTranslatef(0f, 0f, altoAsiento - altoBase);
+        dibujarDiscoConTextura(radio, 32, texturaSillon);
 
         glPopMatrix(); // Salir de la rotación
         glPopMatrix(); // Salir de la posición general

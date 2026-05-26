@@ -23,7 +23,7 @@ public class BanoMedio {
         return valor * Constantes.ESCALA_CASA;
     }
 
-    public static void dibujar() {
+    public static void dibujar(int texturaBaseLavabo, int texturaBano) {
         /*
          * Baño del piso 1.
          * Cuarto entre los puntos A1, K, J, Y y Z.
@@ -40,7 +40,7 @@ public class BanoMedio {
         // Lavabo dentro del baño, pegado al muro inferior (Muro Z-J, Z=9.5)
         // Lo ponemos en X=6.0, Z=9.7, sin rotación para que la llave quede en la pared
         // de Z=9.5
-        dibujarLavabo(6.5f, 9.7f, 0f);
+        dibujarLavabo(6.5f, 9.7f, 0f, texturaBaseLavabo, texturaBano);
     }
 
     private static void dibujarRetrete(float xGeo, float zGeo, float rotacionY) {
@@ -114,7 +114,7 @@ public class BanoMedio {
         glPopMatrix();
     }
 
-    private static void dibujarLavabo(float xGeo, float zGeo, float rotacionY) {
+    private static void dibujarLavabo(float xGeo, float zGeo, float rotacionY, int texturaBase, int texturaSuperior) {
         float x = convertirXGeoAOpenGL(xGeo);
         float z = convertirZGeoAOpenGL(zGeo);
 
@@ -123,28 +123,50 @@ public class BanoMedio {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Mueble/base del lavabo
-        Cubo.dibujar(
-                0f,
-                0.35f,
-                0f,
-                escalar(0.70f),
-                0.70f,
-                escalar(0.38f),
-                0.55f,
-                0.35f,
-                0.20f);
+        if (texturaBase != 0) {
+            Cubo.dibujarConTextura(
+                    0f,
+                    0.35f,
+                    0f,
+                    escalar(0.70f),
+                    0.70f,
+                    escalar(0.38f),
+                    texturaBase);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.35f,
+                    0f,
+                    escalar(0.70f),
+                    0.70f,
+                    escalar(0.38f),
+                    0.55f,
+                    0.35f,
+                    0.20f);
+        }
 
         // Lavabo blanco superior
-        Cubo.dibujar(
-                0f,
-                0.78f,
-                0f,
-                escalar(0.78f),
-                0.16f,
-                escalar(0.45f),
-                0.95f,
-                0.95f,
-                0.90f);
+        if (texturaSuperior != 0) {
+            Cubo.dibujarConTextura(
+                    0f,
+                    0.78f,
+                    0f,
+                    escalar(0.78f),
+                    0.16f,
+                    escalar(0.45f),
+                    texturaSuperior);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.78f,
+                    0f,
+                    escalar(0.78f),
+                    0.16f,
+                    escalar(0.45f),
+                    0.95f,
+                    0.95f,
+                    0.90f);
+        }
 
         // Hueco del lavabo
         Cubo.dibujar(

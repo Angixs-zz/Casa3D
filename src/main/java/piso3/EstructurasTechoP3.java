@@ -54,11 +54,13 @@ public class EstructurasTechoP3 {
 
         for (int i = 0; i < numMuros; i++) {
             float zGeo = zMinGeo + i * pasoZ;
-            dibujarAletaDiagonalHueca(zGeo, xIzquierdaGeo, xDerechaGeo);
+            // La última aleta (N->O, Z=13.9) será sólida para tapar el fondo
+            boolean esHueca = (i != numMuros - 1); 
+            dibujarAletaDiagonal(zGeo, xIzquierdaGeo, xDerechaGeo, esHueca);
         }
     }
 
-    private static void dibujarAletaDiagonalHueca(float zGeo, float xIzquierdaGeo, float xDerechaGeo) {
+    private static void dibujarAletaDiagonal(float zGeo, float xIzquierdaGeo, float xDerechaGeo, boolean esHueca) {
         float zCentro = convertirZGeoAOpenGL(zGeo);
         float xIzq = convertirXGeoAOpenGL(xIzquierdaGeo); // -1.8 aprox
         float xDer = convertirXGeoAOpenGL(xDerechaGeo);   // -7.8 aprox
@@ -97,25 +99,19 @@ public class EstructurasTechoP3 {
         // Color blanco para el muro
         glColor3f(0.88f, 0.88f, 0.88f);
 
-        // 1. Pilar Izquierdo (X de xPilarIzqEnd a xPilarIzqStart)
-        float yTopPilarIzqStart = yTopIzq; // at xIzq
-        float yTopPilarIzqEnd = yTopIzq + slope * (xPilarIzqEnd - xIzq); // at xIzq - mX
-        dibujarBloqueIrregular(xPilarIzqEnd, xPilarIzqStart, yBase, yBase, yTopPilarIzqEnd, yTopPilarIzqStart, grosor);
+        if (!esHueca) {
+            // Muro sólido sin hueco en el centro
+            dibujarBloqueIrregular(xDer, xIzq, yBase, yBase, yTopDer, yTopIzq, grosor);
+            glPopMatrix();
+            return;
+        }
 
-        // 2. Pilar Derecho (X de xPilarDerEnd a xPilarDerStart)
-        float yTopPilarDerStart = yTopIzq + slope * (xPilarDerStart - xIzq);
-        float yTopPilarDerEnd = yTopDer; // at xDer
-        dibujarBloqueIrregular(xPilarDerEnd, xPilarDerStart, yBase, yBase, yTopPilarDerEnd, yTopPilarDerStart, grosor);
-
-        // 3. Base Inferior (entre pilar y pilar)
-        dibujarBloqueIrregular(xPilarDerStart, xPilarIzqEnd, yBase, yBase, yBase + mYBottom, yBase + mYBottom, grosor);
-
-        // 4. Viga Superior Inclinada (entre pilar y pilar)
-        float yVigaTopLeft = yTopPilarIzqEnd; // X = xPilarIzqEnd
-        float yVigaTopRight = yTopPilarDerStart; // X = xPilarDerStart
-        float yVigaBotLeft = yVigaTopLeft - mYTop;
-        float yVigaBotRight = yVigaTopRight - mYTop;
-        dibujarBloqueIrregular(xPilarDerStart, xPilarIzqEnd, yVigaBotRight, yVigaBotLeft, yVigaTopRight, yVigaTopLeft, grosor);
+        // Si es hueca, solo dibujamos la Viga Superior Inclinada (la "hipotenusa")
+        // que va de extremo a extremo sin los catetos (pilares o base).
+        float yVigaBotLeft = yTopIzq - mYTop; // En X = xIzq
+        float yVigaBotRight = yTopDer - mYTop; // En X = xDer
+        
+        dibujarBloqueIrregular(xDer, xIzq, yVigaBotRight, yVigaBotLeft, yTopDer, yTopIzq, grosor);
 
         glPopMatrix();
     }
