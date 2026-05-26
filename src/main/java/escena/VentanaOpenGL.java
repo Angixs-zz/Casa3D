@@ -102,6 +102,7 @@ public class VentanaOpenGL {
 
         private int modoCamara = 1;
         private boolean ePressed = false;
+        private float distanciaCamara3P = 5.0f; // Inicia más cerca del personaje (antes 8.0f)
 
         private static final int CAMARA_LIBRE = 1;
         private static final int CAMARA_PRIMERA_PERSONA = 2;
@@ -143,6 +144,16 @@ public class VentanaOpenGL {
                 glfwShowWindow(ventana);
 
                 GL.createCapabilities();
+
+                // Registrar callback para zoom con la rueda del mouse en tercera persona
+                glfwSetScrollCallback(ventana, (win, xoffset, yoffset) -> {
+                        if (modoCamara == CAMARA_TERCERA_PERSONA) {
+                                // Acercar o alejar suavemente
+                                distanciaCamara3P -= yoffset * 0.5f;
+                                if (distanciaCamara3P < 2.0f) distanciaCamara3P = 2.0f;
+                                if (distanciaCamara3P > 15.0f) distanciaCamara3P = 15.0f;
+                        }
+                });
 
                 casa = new Casa();
 
@@ -527,6 +538,19 @@ public class VentanaOpenGL {
                         if (glfwGetKey(ventana, GLFW_KEY_F3) == GLFW_PRESS)
                                 modoCamara = CAMARA_TERCERA_PERSONA;
 
+                        // Controles de zoom con teclado en tercera persona (flechas Arriba/Abajo o +/-)
+                        if (modoCamara == CAMARA_TERCERA_PERSONA) {
+                                if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(ventana, GLFW_KEY_KP_ADD) == GLFW_PRESS) {
+                                        distanciaCamara3P -= 0.08f;
+                                }
+                                if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(ventana, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS) {
+                                        distanciaCamara3P += 0.08f;
+                                }
+                                // Limitar zoom
+                                if (distanciaCamara3P < 2.0f) distanciaCamara3P = 2.0f;
+                                if (distanciaCamara3P > 15.0f) distanciaCamara3P = 15.0f;
+                        }
+
                         if (glfwGetKey(ventana, GLFW_KEY_E) == GLFW_PRESS) {
                                 if (!ePressed) {
                                         ePressed = true;
@@ -656,16 +680,55 @@ public class VentanaOpenGL {
         }
 
         private void aplicarCamaraTerceraPersona() {
-                glTranslatef(0f, -2.2f, -8.0f);
+                float personajeX = girasol.getX();
+                float personajeY = girasol.getY();
+                float personajeZ = girasol.getZ();
+                float rotacionY  = girasol.getRotacionY();
 
-                glRotatef(18f, 1f, 0f, 0f);
+                // ── Detectar piso y calcular techo ──
+                final float PISO2_Y   = utilidades.Constantes.ALTURA_PISO_2; // 3.2
+                final float PISO3_Y   = utilidades.Constantes.ALTURA_PISO_3; // 6.4
+                final float ALTO_PISO = 3.2f;
+                final float MARGEN    = 0.15f; // margen mínimo con el techo
 
-                glRotatef(-girasol.getRotacionY(), 0f, 1f, 0f);
+                float techoPiso;
+                if (personajeY >= PISO3_Y - 0.3f) {
+                        techoPiso = PISO3_Y + ALTO_PISO - MARGEN; // piso 3: cielo abierto
+                } else if (personajeY >= PISO2_Y - 0.3f) {
+                        techoPiso = PISO3_Y - MARGEN;             // piso 2: techo = suelo p3
+                } else {
+                        techoPiso = PISO2_Y - MARGEN;             // piso 1: techo = suelo p2
+                }
 
-                glTranslatef(
-                                -girasol.getX(),
-                                -(girasol.getY() + 1.0f),
-                                -girasol.getZ());
+                // Usamos el ángulo original de 18 grados para el pitch de la cámara
+                float pitchCamara = 18f;
+                float radPitch = (float) Math.toRadians(pitchCamara);
+                float cosPitch = (float) Math.cos(radPitch);
+                float sinPitch = (float) Math.sin(radPitch);
+
+                // Altura vertical por defecto de la cámara sobre el personaje (original era 2.2f)
+                float yOffset = 2.2f;
+
+                // Altura de la cámara en el mundo según las transformaciones de OpenGL:
+                // camY = (personajeY + 1.0f) + yOffset * cos(pitch) + distanciaCamara3P * sin(pitch)
+                float camYIdeal = (personajeY + 1.0f) + yOffset * cosPitch + distanciaCamara3P * sinPitch;
+
+                // Si la altura ideal excede el techo del piso actual, reducimos yOffset para evitar que pase la losa
+                if (camYIdeal > techoPiso) {
+                        yOffset = (techoPiso - (personajeY + 1.0f) - distanciaCamara3P * sinPitch) / cosPitch;
+                        
+                        // Límite de seguridad para que la cámara no baje por debajo del personaje
+                        if (yOffset < 0.2f) {
+                                yOffset = 0.2f;
+                        }
+                }
+
+                // Usamos EXACTAMENTE el mismo orden y signo de las transformaciones del motor original.
+                // Esto garantiza al 100% que la orientación de las teclas WASD sea idéntica a la original.
+                glTranslatef(0f, -yOffset, -distanciaCamara3P);
+                glRotatef(pitchCamara, 1f, 0f, 0f);
+                glRotatef(-rotacionY, 0f, 1f, 0f);
+                glTranslatef(-personajeX, -(personajeY + 1.0f), -personajeZ);
         }
 
         private void dibujarPiso() {
