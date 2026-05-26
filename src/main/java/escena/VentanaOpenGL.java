@@ -706,6 +706,10 @@ public class VentanaOpenGL {
                 float cosPitch = (float) Math.cos(radPitch);
                 float sinPitch = (float) Math.sin(radPitch);
 
+                float radYaw = (float) Math.toRadians(rotacionY);
+                float sinYaw = (float) Math.sin(radYaw);
+                float cosYaw = (float) Math.cos(radYaw);
+
                 // Altura vertical por defecto de la cámara sobre el personaje (original era 2.2f)
                 float yOffset = 2.2f;
 
@@ -723,9 +727,42 @@ public class VentanaOpenGL {
                         }
                 }
 
-                // Usamos EXACTAMENTE el mismo orden y signo de las transformaciones del motor original.
-                // Esto garantiza al 100% que la orientación de las teclas WASD sea idéntica a la original.
-                glTranslatef(0f, -yOffset, -distanciaCamara3P);
+                // ── SISTEMA DE COLISIÓN DE LA CÁMARA (SPRING ARM) ──
+                // Escaneamos hacia atrás desde la distancia deseada hacia el personaje
+                // para encontrar la distancia máxima permitida sin chocar con paredes o muebles.
+                float distanciaValida = distanciaCamara3P;
+                float radioColisionCamara = 0.2f; // Radio para la caja de colisión de la cámara
+
+                for (float d = distanciaCamara3P; d >= 0.4f; d -= 0.15f) {
+                        // Calcular posición 3D real de la cámara en mundo para esta distancia 'd'
+                        float y1 = yOffset * cosPitch + d * sinPitch;
+                        float z1 = -yOffset * sinPitch + d * cosPitch;
+
+                        float cx = personajeX + z1 * sinYaw;
+                        float cy = (personajeY + 1.0f) + y1;
+                        float cz = personajeZ + z1 * cosYaw;
+
+                        // Comprobar si esta posición choca con paredes del mapa
+                        boolean colision = objetos.Colisiones.hayColisionConParedes(cx, cz, cy, casa, radioColisionCamara);
+                        if (!colision) {
+                                // Comprobar si choca con algún mueble
+                                colision = objetos.Colisiones.hayColisionConMuebles(cx, cz, cy, radioColisionCamara);
+                        }
+
+                        if (!colision) {
+                                // Encontrada la distancia máxima libre de colisiones
+                                distanciaValida = d;
+                                break;
+                        }
+
+                        // Si llega al final del bucle y sigue colisionando, forzar la distancia mínima
+                        if (d - 0.15f < 0.4f) {
+                                distanciaValida = 0.4f;
+                        }
+                }
+
+                // Aplicar las transformaciones usando la distancia corregida por colisión
+                glTranslatef(0f, -yOffset, -distanciaValida);
                 glRotatef(pitchCamara, 1f, 0f, 0f);
                 glRotatef(-rotacionY, 0f, 1f, 0f);
                 glTranslatef(-personajeX, -(personajeY + 1.0f), -personajeZ);
