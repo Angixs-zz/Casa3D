@@ -414,9 +414,30 @@ public class Casa {
         agregarPunto("FUENTE_U8", 7.4, 12.6);
         agregarPunto("FUENTE_V8", 7.8, 12.6);
 
+        // nueva colisiones
+        agregarPunto("A7A", 6, 19.6);
+        agregarPunto("Z6A", 6, 20.6);
+        agregarPunto("P6A", 7.4, 19.6);
+        agregarPunto("Q6A", 7.4, 18.4);
+        agregarPunto("R6A", 7.8, 18.9);
+        // mas nuevas
+        agregarPunto("JAD7", 1.6, 20.2);
+        agregarPunto("JAC7", 1.6, 18.7);
+
     }
 
     private void crearParedesPrimeraPlanta() {
+
+        // Colisiones
+        agregarParedInvisible("A7A", "Z6A", "A7A", 0.0);
+        agregarParedInvisible("P6A", "Q6A", "P6A", 0.0);
+        agregarParedInvisible("Q6A", "R6A", "Q6A", 0.0);
+        agregarParedInvisible("Qa6A", "A7A", "P6A", 0.0);
+
+        //agregar mas pared
+        agregarParedInvisible("JAD7","JAC7","JAD7",0.0);
+
+
         agregarPared("f", "E", "D", 0.0);
         agregarPared("g", "D", "C", 0.0);
         agregarPared("h", "G", "F", 0.0);
@@ -1769,7 +1790,6 @@ public class Casa {
         agregarPared("P3_p", "P3_J1", "P3_I1", alturaBase3, alturaSemiMuro);
         // agregarPared("P3_q", "P3_I1", "P3_M1", alturaBase3, alturaSemiMuro);
 
-        
         agregarPared("P3_s", "P3_L1", "P3_M", alturaBase3, 0.5); // 1/4 muro (jardin)
         agregarPared("P3_t", "P3_I1", "P3_C1", alturaBase3, alturaSemiMuro);
 
