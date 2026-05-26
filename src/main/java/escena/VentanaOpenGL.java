@@ -1237,14 +1237,14 @@ public class VentanaOpenGL {
                                                 texturaCuadro8);
                         }
                 } else if (nombre != null && nombre.equals("a1") && objetos.Cocina.texturaCocinaMadera != 0) {
-                        int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca
+                        int texturaOtroLado = texturaParedBano != 0 ? texturaParedBano
                                         : objetos.Cocina.texturaCocinaMadera;
                         // a1 está rotada 180 grados, por lo que el lado de la cocina es +Z (Interior) y
                         // el otro lado es -Z (Exterior)
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaOtroLado,
                                         objetos.Cocina.texturaCocinaMadera);
                 } else if (nombre != null && nombre.equals("b1") && objetos.Cocina.texturaCocinaMadera != 0) {
-                        int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca
+                        int texturaOtroLado = texturaParedBano != 0 ? texturaParedBano
                                         : objetos.Cocina.texturaCocinaMadera;
                         // b1 tiene el lado de la cocina hacia -Z (Exterior) y el otro lado hacia +Z
                         // (Interior)
@@ -1293,14 +1293,14 @@ public class VentanaOpenGL {
                                         glPopMatrix();
                                 }
                         }
-                } else if (nombre != null && (nombre.equals("b1") || nombre.equals("c1") || nombre.equals("d1")) && texturaParedBano != 0 && texturaParedBlanca != 0) {
+                } else if (nombre != null && (nombre.equals("c1") || nombre.equals("d1")) && texturaParedBano != 0 && texturaParedBlanca != 0) {
                         // Paredes donde el lado 2 (Atrás/-Z local) mira hacia el interior del baño
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca, texturaParedBano);
-                } else if (nombre != null && (nombre.equals("a1") || nombre.equals("s1")) && texturaParedBano != 0 && texturaParedBlanca != 0) {
+                } else if (nombre != null && nombre.equals("s1") && texturaParedBano != 0 && texturaParedBlanca != 0) {
                         // Paredes donde el lado 1 (Frente/+Z local) mira hacia el interior del baño
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBano, texturaParedBlanca);
-                } else if (nombre != null && nombre.equals("t1") && texturaParedBano != 0 && texturaParedBlanca != 0) {
-                        // Pared t1 es un muro divisor dentro del baño, ambas caras llevan textura de baño
+                } else if (nombre != null && (nombre.equals("t1") || nombre.equals("Dintel baño2")) && texturaParedBano != 0 && texturaParedBlanca != 0) {
+                        // Pared t1 y el marco interior (Dintel baño2) llevan textura de baño en ambas caras
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBano, texturaParedBano);
                 } else if (nombre != null && (nombre.equals("h") || nombre.equals("i") || nombre.equals("j")
                                 || nombre.equals("P2_m") || nombre.equals("P2_n") || nombre.equals("P2_p")
