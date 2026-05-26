@@ -1400,6 +1400,10 @@ public class VentanaOpenGL {
                                 && texturaParedAzul != 0) {
                         int texturaInterior = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaInterior, texturaParedAzul);
+                } else if (nombre != null && (nombre.equals("b") || nombre.equals("c") || nombre.equals("P2_t1") || nombre.equals("P3_e1")) && texturaParedAzul != 0) {
+                        // Pared J a N1 (1er piso = b, c. 2do piso = P2_t1. 3er piso = P3_e1). dz positivo, local -Z es interior.
+                        int blanca = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedAzul, blanca);
                 } else if (nombre != null && (nombre.equals("Dintel Cuarto S") || nombre.equals("Dintel Despacho")) && texturaParedAzul != 0) {
                         // Dinteles de sala y oficina
                         Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedAzul);
@@ -1408,9 +1412,14 @@ public class VentanaOpenGL {
                 } else if (nombre != null && nombre.equals("p") && texturaParedLadrillo != 0) {
                         // Pared p: de T a U (Oficina).
                         Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedLadrillo);
-                } else if (nombre != null && (nombre.equals("n2") || nombre.equals("P2_a1")) && texturaLadrillo != 0) {
-                        // Pared M1 a N1 (1er piso = n2, 2do piso = P2_a1).
-                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaLadrillo);
+                } else if (nombre != null && (nombre.equals("n2") || nombre.equals("P3_b1")) && texturaLadrillo != 0) {
+                        // Pared M1 a N1 (1er piso = n2, 3er piso = P3_b1). dz negativo, local +Z es interior.
+                        int blanca = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, blanca, texturaLadrillo);
+                } else if (nombre != null && nombre.equals("P2_a1") && texturaLadrillo != 0) {
+                        // Pared P2_G a P2_O1 (2do piso). dz positivo, local -Z es interior.
+                        int blanca = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaLadrillo, blanca);
                 } else if (nombre != null && nombre.equals("r_cochera") && texturaParedLadrillo != 0) {
                         // r_cochera: Invertido por petición. Lado exterior = pared cochera, Lado interior = ladrillo
                         int texturaExt = texturaParedCochera != 0 ? texturaParedCochera : texturaParedBlanca;
