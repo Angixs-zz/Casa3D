@@ -7,6 +7,8 @@ public class Fuente {
 
     private static final float Y = Constantes.ALTURA_PISO_1;
     public static int texturaCascada = 0;
+    public static int texturaHojas = 0;
+    public static int texturaLadrillo = 0;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -123,14 +125,25 @@ public class Fuente {
         float pilarThickness = escalar(0.2f); // Grosor de los marcos laterales
 
         // Muro verde de fondo (detrás de la estructura)
-        Cubo.dibujar(
-                cx - widthX / 2f - escalar(0.05f),
-                heightY / 2f,
-                cz,
-                escalar(0.1f),
-                heightY,
-                lengthZ * 1.2f,
-                0.15f, 0.35f, 0.15f);
+        if (texturaHojas != 0) {
+            Cubo.dibujarConTextura(
+                    cx - widthX / 2f - escalar(0.05f),
+                    heightY / 2f,
+                    cz,
+                    escalar(0.1f),
+                    heightY,
+                    lengthZ * 1.2f,
+                    texturaHojas);
+        } else {
+            Cubo.dibujar(
+                    cx - widthX / 2f - escalar(0.05f),
+                    heightY / 2f,
+                    cz,
+                    escalar(0.1f),
+                    heightY,
+                    lengthZ * 1.2f,
+                    0.15f, 0.35f, 0.15f);
+        }
 
         // Pilar izquierdo (Z negativo local)
         Cubo.dibujar(
@@ -294,12 +307,21 @@ public class Fuente {
                 colorMarcoR, colorMarcoG, colorMarcoB);
 
         // Muro de piedra por donde cae el agua
-        Cubo.dibujar(
-                cx - escalar(0.05f),
-                heightY / 2f,
-                cz,
-                widthX * 0.5f, heightY, lengthZ - pilarThickness * 2f,
-                0.3f, 0.3f, 0.3f);
+        if (texturaLadrillo != 0) {
+            Cubo.dibujarConTextura(
+                    cx - escalar(0.05f),
+                    heightY / 2f,
+                    cz,
+                    widthX * 0.5f, heightY, lengthZ - pilarThickness * 2f,
+                    texturaLadrillo);
+        } else {
+            Cubo.dibujar(
+                    cx - escalar(0.05f),
+                    heightY / 2f,
+                    cz,
+                    widthX * 0.5f, heightY, lengthZ - pilarThickness * 2f,
+                    0.3f, 0.3f, 0.3f);
+        }
     }
 
     private static void dibujarAguaCascadaDoble() {
@@ -314,14 +336,14 @@ public class Fuente {
         glDepthMask(false);
 
         if (texturaCascada != 0) {
-            Cubo.dibujarConTextura(
+            Cubo.dibujarConTexturaTransparente(
                     cx + escalar(0.05f),
                     heightY / 2f,
                     cz,
                     escalar(0.02f),
                     heightY,
                     lengthZ - pilarThickness * 2f,
-                    texturaCascada);
+                    texturaCascada, 0.7f);
         } else {
             Cubo.dibujar(
                     cx + escalar(0.05f), // Por delante de la piedra

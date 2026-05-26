@@ -23,23 +23,17 @@ public class Auto {
         return valor * Constantes.ESCALA_CASA;
     }
 
-    public static void dibujar() {
-        /*
-         * =====================================================
-         * AUTO - COCHERA
-         * =====================================================
-         *
-         * Rectángulo de la cochera:
-         * B8 = (0.4, 4.6)
-         * C8 = (2.2, 4.6)
-         * D8 = (0.4, 0.4)
-         * E8 = (2.2, 0.4)
-         *
-         * Centro:
-         * x = 1.3
-         * z = 2.5
-         */
+    public static int texturaCarro = 0;
 
+    private static void dibujarParteCarroceria(float x, float y, float z, float w, float h, float d, float r, float g, float b) {
+        if (texturaCarro != 0) {
+            Cubo.dibujarConTextura(x, y, z, w, h, d, texturaCarro);
+        } else {
+            Cubo.dibujar(x, y, z, w, h, d, r, g, b);
+        }
+    }
+
+    public static void dibujar() {
         float xGeo = 1.3f;
         float zGeo = 2.5f;
 
@@ -49,367 +43,167 @@ public class Auto {
         glPushMatrix();
         glTranslatef(x, Y, z);
 
-        // Si luego quieres girarlo:
-        // glRotatef(0f, 0f, 1f, 0f);
-
-        dibujarCarroceria();
-        dibujarCabina();
-        dibujarCofreYCajuela();
-        dibujarVentanas();
-        dibujarParabrisas();
+        dibujarCarroceriaAerodinamica();
         dibujarLlantas();
-        dibujarFarosYDetalles();
 
         glPopMatrix();
     }
 
-    // =====================================================
-    // CUERPO PRINCIPAL
-    // =====================================================
-    private static void dibujarCarroceria() {
-        // Base principal del auto
-        Cubo.dibujar(
-                0f,
-                escalar(0.30f),
-                0f,
-                escalar(1.38f),
-                escalar(0.35f),
-                escalar(3.55f),
-                0.78f,
-                0.05f,
-                0.05f);
+    private static void dibujarCarroceriaAerodinamica() {
+        float[] z = {-1.7f, -1.7f, -0.6f, -0.3f, 0.5f, 1.0f, 1.7f, 1.7f};
+        float[] y = {0.2f,  0.45f, 0.60f, 1.05f, 1.05f, 0.65f, 0.55f, 0.2f};
+        
+        for (int i = 0; i < z.length; i++) {
+            z[i] = escalar(z[i]);
+            y[i] = escalar(y[i]);
+        }
+        
+        float x1 = escalar(-0.65f);
+        float x2 = escalar(0.65f);
+        
+        if (texturaCarro != 0) {
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, texturaCarro);
+            glColor4f(1f, 1f, 1f, 1f);
+        } else {
+            glDisable(GL_TEXTURE_2D);
+            glColor3f(0.78f, 0.05f, 0.05f); // Rojo por defecto
+        }
+        
+        // Lado izquierdo (X = x1)
+        glBegin(GL_POLYGON);
+        for (int i = 0; i < z.length; i++) {
+            if (texturaCarro != 0) glTexCoord2f((z[i]/escalar(3.4f)) + 0.5f, y[i]/escalar(1.2f));
+            glVertex3f(x1, y[i], z[i]);
+        }
+        glEnd();
+        
+        // Lado derecho (X = x2)
+        glBegin(GL_POLYGON);
+        for (int i = z.length - 1; i >= 0; i--) {
+            if (texturaCarro != 0) glTexCoord2f((z[i]/escalar(3.4f)) + 0.5f, y[i]/escalar(1.2f));
+            glVertex3f(x2, y[i], z[i]);
+        }
+        glEnd();
+        
+        // Techo, cofre, baúl, frentes y piso (La banda extrudida)
+        glBegin(GL_QUAD_STRIP);
+        float texU = 0f;
+        for (int i = 0; i < z.length; i++) {
+            if (i > 0) {
+                float dz = z[i] - z[i-1];
+                float dy = y[i] - y[i-1];
+                texU += (float)Math.sqrt(dz*dz + dy*dy) / escalar(1.0f);
+            }
+            if (texturaCarro != 0) glTexCoord2f(texU, 0f);
+            glVertex3f(x2, y[i], z[i]);
+            if (texturaCarro != 0) glTexCoord2f(texU, 1f);
+            glVertex3f(x1, y[i], z[i]);
+        }
+        // Cerrar la banda inferior
+        float dzC = z[0] - z[z.length-1];
+        float dyC = y[0] - y[z.length-1];
+        texU += (float)Math.sqrt(dzC*dzC + dyC*dyC) / escalar(1.0f);
+        if (texturaCarro != 0) glTexCoord2f(texU, 0f);
+        glVertex3f(x2, y[0], z[0]);
+        if (texturaCarro != 0) glTexCoord2f(texU, 1f);
+        glVertex3f(x1, y[0], z[0]);
+        glEnd();
+        
+        if (texturaCarro != 0) {
+            glDisable(GL_TEXTURE_2D);
+        }
 
-        // Franja lateral izquierda
-        Cubo.dibujar(
-                -escalar(0.60f),
-                escalar(0.42f),
-                0f,
-                escalar(0.12f),
-                escalar(0.20f),
-                escalar(3.20f),
-                0.72f,
-                0.04f,
-                0.04f);
+        // =======================
+        // CRISTALES (Ventanas oscuras)
+        // =======================
+        glColor4f(0.1f, 0.1f, 0.1f, 0.9f); 
+        float offset = escalar(0.01f);
+        
+        // Parabrisas Frontal
+        glBegin(GL_QUADS);
+        glVertex3f(x2 - offset, y[2] + offset, z[2] - offset);
+        glVertex3f(x1 + offset, y[2] + offset, z[2] - offset);
+        glVertex3f(x1 + offset, y[3] + offset, z[3] - offset);
+        glVertex3f(x2 - offset, y[3] + offset, z[3] - offset);
+        glEnd();
+        
+        // Parabrisas Trasero
+        glBegin(GL_QUADS);
+        glVertex3f(x2 - offset, y[5] + offset, z[5] + offset);
+        glVertex3f(x1 + offset, y[5] + offset, z[5] + offset);
+        glVertex3f(x1 + offset, y[4] + offset, z[4] + offset);
+        glVertex3f(x2 - offset, y[4] + offset, z[4] + offset);
+        glEnd();
+        
+        // Ventanas Laterales Izquierdas
+        glBegin(GL_POLYGON);
+        glVertex3f(x1 - offset, y[2] + offset*2, z[2] + offset);
+        glVertex3f(x1 - offset, y[3] - offset, z[3] + offset);
+        glVertex3f(x1 - offset, y[4] - offset, z[4] - offset);
+        glVertex3f(x1 - offset, y[5] + offset*2, z[5] - offset);
+        glEnd();
+        
+        // Ventanas Laterales Derechas
+        glBegin(GL_POLYGON);
+        glVertex3f(x2 + offset, y[5] + offset*2, z[5] - offset);
+        glVertex3f(x2 + offset, y[4] - offset, z[4] - offset);
+        glVertex3f(x2 + offset, y[3] - offset, z[3] + offset);
+        glVertex3f(x2 + offset, y[2] + offset*2, z[2] + offset);
+        glEnd();
+        
+        // Faros Delanteros (Blancos/Amarillos)
+        glColor3f(0.9f, 0.9f, 0.6f);
+        glBegin(GL_QUADS);
+        glVertex3f(x2 - escalar(0.1f), y[1] - escalar(0.05f), z[1] - offset);
+        glVertex3f(x2 - escalar(0.3f), y[1] - escalar(0.05f), z[1] - offset);
+        glVertex3f(x2 - escalar(0.3f), y[1] - escalar(0.15f), z[1] - offset);
+        glVertex3f(x2 - escalar(0.1f), y[1] - escalar(0.15f), z[1] - offset);
+        
+        glVertex3f(x1 + escalar(0.3f), y[1] - escalar(0.05f), z[1] - offset);
+        glVertex3f(x1 + escalar(0.1f), y[1] - escalar(0.05f), z[1] - offset);
+        glVertex3f(x1 + escalar(0.1f), y[1] - escalar(0.15f), z[1] - offset);
+        glVertex3f(x1 + escalar(0.3f), y[1] - escalar(0.15f), z[1] - offset);
+        glEnd();
 
-        // Franja lateral derecha
-        Cubo.dibujar(
-                escalar(0.60f),
-                escalar(0.42f),
-                0f,
-                escalar(0.12f),
-                escalar(0.20f),
-                escalar(3.20f),
-                0.72f,
-                0.04f,
-                0.04f);
+        // Faros Traseros (Rojos)
+        glColor3f(0.8f, 0.1f, 0.1f);
+        glBegin(GL_QUADS);
+        glVertex3f(x2 - escalar(0.1f), y[6] - escalar(0.05f), z[6] + offset);
+        glVertex3f(x1 + escalar(0.1f), y[6] - escalar(0.05f), z[6] + offset);
+        glVertex3f(x1 + escalar(0.1f), y[6] - escalar(0.15f), z[6] + offset);
+        glVertex3f(x2 - escalar(0.1f), y[6] - escalar(0.15f), z[6] + offset);
+        glEnd();
     }
 
-    // =====================================================
-    // CABINA / TECHO
-    // =====================================================
-    private static void dibujarCabina() {
-        // Cabina principal
-        Cubo.dibujar(
-                0f,
-                escalar(0.78f),
-                0.15f,
-                escalar(1.10f),
-                escalar(0.45f),
-                escalar(1.55f),
-                0.82f,
-                0.08f,
-                0.08f);
-
-        // Techo
-        Cubo.dibujar(
-                0f,
-                escalar(1.08f),
-                0.15f,
-                escalar(0.92f),
-                escalar(0.14f),
-                escalar(1.05f),
-                0.70f,
-                0.05f,
-                0.05f);
-    }
-
-    // =====================================================
-    // COFRE Y CAJUELA
-    // =====================================================
-    private static void dibujarCofreYCajuela() {
-        // Cofre / frente del auto
-        Cubo.dibujar(
-                0f,
-                escalar(0.52f),
-                -escalar(1.10f),
-                escalar(1.24f),
-                escalar(0.16f),
-                escalar(1.05f),
-                0.82f,
-                0.08f,
-                0.08f);
-
-        // Cajuela / parte trasera
-        Cubo.dibujar(
-                0f,
-                escalar(0.56f),
-                escalar(1.20f),
-                escalar(1.20f),
-                escalar(0.18f),
-                escalar(0.88f),
-                0.80f,
-                0.06f,
-                0.06f);
-
-        // Defensa delantera
-        Cubo.dibujar(
-                0f,
-                escalar(0.18f),
-                -escalar(1.72f),
-                escalar(1.22f),
-                escalar(0.14f),
-                escalar(0.18f),
-                0.10f,
-                0.10f,
-                0.10f);
-
-        // Defensa trasera
-        Cubo.dibujar(
-                0f,
-                escalar(0.18f),
-                escalar(1.72f),
-                escalar(1.18f),
-                escalar(0.14f),
-                escalar(0.18f),
-                0.12f,
-                0.12f,
-                0.12f);
-    }
-
-    // =====================================================
-    // VENTANAS LATERALES Y POSTERIOR
-    // =====================================================
-    private static void dibujarVentanas() {
-        // Ventana lateral izquierda
-        Cubo.dibujar(
-                -escalar(0.38f),
-                escalar(0.92f),
-                0.18f,
-                escalar(0.20f),
-                escalar(0.20f),
-                escalar(1.05f),
-                0.18f,
-                0.30f,
-                0.38f);
-
-        // Ventana lateral derecha
-        Cubo.dibujar(
-                escalar(0.38f),
-                escalar(0.92f),
-                0.18f,
-                escalar(0.20f),
-                escalar(0.20f),
-                escalar(1.05f),
-                0.18f,
-                0.30f,
-                0.38f);
-
-        // Ventana trasera
-        Cubo.dibujar(
-                0f,
-                escalar(0.90f),
-                escalar(0.88f),
-                escalar(0.76f),
-                escalar(0.18f),
-                escalar(0.28f),
-                0.18f,
-                0.30f,
-                0.38f);
-    }
-
-    // =====================================================
-    // PARABRISAS
-    // =====================================================
-    private static void dibujarParabrisas() {
-        // Parabrisas frontal
-        Cubo.dibujar(
-                0f,
-                escalar(0.88f),
-                -escalar(0.58f),
-                escalar(0.78f),
-                escalar(0.20f),
-                escalar(0.30f),
-                0.18f,
-                0.30f,
-                0.38f);
-
-        // Marco del parabrisas
-        Cubo.dibujar(
-                0f,
-                escalar(0.90f),
-                -escalar(0.58f),
-                escalar(0.88f),
-                escalar(0.05f),
-                escalar(0.36f),
-                0.10f,
-                0.10f,
-                0.10f);
-    }
-
-    // =====================================================
-    // LLANTAS
-    // =====================================================
     private static void dibujarLlantas() {
-        // Delantera izquierda
-        dibujarLlanta(-0.78f, -1.05f);
-
-        // Delantera derecha
-        dibujarLlanta(0.78f, -1.05f);
-
-        // Trasera izquierda
-        dibujarLlanta(-0.78f, 1.05f);
-
-        // Trasera derecha
-        dibujarLlanta(0.78f, 1.05f);
+        dibujarLlanta(-0.65f, -1.05f); // Delantera izq
+        dibujarLlanta(0.65f, -1.05f);  // Delantera der
+        dibujarLlanta(-0.65f, 1.05f);  // Trasera izq
+        dibujarLlanta(0.65f, 1.05f);   // Trasera der
     }
 
     private static void dibujarLlanta(float xLocalGeo, float zLocalGeo) {
         float xLocal = escalar(xLocalGeo);
         float zLocal = escalar(zLocalGeo);
-
-        // Llanta exterior
-        Cubo.dibujar(
-                xLocal,
-                escalar(0.20f),
-                zLocal,
-                escalar(0.22f),
-                escalar(0.40f),
-                escalar(0.52f),
-                0.04f,
-                0.04f,
-                0.04f);
-
-        // Rin
-        Cubo.dibujar(
-                xLocal,
-                escalar(0.20f),
-                zLocal,
-                escalar(0.12f),
-                escalar(0.18f),
-                escalar(0.28f),
-                0.65f,
-                0.65f,
-                0.68f);
-    }
-
-    // =====================================================
-    // DETALLES
-    // =====================================================
-    private static void dibujarFarosYDetalles() {
-        // Faros delanteros
-        Cubo.dibujar(
-                -escalar(0.36f),
-                escalar(0.40f),
-                -escalar(1.55f),
-                escalar(0.20f),
-                escalar(0.10f),
-                escalar(0.08f),
-                0.92f,
-                0.92f,
-                0.72f);
-
-        Cubo.dibujar(
-                escalar(0.36f),
-                escalar(0.40f),
-                -escalar(1.55f),
-                escalar(0.20f),
-                escalar(0.10f),
-                escalar(0.08f),
-                0.92f,
-                0.92f,
-                0.72f);
-
-        // Parrilla frontal
-        Cubo.dibujar(
-                0f,
-                escalar(0.34f),
-                -escalar(1.50f),
-                escalar(0.40f),
-                escalar(0.10f),
-                escalar(0.06f),
-                0.10f,
-                0.10f,
-                0.10f);
-
-        // Faros traseros
-        Cubo.dibujar(
-                -escalar(0.34f),
-                escalar(0.42f),
-                escalar(1.57f),
-                escalar(0.18f),
-                escalar(0.08f),
-                escalar(0.08f),
-                0.85f,
-                0.12f,
-                0.12f);
-
-        Cubo.dibujar(
-                escalar(0.34f),
-                escalar(0.42f),
-                escalar(1.57f),
-                escalar(0.18f),
-                escalar(0.08f),
-                escalar(0.08f),
-                0.85f,
-                0.12f,
-                0.12f);
-
-        // Espejo izquierdo
-        Cubo.dibujar(
-                -escalar(0.73f),
-                escalar(0.72f),
-                -escalar(0.15f),
-                escalar(0.08f),
-                escalar(0.10f),
-                escalar(0.16f),
-                0.10f,
-                0.10f,
-                0.10f);
-
-        // Espejo derecho
-        Cubo.dibujar(
-                escalar(0.73f),
-                escalar(0.72f),
-                -escalar(0.15f),
-                escalar(0.08f),
-                escalar(0.10f),
-                escalar(0.16f),
-                0.10f,
-                0.10f,
-                0.10f);
-
-        // Placa delantera
-        Cubo.dibujar(
-                0f,
-                escalar(0.22f),
-                -escalar(1.61f),
-                escalar(0.24f),
-                escalar(0.08f),
-                escalar(0.03f),
-                0.96f,
-                0.96f,
-                0.96f);
-
-        // Placa trasera
-        Cubo.dibujar(
-                0f,
-                escalar(0.22f),
-                escalar(1.61f),
-                escalar(0.24f),
-                escalar(0.08f),
-                escalar(0.03f),
-                0.96f,
-                0.96f,
-                0.96f);
+        
+        glPushMatrix();
+        glTranslatef(xLocal, escalar(0.22f), zLocal);
+        
+        // Rotar para acostar el cilindro sobre el eje X
+        glRotatef(90f, 0f, 0f, 1f);
+        
+        float radioLlanta = escalar(0.22f);
+        float anchoLlanta = escalar(0.16f);
+        
+        // Centrar la rueda en el eje X
+        glTranslatef(0f, -anchoLlanta / 2f, 0f);
+        
+        // Neumático
+        Cubo.dibujarCilindro(0f, 0f, 0f, radioLlanta, anchoLlanta, 20, 0.04f, 0.04f, 0.04f);
+        // Rin (Ligeramente más largo para sobresalir un poco y radio más corto)
+        Cubo.dibujarCilindro(0f, -escalar(0.01f), 0f, radioLlanta * 0.6f, anchoLlanta + escalar(0.02f), 16, 0.65f, 0.65f, 0.68f);
+        
+        glPopMatrix();
     }
 }

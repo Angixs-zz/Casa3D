@@ -15,6 +15,9 @@ public class Puerta {
     private boolean visible = true;
     private boolean esCorrediza = false;
 
+    public static int texturaPuerta = 0;
+    public static int texturaPuertaNegra = 0;
+
     public Puerta(String nombre, float x, float y, float z, float ancho, float alto, boolean esEjeX,
             float anguloApertura, float rotacionBase) {
         this.nombre = nombre;
@@ -122,10 +125,20 @@ public class Puerta {
         glTranslatef(x, y + alto / 2.0f, z);
         glRotatef(rotacionBase + anguloActual, 0.0f, 1.0f, 0.0f);
 
-        glBegin(GL_QUADS);
-        // Color café para la puerta
-        glColor3f(0.54f, 0.27f, 0.07f);
+        int texturaAplicar = texturaPuerta;
+        if (nombre != null && nombre.equals("Puerta Principal") && texturaPuertaNegra != 0) {
+            texturaAplicar = texturaPuertaNegra;
+        }
 
+        if (texturaAplicar != 0) {
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, texturaAplicar);
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        } else {
+            glColor3f(0.54f, 0.27f, 0.07f);
+        }
+
+        glBegin(GL_QUADS);
         float grosor = 0.05f;
         float xMin, xMax, zMin, zMax;
 
@@ -145,37 +158,99 @@ public class Puerta {
         float yMax = alto / 2.0f;
 
         // Cara Frontal
+        if (texturaAplicar != 0) glTexCoord2f(0f, 1f);
         glVertex3f(xMin, yMin, zMax);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 1f);
         glVertex3f(xMax, yMin, zMax);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 0f);
         glVertex3f(xMax, yMax, zMax);
+        if (texturaAplicar != 0) glTexCoord2f(0f, 0f);
         glVertex3f(xMin, yMax, zMax);
+
         // Cara Trasera
+        if (texturaAplicar != 0) glTexCoord2f(1f, 1f);
         glVertex3f(xMin, yMin, zMin);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 0f);
         glVertex3f(xMin, yMax, zMin);
+        if (texturaAplicar != 0) glTexCoord2f(0f, 0f);
         glVertex3f(xMax, yMax, zMin);
+        if (texturaAplicar != 0) glTexCoord2f(0f, 1f);
         glVertex3f(xMax, yMin, zMin);
+
         // Cara Izquierda
+        if (texturaAplicar != 0) glTexCoord2f(0f, 1f);
         glVertex3f(xMin, yMin, zMin);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 1f);
         glVertex3f(xMin, yMin, zMax);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 0f);
         glVertex3f(xMin, yMax, zMax);
+        if (texturaAplicar != 0) glTexCoord2f(0f, 0f);
         glVertex3f(xMin, yMax, zMin);
+
         // Cara Derecha
+        if (texturaAplicar != 0) glTexCoord2f(0f, 1f);
         glVertex3f(xMax, yMin, zMin);
+        if (texturaAplicar != 0) glTexCoord2f(0f, 0f);
         glVertex3f(xMax, yMax, zMin);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 0f);
         glVertex3f(xMax, yMax, zMax);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 1f);
         glVertex3f(xMax, yMin, zMax);
+
         // Cara Superior
+        if (texturaAplicar != 0) glTexCoord2f(0f, 0f);
         glVertex3f(xMin, yMax, zMin);
+        if (texturaAplicar != 0) glTexCoord2f(0f, 1f);
         glVertex3f(xMin, yMax, zMax);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 1f);
         glVertex3f(xMax, yMax, zMax);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 0f);
         glVertex3f(xMax, yMax, zMin);
+
         // Cara Inferior
+        if (texturaAplicar != 0) glTexCoord2f(0f, 0f);
         glVertex3f(xMin, yMin, zMin);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 0f);
         glVertex3f(xMax, yMin, zMin);
+        if (texturaAplicar != 0) glTexCoord2f(1f, 1f);
         glVertex3f(xMax, yMin, zMax);
+        if (texturaAplicar != 0) glTexCoord2f(0f, 1f);
         glVertex3f(xMin, yMin, zMax);
 
         glEnd();
+        
+        if (texturaAplicar != 0) {
+            glDisable(GL_TEXTURE_2D);
+        }
+
+        // ======================
+        // DIBUJAR MANIJAS
+        // ======================
+        if (nombre == null || !nombre.equals("Puerta Principal")) {
+            float mX = 0f, mZ = 0f;
+            float offsetManija = 0.15f; // Distancia desde el borde opuesto a la bisagra
+            
+            if (esEjeX) {
+                mX = ancho - offsetManija; // Lejos de la bisagra (que está en X=0)
+                mZ = 0f;
+            } else {
+                mX = 0f;
+                mZ = ancho - offsetManija; // Lejos de la bisagra (que está en Z=0)
+            }
+            
+            // Base de la manija
+            Cubo.dibujar(mX, 0f, mZ, 0.08f, 0.12f, grosor * 2.5f + 0.02f, 0.7f, 0.7f, 0.7f);
+            
+            // Pomo frontal
+            if (esEjeX) {
+                Cubo.dibujar(mX + 0.02f, 0f, mZ + grosor + 0.04f, 0.1f, 0.02f, 0.02f, 0.8f, 0.8f, 0.8f);
+                Cubo.dibujar(mX + 0.02f, 0f, mZ - grosor - 0.04f, 0.1f, 0.02f, 0.02f, 0.8f, 0.8f, 0.8f);
+            } else {
+                Cubo.dibujar(mX + grosor + 0.04f, 0f, mZ + 0.02f, 0.02f, 0.02f, 0.1f, 0.8f, 0.8f, 0.8f);
+                Cubo.dibujar(mX - grosor - 0.04f, 0f, mZ + 0.02f, 0.02f, 0.02f, 0.1f, 0.8f, 0.8f, 0.8f);
+            }
+        }
+
         glPopMatrix();
     }
 

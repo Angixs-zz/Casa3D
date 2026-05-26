@@ -8,6 +8,7 @@ public class PlantasPrimerPiso {
 
     private static final float Y = Constantes.ALTURA_PISO_1;
     public static int texturaCesped = 0;
+    public static int texturaHojas = 0;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -85,14 +86,14 @@ public class PlantasPrimerPiso {
                 0.2f, 18.7f,
                 1.6f, 20.2f);
 
-        // Plantas tipo arbusto dentro del jardín
-        dibujarArbustoBajo(0.45f, 19.00f);
-        dibujarArbustoBajo(0.85f, 19.35f);
-        dibujarArbustoBajo(1.25f, 19.75f);
+        // Plantas en maceta (antes arbustos)
+        dibujarMacetaConPlantaGrande(0.45f, 19.00f);
+        dibujarMacetaConPlantaGrande(0.85f, 19.35f);
+        dibujarMacetaConPlantaGrande(1.25f, 19.75f);
 
-        // Planta más alta al fondo
-        dibujarArbustoRecto(0.45f, 19.85f, 0.75f);
-        dibujarArbustoRecto(1.30f, 19.00f, 0.65f);
+        // Planta en maceta al fondo
+        dibujarMacetaConPlantaGrande(0.45f, 19.85f);
+        dibujarMacetaConPlantaGrande(1.30f, 19.00f);
     }
 
     // =====================================================
@@ -172,41 +173,13 @@ public class PlantasPrimerPiso {
                 0.28f,
                 0.10f);
 
-        // Cuerpo principal del arbusto, alto y estrecho
-        Cubo.dibujar(
-                0f,
-                altura / 2f,
-                0f,
-                escalar(0.26f),
-                altura,
-                escalar(0.26f),
-                0.07f,
-                0.42f,
-                0.12f);
-
-        // Volumen superior para que se vea más frondoso
-        Cubo.dibujar(
-                0f,
-                altura * 0.78f,
-                0f,
-                escalar(0.32f),
-                altura * 0.38f,
-                escalar(0.32f),
-                0.10f,
-                0.55f,
-                0.15f);
-
-        // Volumen bajo
-        Cubo.dibujar(
-                0f,
-                altura * 0.30f,
-                0f,
-                escalar(0.30f),
-                altura * 0.35f,
-                escalar(0.30f),
-                0.08f,
-                0.50f,
-                0.13f);
+        // Estructura cilíndrica uniforme (Columna verde)
+        float radio = escalar(0.16f); // Equivalente a un diámetro de 0.32
+        if (texturaHojas != 0) {
+            Cubo.dibujarCilindroConTextura(0f, 0f, 0f, radio, altura, 20, texturaHojas, altura / 1.5f);
+        } else {
+            Cubo.dibujarCilindro(0f, 0f, 0f, radio, altura, 20, 0.07f, 0.42f, 0.12f);
+        }
 
         glPopMatrix();
     }

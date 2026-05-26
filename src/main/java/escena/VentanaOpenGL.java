@@ -63,6 +63,7 @@ public class VentanaOpenGL {
         private int texturaLibro;
         private int texturaSillon;
         private int texturaParedLadrillo;
+        private int texturaLadrillo;
         private int texturaSillonIndividual;
         private int texturaSillaOficina;
         private int texturaCuadroOficina;
@@ -398,6 +399,7 @@ public class VentanaOpenGL {
                 texturaLibro = CargadorTexturas.cargarTextura("/texturas/libro1.jpg");
                 texturaSillon = CargadorTexturas.cargarTextura("/texturas/sillonoficina.jpg");
                 texturaParedLadrillo = CargadorTexturas.cargarTextura("/texturas/ladrillooficina.jpg");
+                texturaLadrillo = CargadorTexturas.cargarTextura("/texturas/ladrillo.jpg");
                 texturaSillonIndividual = CargadorTexturas.cargarTextura("/texturas/SILLONBLANOFI.jpg");
                 texturaSillaOficina = CargadorTexturas.cargarTextura("/texturas/SILLAOFICINA.jpg");
                 texturaCuadroOficina = CargadorTexturas.cargarTextura("/texturas/CUADROOFI.jpg");
@@ -443,6 +445,7 @@ public class VentanaOpenGL {
                 objetos.Cocina.texturaMaderaParaCocina = CargadorTexturas
                                 .cargarTextura("/texturas/MADERAPARACOCINA.jpg");
                 objetos.Fuente.texturaCascada = CargadorTexturas.cargarTextura("/texturas/cascada.jpg");
+                objetos.Fuente.texturaHojas = CargadorTexturas.cargarTextura("/texturas/hojas.jpg");
                 piso2.SalaEstarP2.texturaSofa = texturaSillonGrisSala;
                 piso2.SalaEstarP2.texturaCojin = texturaAlmohadaSala;
                 piso2.SalaEstarP2.texturaMadera = texturaMaderaPrincipal;
@@ -460,6 +463,10 @@ public class VentanaOpenGL {
                 objetos.Cocina.texturaSillaBlanca = CargadorTexturas.cargarTextura("/texturas/sillablanca.jpg");
                 objetos.Cocina.texturaSillaGris = CargadorTexturas.cargarTextura("/texturas/sillagris.jpg");
                 objetos.Recamara1.texturaColcha = CargadorTexturas.cargarTextura("/texturas/colcha.jpg");
+                objetos.PlantasPrimerPiso.texturaHojas = CargadorTexturas.cargarTextura("/texturas/hojas2.jpg");
+                objetos.Auto.texturaCarro = CargadorTexturas.cargarTextura("/texturas/carro.jpg");
+                objetos.Puerta.texturaPuerta = CargadorTexturas.cargarTextura("/texturas/puertas.jpg");
+                objetos.Puerta.texturaPuertaNegra = CargadorTexturas.cargarTextura("/texturas/puertanegra.jpg");
 
                 glEnable(GL_DEPTH_TEST);
 
@@ -1351,7 +1358,13 @@ public class VentanaOpenGL {
                 } else if (nombre != null && nombre.equals("j2") && texturaParedRosa != 0 && texturaParedBlanca != 0) {
                         // j2 (C2 a V1) tiene blanca en el pasillo (+Z) y rosa en el interior de la recámara (-Z)
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca, texturaParedRosa);
-                } else if (nombre != null && (nombre.equals("h") || nombre.equals("i") || nombre.equals("j")
+                } else if (nombre != null && nombre.equals("j") && objetos.Fuente.texturaHojas != 0 && texturaPiedraFuera != 0) {
+                        // La pared 'j' está detrás de la fuente. Interior patio (+Z) con textura de hojas, Exterior (-Z) con texturaPiedraFuera
+                        Cubo.dibujarConDosTexturasMapeadas(0f, 0f, 0f, longitud, altura, grosor, 
+                                objetos.Fuente.texturaHojas, texturaPiedraFuera, 
+                                longitud / 2.0f, altura / 2.0f, // Repetición hojas (Patio, Arg 7 -> -Z)
+                                1.0f, 1.0f);                    // Repetición piedra (Calle, Arg 8 -> +Z)
+                } else if (nombre != null && (nombre.equals("h") || nombre.equals("i")
                                 || nombre.equals("P2_m") || nombre.equals("P2_n") || nombre.equals("P2_p")
                                 || nombre.equals("P2_q") || nombre.equals("P2_r") || nombre.equals("P3_r_resto"))
                                 && texturaPiedraFuera != 0) {
@@ -1363,9 +1376,27 @@ public class VentanaOpenGL {
                                 && texturaParedAzul != 0) {
                         int texturaInterior = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaInterior, texturaParedAzul);
-                } else if (nombre != null && (nombre.equals("g") || nombre.equals("r_cochera")) 
-                                && texturaParedCochera != 0) {
+                } else if (nombre != null && (nombre.equals("Dintel Cuarto S") || nombre.equals("Dintel Despacho")) && texturaParedAzul != 0) {
+                        // Dinteles de sala y oficina
+                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedAzul);
+                } else if (nombre != null && nombre.equals("g") && texturaParedCochera != 0) {
                         Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedCochera);
+                } else if (nombre != null && nombre.equals("p") && texturaParedLadrillo != 0) {
+                        // Pared p: de T a U (Oficina).
+                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedLadrillo);
+                } else if (nombre != null && (nombre.equals("n2") || nombre.equals("P2_a1")) && texturaLadrillo != 0) {
+                        // Pared M1 a N1 (1er piso = n2, 2do piso = P2_a1).
+                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaLadrillo);
+                } else if (nombre != null && nombre.equals("r_cochera") && texturaParedLadrillo != 0) {
+                        // r_cochera: Invertido por petición. Lado exterior = pared cochera, Lado interior = ladrillo
+                        int texturaExt = texturaParedCochera != 0 ? texturaParedCochera : texturaParedBlanca;
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaExt, texturaParedLadrillo);
+                } else if (nombre != null && (nombre.equals("l") || nombre.equals("m")) && texturaParedAzul != 0) {
+                        // l y m: Pared de R7 a U7 (cochera a casa). Lado casa (-Z, Arg 7) = blanca, Lado cochera (+Z, Arg 8) = azul
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca, texturaParedAzul);
+                } else if (nombre != null && nombre.equals("r") && texturaParedLadrillo != 0) {
+                        // r: Invertido por petición. Lado interior = blanca, Lado exterior = ladrillo (espera, si r y r_cochera están invertidos entre sí, invierto ambos)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedLadrillo, texturaParedBlanca);
                 } else if (nombre != null && nombre.equals("f") && texturaCochera != 0) {
                         int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaOtroLado,
@@ -1406,7 +1437,11 @@ public class VentanaOpenGL {
                 glRotatef(-angulo, 0f, 1f, 0f);
 
                 // Pared inferior (alféizar) y superior (dintel)
-                if (texturaParedBlanca != 0) {
+                if (nombre != null && nombre.equals("Ventana_PQ") && texturaParedAzul != 0) {
+                        // Ventana_PQ está en la pared de la cochera (junto a l y m). Lado casa = blanca, Lado cochera = azul
+                        Cubo.dibujarConDosTexturas(0f, 0.5f, 0f, longitud, 1.0f, grosor, texturaParedBlanca, texturaParedAzul);
+                        Cubo.dibujarConDosTexturas(0f, 2.85f, 0f, longitud, 0.7f, grosor, texturaParedBlanca, texturaParedAzul);
+                } else if (texturaParedBlanca != 0) {
                         Cubo.dibujarConTextura(0f, 0.5f, 0f, longitud, 1.0f, grosor, texturaParedBlanca);
                         Cubo.dibujarConTextura(0f, 2.85f, 0f, longitud, 0.7f, grosor, texturaParedBlanca);
                 } else {
