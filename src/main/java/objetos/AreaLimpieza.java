@@ -7,6 +7,8 @@ import static org.lwjgl.opengl.GL11.*;
 public class AreaLimpieza {
 
     private static final float Y = Constantes.ALTURA_PISO_1;
+    public static int texturaLavadora = 0;
+    public static int texturaLavadero = 0;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -71,16 +73,27 @@ public class AreaLimpieza {
         glTranslatef(x, Y, z);
 
         // Base principal de concreto
-        Cubo.dibujar(
-                0f,
-                0.78f,
-                0f,
-                ancho,
-                0.22f,
-                fondo,
-                0.72f,
-                0.72f,
-                0.70f);
+        if (texturaLavadero != 0) {
+            Cubo.dibujarConTextura(
+                    0f,
+                    0.78f,
+                    0f,
+                    ancho,
+                    0.22f,
+                    fondo,
+                    texturaLavadero);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    0.78f,
+                    0f,
+                    ancho,
+                    0.22f,
+                    fondo,
+                    0.72f,
+                    0.72f,
+                    0.70f);
+        }
 
         // Borde superior del lavadero
         Cubo.dibujar(
@@ -304,16 +317,27 @@ public class AreaLimpieza {
         glTranslatef(x, Y, z);
 
         // Cuerpo principal blanco
-        Cubo.dibujar(
-                0f,
-                altura / 2f,
-                0f,
-                ancho,
-                altura,
-                fondo,
-                0.92f,
-                0.92f,
-                0.90f);
+        if (texturaLavadora != 0) {
+            Cubo.dibujarConTextura(
+                    0f,
+                    altura / 2f,
+                    0f,
+                    ancho,
+                    altura,
+                    fondo,
+                    texturaLavadora);
+        } else {
+            Cubo.dibujar(
+                    0f,
+                    altura / 2f,
+                    0f,
+                    ancho,
+                    altura,
+                    fondo,
+                    0.92f,
+                    0.92f,
+                    0.90f);
+        }
 
         // Tapa superior gris
         Cubo.dibujar(

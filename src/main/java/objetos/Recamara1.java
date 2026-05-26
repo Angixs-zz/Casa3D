@@ -22,6 +22,17 @@ public class Recamara1 {
         return valor * Constantes.ESCALA_CASA;
     }
 
+    public static int texturaMuebles = 0;
+    public static int texturaColcha = 0;
+
+    private static void dibujarMadera(float x, float y, float z, float ancho, float alto, float profundo, float r, float g, float b) {
+        if (texturaMuebles != 0) {
+            Cubo.dibujarConTextura(x, y, z, ancho, alto, profundo, texturaMuebles);
+        } else {
+            Cubo.dibujar(x, y, z, ancho, alto, profundo, r, g, b);
+        }
+    }
+
     public static void dibujar() {
         // Pared principal continua (Z=15.5 a 16.0)
         dibujarEstante(0.2f, 15.5f, 0.8f, 16.0f);
@@ -55,7 +66,7 @@ public class Recamara1 {
         glTranslatef(x, Y, z);
         
         // Estructura principal del closet de madera
-        Cubo.dibujar(0f, alto / 2f, 0f, ancho, alto, largo, 0.4f, 0.25f, 0.15f); // Madera oscura
+        dibujarMadera(0f, alto / 2f, 0f, ancho, alto, largo, 0.4f, 0.25f, 0.15f); // Madera oscura
 
         // Detalles: Puertas del closet (Ligeramente salidas hacia +Z para que se vean)
         // Dividiremos el ancho de 2.2 en 4 puertas de 0.55 cada una
@@ -64,7 +75,7 @@ public class Recamara1 {
             float offsetXPpuerta = -ancho/2f + anchoPuerta/2f + (i * anchoPuerta);
             
             // Puerta larga
-            Cubo.dibujar(
+            dibujarMadera(
                     offsetXPpuerta, alto / 2f, largo / 2f + 0.01f, 
                     anchoPuerta * 0.95f, alto * 0.95f, 0.02f, 
                     0.45f, 0.28f, 0.18f); // Madera un poco más clara para contraste
@@ -98,7 +109,7 @@ public class Recamara1 {
         glTranslatef(x, Y, z);
         
         // Estructura lateral y trasera del estante
-        Cubo.dibujar(0f, alto / 2f, 0f, ancho, alto, largo, 0.4f, 0.25f, 0.15f); // Misma madera oscura
+        dibujarMadera(0f, alto / 2f, 0f, ancho, alto, largo, 0.4f, 0.25f, 0.15f); // Misma madera oscura
 
         // Interior del estante (Haciendo un hueco visual con paneles de sombra o simplemente repisas sobresalientes)
         // Para simplificar y hacerlo realista, pondremos las repisas sobre un fondo oscuro
@@ -108,7 +119,7 @@ public class Recamara1 {
         int numRepisas = 6;
         float espacioRepisa = alto / numRepisas;
         for (int i = 1; i < numRepisas; i++) {
-            Cubo.dibujar(
+            dibujarMadera(
                     0f, i * espacioRepisa, largo / 2f + 0.01f, 
                     ancho * 0.9f, 0.04f, largo * 0.8f, 
                     0.45f, 0.28f, 0.18f); // Repisas de madera
@@ -136,15 +147,15 @@ public class Recamara1 {
         // MESA
         float altoMesa = 0.75f;
         // Tablero de la mesa
-        Cubo.dibujar(0f, altoMesa, 0f, ancho, 0.05f, largo, 0.45f, 0.28f, 0.18f);
+        dibujarMadera(0f, altoMesa, 0f, ancho, 0.05f, largo, 0.45f, 0.28f, 0.18f);
         
         // Cajones bajo el tablero
-        Cubo.dibujar(0f, altoMesa - 0.1f, 0f, ancho * 0.95f, 0.15f, largo * 0.9f, 0.4f, 0.25f, 0.15f);
+        dibujarMadera(0f, altoMesa - 0.1f, 0f, ancho * 0.95f, 0.15f, largo * 0.9f, 0.4f, 0.25f, 0.15f);
         // Manija del cajón central
         Cubo.dibujar(0f, altoMesa - 0.1f, largo / 2f + 0.01f, 0.15f, 0.02f, 0.02f, 0.7f, 0.7f, 0.7f);
 
         // Panel trasero (para que se integre con el mueble continuo)
-        Cubo.dibujar(0f, altoMesa / 2f, -largo / 2f + 0.02f, ancho, altoMesa, 0.04f, 0.4f, 0.25f, 0.15f);
+        dibujarMadera(0f, altoMesa / 2f, -largo / 2f + 0.02f, ancho, altoMesa, 0.04f, 0.4f, 0.25f, 0.15f);
 
         // SILLA
         // La silla está enfrente (Z positivo respecto a la mesa)
@@ -156,10 +167,10 @@ public class Recamara1 {
         // Asiento
         Cubo.dibujar(0f, altoAsiento, 0f, 0.4f, 0.05f, 0.4f, 0.9f, 0.9f, 0.9f); // Blanco/Crema
         // Patas
-        Cubo.dibujar(-0.15f, altoAsiento / 2f, -0.15f, 0.04f, altoAsiento, 0.04f, 0.6f, 0.4f, 0.2f); // Madera clara
-        Cubo.dibujar(0.15f, altoAsiento / 2f, -0.15f, 0.04f, altoAsiento, 0.04f, 0.6f, 0.4f, 0.2f);
-        Cubo.dibujar(-0.15f, altoAsiento / 2f, 0.15f, 0.04f, altoAsiento, 0.04f, 0.6f, 0.4f, 0.2f);
-        Cubo.dibujar(0.15f, altoAsiento / 2f, 0.15f, 0.04f, altoAsiento, 0.04f, 0.6f, 0.4f, 0.2f);
+        dibujarMadera(-0.15f, altoAsiento / 2f, -0.15f, 0.04f, altoAsiento, 0.04f, 0.6f, 0.4f, 0.2f); // Madera clara
+        dibujarMadera(0.15f, altoAsiento / 2f, -0.15f, 0.04f, altoAsiento, 0.04f, 0.6f, 0.4f, 0.2f);
+        dibujarMadera(-0.15f, altoAsiento / 2f, 0.15f, 0.04f, altoAsiento, 0.04f, 0.6f, 0.4f, 0.2f);
+        dibujarMadera(0.15f, altoAsiento / 2f, 0.15f, 0.04f, altoAsiento, 0.04f, 0.6f, 0.4f, 0.2f);
         // Respaldo
         Cubo.dibujar(0f, altoAsiento + 0.25f, 0.15f, 0.4f, 0.4f, 0.04f, 0.9f, 0.9f, 0.9f); // Respaldo acolchado crema
         glPopMatrix();
@@ -185,14 +196,14 @@ public class Recamara1 {
         
         // 1. Buró con cajones
         float altoBuro = 0.8f;
-        Cubo.dibujar(0f, altoBuro / 2f, 0f, ancho, altoBuro, largo, 0.4f, 0.25f, 0.15f); // Madera oscura
+        dibujarMadera(0f, altoBuro / 2f, 0f, ancho, altoBuro, largo, 0.4f, 0.25f, 0.15f); // Madera oscura
         
         // Detalles de cajones en la cara lateral (Asumiendo que los cajones miran hacia el centro del cuarto, es decir hacia -X)
         // La pared está en +X (X=3.8 aprox). Así que el frente del buró es -X.
         for (int i = 0; i < 3; i++) {
             float yCajon = altoBuro * 0.8f - (i * 0.25f);
             // Frente del cajón
-            Cubo.dibujar(-ancho / 2f - 0.01f, yCajon, 0f, 0.02f, 0.22f, largo * 0.9f, 0.45f, 0.28f, 0.18f);
+            dibujarMadera(-ancho / 2f - 0.01f, yCajon, 0f, 0.02f, 0.22f, largo * 0.9f, 0.45f, 0.28f, 0.18f);
             // Manija
             Cubo.dibujar(-ancho / 2f - 0.02f, yCajon, 0f, 0.02f, 0.02f, 0.15f, 0.7f, 0.7f, 0.7f);
         }
@@ -231,24 +242,33 @@ public class Recamara1 {
         
         // Base de la cama (Madera)
         float altoBase = 0.35f;
-        Cubo.dibujar(0f, altoBase / 2f, 0f, ancho, altoBase, largo, 0.4f, 0.25f, 0.15f); // Madera oscura
+        dibujarMadera(0f, altoBase / 2f, 0f, ancho, altoBase, largo, 0.4f, 0.25f, 0.15f); // Madera oscura
         
         // Colchón (Blanco / Crema)
         float altoColchon = 0.2f;
         Cubo.dibujar(0f, altoBase + altoColchon / 2f, 0f, ancho * 0.98f, altoColchon, largo * 0.98f, 0.95f, 0.95f, 0.9f); 
 
-        // Edredón / Cubrecama (Azul marino como en la imagen)
+        // Edredón / Cubrecama
         // Cubre casi todo el colchón dejando la parte de la cabecera expuesta
-        Cubo.dibujar(
-                -ancho * 0.1f, // Desplazado hacia los pies (-X en OpenGL)
-                altoBase + altoColchon + 0.01f, 
-                0f, 
-                ancho * 0.8f, 0.02f, largo * 1.02f, 
-                0.1f, 0.2f, 0.4f); // Azul oscuro
+        if (texturaColcha != 0) {
+            Cubo.dibujarConTextura(
+                    -ancho * 0.1f, // Desplazado hacia los pies (-X en OpenGL)
+                    altoBase + altoColchon + 0.01f, 
+                    0f, 
+                    ancho * 0.8f, 0.02f, largo * 1.02f, 
+                    texturaColcha);
+        } else {
+            Cubo.dibujar(
+                    -ancho * 0.1f, // Desplazado hacia los pies (-X en OpenGL)
+                    altoBase + altoColchon + 0.01f, 
+                    0f, 
+                    ancho * 0.8f, 0.02f, largo * 1.02f, 
+                    0.1f, 0.2f, 0.4f); // Azul oscuro
+        }
 
         // Cabecera (Madera con diseño geométrico como en la imagen de referencia)
         // Pegada a la pared (que es +X en OpenGL, es decir, el borde de ancho/2)
-        Cubo.dibujar(ancho / 2f - 0.05f, 0.8f, 0f, 0.1f, 1.6f, largo * 1.1f, 0.35f, 0.2f, 0.1f); // Cabecera alta de madera
+        dibujarMadera(ancho / 2f - 0.05f, 0.8f, 0f, 0.1f, 1.6f, largo * 1.1f, 0.35f, 0.2f, 0.1f); // Cabecera alta de madera
         // Detalles dorados en la cabecera
         Cubo.dibujar(ancho / 2f - 0.06f, 0.8f, 0f, 0.11f, 1.5f, 0.02f, 0.8f, 0.6f, 0.1f); // Línea vertical central dorada
 
@@ -304,13 +324,13 @@ public class Recamara1 {
         
         // Cuerpo del buró
         float altoBuro = 0.5f;
-        Cubo.dibujar(0f, altoBuro / 2f, 0f, ancho, altoBuro, largo, 0.4f, 0.25f, 0.15f); // Madera oscura
+        dibujarMadera(0f, altoBuro / 2f, 0f, ancho, altoBuro, largo, 0.4f, 0.25f, 0.15f); // Madera oscura
 
         // 2 cajones (mirando hacia adelante, es decir hacia -X, asumiendo que es accesible desde la cama, o hacia el frente de la cama)
         // Como la cama está a lo largo del eje X (pies hacia -X), los cajones deberían mirar hacia -X para ser vistos de frente.
         for (int i = 0; i < 2; i++) {
             float yCajon = altoBuro * 0.7f - (i * 0.3f);
-            Cubo.dibujar(-ancho / 2f - 0.01f, yCajon, 0f, 0.02f, 0.2f, largo * 0.9f, 0.45f, 0.28f, 0.18f); // Frente
+            dibujarMadera(-ancho / 2f - 0.01f, yCajon, 0f, 0.02f, 0.2f, largo * 0.9f, 0.45f, 0.28f, 0.18f); // Frente
             Cubo.dibujar(-ancho / 2f - 0.02f, yCajon, 0f, 0.02f, 0.02f, 0.1f, 0.7f, 0.7f, 0.7f); // Manija
         }
         

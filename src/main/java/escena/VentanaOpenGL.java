@@ -90,6 +90,7 @@ public class VentanaOpenGL {
         private int texturaPiedraFuera;
         private int texturaMaderaPrincipal;
         private int texturaParedCochera;
+        private int texturaParedRosa;
 
         private int ancho = 1280;
         private int alto = 720;
@@ -434,6 +435,7 @@ public class VentanaOpenGL {
                 texturaPiedraFuera = CargadorTexturas.cargarTextura("/texturas/piedrafuera.jpg");
                 texturaMaderaPrincipal = CargadorTexturas.cargarTextura("/texturas/maderaPrincipal.jpg");
                 texturaParedCochera = CargadorTexturas.cargarTextura("/texturas/paredCochera.jpg");
+                texturaParedRosa = CargadorTexturas.cargarTextura("/texturas/paredrosa.jpg");
                 objetos.Cocina.texturaMaderaParaCocina = CargadorTexturas
                                 .cargarTextura("/texturas/MADERAPARACOCINA.jpg");
                 objetos.Cocina.texturaCocinaAzul = CargadorTexturas.cargarTextura("/texturas/cocinaazul.jpg");
@@ -441,6 +443,7 @@ public class VentanaOpenGL {
                 objetos.Cocina.texturaRefri = CargadorTexturas.cargarTextura("/texturas/refri.jpg");
                 objetos.Cocina.texturaSillaBlanca = CargadorTexturas.cargarTextura("/texturas/sillablanca.jpg");
                 objetos.Cocina.texturaSillaGris = CargadorTexturas.cargarTextura("/texturas/sillagris.jpg");
+                objetos.Recamara1.texturaColcha = CargadorTexturas.cargarTextura("/texturas/colcha.jpg");
 
                 glEnable(GL_DEPTH_TEST);
 
@@ -653,6 +656,7 @@ public class VentanaOpenGL {
 
                                 if (pared.getTipo() == Pared.TIPO_VENTANA) {
                                         dibujarVentana(
+                                                        pared.getNombre(),
                                                         (float) inicio.getX(),
                                                         (float) inicio.getY(),
                                                         (float) fin.getX(),
@@ -1257,6 +1261,32 @@ public class VentanaOpenGL {
                         // (Interior)
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor,
                                         objetos.Cocina.texturaMaderaParaCocina, texturaOtroLado);
+                } else if (nombre != null && nombre.equals("f2") && texturaParedRosa != 0 && texturaParedBlanca != 0) {
+                        // f2 tiene pared rosa en el interior (lado 1, +Z) y blanca en el exterior (lado 2, -Z)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedRosa, texturaParedBlanca);
+
+                        float anchoCuadro = 0.6f;
+                        float altoCuadro = 0.8f;
+                        float grosorCuadro = 0.04f;
+                        float yCuadro = 0.5f; // 1.6 (centro pared) + 0.5 = 2.1m (arriba de cabecera que mide 1.6m)
+                        float zCuadro = -(grosor / 2f) - (grosorCuadro / 2f) - 0.02f; // En la cara interior (-Z) con offset para que no se hundan
+
+                        if (texturaCuadro2 != 0) {
+                                glPushMatrix();
+                                glTranslatef(-1.2f, yCuadro, zCuadro);
+                                glRotatef(180f, 0f, 1f, 0f); // Orientar la cara principal del cuadro hacia el cuarto (-Z)
+                                glRotatef(180f, 0f, 0f, 1f); // Corregir textura invertida
+                                Cubo.dibujarConTextura(0f, 0f, 0f, anchoCuadro, altoCuadro, grosorCuadro, texturaCuadro2);
+                                glPopMatrix();
+                        }
+                        if (texturaCuadro3 != 0) {
+                                glPushMatrix();
+                                glTranslatef(-0.4f, yCuadro, zCuadro);
+                                glRotatef(180f, 0f, 1f, 0f); // Orientar la cara principal del cuadro hacia el cuarto (-Z)
+                                glRotatef(180f, 0f, 0f, 1f); // Corregir textura invertida
+                                Cubo.dibujarConTextura(0f, 0f, 0f, anchoCuadro, altoCuadro, grosorCuadro, texturaCuadro3);
+                                glPopMatrix();
+                        }
                 } else if (nombre != null && (nombre.equals("k1") || nombre.equals("p1")) && texturaParedAzul != 0) {
                         int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca
                                         : texturaParedAzul;
@@ -1302,6 +1332,9 @@ public class VentanaOpenGL {
                 } else if (nombre != null && (nombre.equals("t1") || nombre.equals("Dintel baño2")) && texturaParedBano != 0 && texturaParedBlanca != 0) {
                         // Pared t1 y el marco interior (Dintel baño2) llevan textura de baño en ambas caras
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBano, texturaParedBano);
+                } else if (nombre != null && nombre.equals("j2") && texturaParedRosa != 0 && texturaParedBlanca != 0) {
+                        // j2 (C2 a V1) tiene blanca en el pasillo (+Z) y rosa en el interior de la recámara (-Z)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca, texturaParedRosa);
                 } else if (nombre != null && (nombre.equals("h") || nombre.equals("i") || nombre.equals("j")
                                 || nombre.equals("P2_m") || nombre.equals("P2_n") || nombre.equals("P2_p")
                                 || nombre.equals("P2_q") || nombre.equals("P2_r") || nombre.equals("P3_r_resto"))
@@ -1331,6 +1364,7 @@ public class VentanaOpenGL {
         }
 
         private void dibujarVentana(
+                        String nombre,
                         float x1, float z1, float x2, float z2,
                         float altura, float grosor, float alturaBase) {
                 x1 = x1 - 4.0f;
@@ -1504,7 +1538,10 @@ public class VentanaOpenGL {
                         Cocina.dibujar();
                         BanoPrincipal.dibujar();
                         Gimnasio.dibujar();
+                        Recamara1.texturaMuebles = texturaRepisa;
                         Recamara1.dibujar();
+                        objetos.AreaLimpieza.texturaLavadora = objetos.Cocina.texturaRefri;
+                        objetos.AreaLimpieza.texturaLavadero = texturaBano;
                         AreaLimpieza.dibujar();
                         PlantasPrimerPiso.dibujar();
                         Fuente.dibujarFuenteDoble();
