@@ -8,6 +8,10 @@ public class ClosetP2 {
 
     private static final float Y = Constantes.ALTURA_PISO_2;
 
+    public static int texturaMaderaCloset = 0;
+    public static int texturaTapete = 0;
+    public static int texturaCojin = 0;
+
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
         x = -x;
@@ -65,7 +69,7 @@ public class ClosetP2 {
             float xMinGeo, float zMinGeo,
             float xMaxGeo, float zMaxGeo,
             float yBase, float altura,
-            float r, float g, float b) {
+            float r, float g, float b, int texturaID) {
 
         float centroXGeo = (xMinGeo + xMaxGeo) / 2.0f;
         float centroZGeo = (zMinGeo + zMaxGeo) / 2.0f;
@@ -79,14 +83,11 @@ public class ClosetP2 {
         float ancho = escalar(anchoGeo);
         float largo = escalar(largoGeo);
 
-        Cubo.dibujar(
-                x,
-                yBase + altura / 2.0f,
-                z,
-                ancho,
-                altura,
-                largo,
-                r, g, b);
+        if (texturaID != 0) {
+            Cubo.dibujarConTextura(x, yBase + altura / 2.0f, z, ancho, altura, largo, texturaID);
+        } else {
+            Cubo.dibujar(x, yBase + altura / 2.0f, z, ancho, altura, largo, r, g, b);
+        }
     }
 
     // ==========================================================
@@ -122,11 +123,11 @@ public class ClosetP2 {
     private static void dibujarModuloClosetIzquierdo(float xMin, float zMin, float xMax, float zMax) {
         // Cuerpo del mueble
         dibujarCuboPorGeo(xMin, zMin, xMax, zMax, Y, 2.45f,
-                0.34f, 0.22f, 0.13f);
+                0.34f, 0.22f, 0.13f, texturaMaderaCloset);
 
         // Frente un poco más claro
         dibujarCuboPorGeo(xMin + 0.03f, zMin + 0.05f, xMax - 0.03f, zMax - 0.05f, Y + 0.05f, 2.30f,
-                0.43f, 0.28f, 0.17f);
+                0.43f, 0.28f, 0.17f, texturaMaderaCloset);
 
         // Puertas largas
         dibujarPuertasVerticales(xMin, zMin, xMax, zMax, 4);
@@ -139,11 +140,11 @@ public class ClosetP2 {
     private static void dibujarModuloClosetFondo(float xMin, float zMin, float xMax, float zMax) {
         // Cuerpo del módulo de fondo
         dibujarCuboPorGeo(xMin, zMin, xMax, zMax, Y, 2.45f,
-                0.34f, 0.22f, 0.13f);
+                0.34f, 0.22f, 0.13f, texturaMaderaCloset);
 
         // Fondo interior
         dibujarCuboPorGeo(xMin + 0.05f, zMin + 0.05f, xMax - 0.05f, zMax - 0.05f, Y + 0.05f, 2.30f,
-                0.41f, 0.27f, 0.16f);
+                0.41f, 0.27f, 0.16f, texturaMaderaCloset);
 
         // Barra para ropa colgada
         dibujarBarraColgar(xMin + 0.20f, zMin + 0.20f, xMax - 0.20f, zMin + 0.20f, 1.75f);
@@ -163,11 +164,11 @@ public class ClosetP2 {
     private static void dibujarModuloClosetDerecho(float xMin, float zMin, float xMax, float zMax) {
         // Cuerpo del mueble
         dibujarCuboPorGeo(xMin, zMin, xMax, zMax, Y, 2.45f,
-                0.34f, 0.22f, 0.13f);
+                0.34f, 0.22f, 0.13f, texturaMaderaCloset);
 
         // Frente
         dibujarCuboPorGeo(xMin + 0.03f, zMin + 0.05f, xMax - 0.03f, zMax - 0.05f, Y + 0.05f, 2.30f,
-                0.43f, 0.28f, 0.17f);
+                0.43f, 0.28f, 0.17f, texturaMaderaCloset);
 
         // Zona abierta de ropa
         dibujarBarraColgar(xMin + 0.12f, zMin + 0.35f, xMax - 0.12f, zMin + 0.35f, 1.75f);
@@ -322,7 +323,7 @@ public class ClosetP2 {
                     xMaxGeo + 0.01f, z2,
                     Y + 0.08f,
                     2.18f,
-                    0.46f, 0.30f, 0.18f);
+                    0.46f, 0.30f, 0.18f, texturaMaderaCloset);
 
             // Manija
             dibujarCuboPorGeo(
@@ -330,7 +331,7 @@ public class ClosetP2 {
                     xMaxGeo + 0.04f, (z1 + z2) / 2f + 0.05f,
                     Y + 1.05f,
                     0.38f,
-                    0.75f, 0.75f, 0.72f);
+                    0.75f, 0.75f, 0.72f, 0);
         }
     }
 
@@ -341,7 +342,7 @@ public class ClosetP2 {
         float altoCajon = 0.22f;
 
         dibujarCuboPorGeo(xMinGeo, zMinGeo, xMaxGeo, zMaxGeo, Y, 0.78f,
-                0.36f, 0.22f, 0.13f);
+                0.36f, 0.22f, 0.13f, texturaMaderaCloset);
 
         for (int i = 0; i < 3; i++) {
             float yBase = Y + 0.10f + i * 0.22f;
@@ -351,7 +352,7 @@ public class ClosetP2 {
                     xMaxGeo - 0.02f, zMaxGeo - 0.05f,
                     yBase,
                     0.16f,
-                    0.48f, 0.30f, 0.18f);
+                    0.48f, 0.30f, 0.18f, texturaMaderaCloset);
 
             // Manija
             dibujarCuboPorGeo(
@@ -359,7 +360,7 @@ public class ClosetP2 {
                     xMaxGeo - 0.16f, (zMinGeo + zMaxGeo) / 2f + 0.04f,
                     yBase + 0.08f,
                     0.035f,
-                    0.72f, 0.72f, 0.70f);
+                    0.72f, 0.72f, 0.70f, 0);
         }
     }
 
@@ -373,7 +374,7 @@ public class ClosetP2 {
                 xMaxGeo, zMaxGeo,
                 Y + altura,
                 0.06f,
-                0.50f, 0.33f, 0.20f);
+                0.50f, 0.33f, 0.20f, texturaMaderaCloset);
     }
 
     private static void dibujarCajoneraInterior(
@@ -381,7 +382,7 @@ public class ClosetP2 {
             float xMaxGeo, float zMaxGeo) {
 
         dibujarCuboPorGeo(xMinGeo, zMinGeo, xMaxGeo, zMaxGeo, Y, 0.85f,
-                0.34f, 0.22f, 0.13f);
+                0.34f, 0.22f, 0.13f, texturaMaderaCloset);
 
         // Tres cajones
         for (int i = 0; i < 3; i++) {
@@ -392,14 +393,14 @@ public class ClosetP2 {
                     xMaxGeo - 0.05f, zMaxGeo + 0.01f,
                     y,
                     0.16f,
-                    0.45f, 0.29f, 0.18f);
+                    0.45f, 0.29f, 0.18f, texturaMaderaCloset);
 
             dibujarCuboPorGeo(
                     xMinGeo + 0.25f, zMaxGeo + 0.015f,
                     xMaxGeo - 0.25f, zMaxGeo + 0.035f,
                     y + 0.07f,
                     0.035f,
-                    0.75f, 0.75f, 0.72f);
+                    0.75f, 0.75f, 0.72f, 0);
         }
 
         // Doblados arriba
@@ -419,7 +420,7 @@ public class ClosetP2 {
                 xGeo + anchoGeo / 2f, zGeo + largoGeo / 2f,
                 Y + alturaBase,
                 0.07f,
-                r, g, b);
+                r, g, b, 0);
     }
 
     private static void dibujarCajasSuperiores() {
@@ -445,10 +446,11 @@ public class ClosetP2 {
         glTranslatef(x, Y, z);
 
         // Marco de madera
-        Cubo.dibujar(
-                0f, 1.10f, 0f,
-                0.08f, 2.05f, largo,
-                0.28f, 0.17f, 0.10f);
+        if (texturaMaderaCloset != 0) {
+            Cubo.dibujarConTextura(0f, 1.10f, 0f, 0.08f, 2.05f, largo, texturaMaderaCloset);
+        } else {
+            Cubo.dibujar(0f, 1.10f, 0f, 0.08f, 2.05f, largo, 0.28f, 0.17f, 0.10f);
+        }
 
         // Cristal del espejo
         Cubo.dibujar(
@@ -489,42 +491,31 @@ public class ClosetP2 {
         glTranslatef(x, Y, z);
 
         // Mueble base de estanterías pegado al segmento L6-N6
-        Cubo.dibujar(
-                0f, 0.95f, 0f,
-                ancho, 1.90f, escalar(0.28f),
-                0.34f, 0.22f, 0.13f);
+        if (texturaMaderaCloset != 0) {
+            Cubo.dibujarConTextura(0f, 0.95f, 0f, ancho, 1.90f, escalar(0.28f), texturaMaderaCloset);
+            
+            // Repisas
+            Cubo.dibujarConTextura(0f, 0.45f, 0.02f, ancho * 0.92f, 0.06f, escalar(0.32f), texturaMaderaCloset);
+            Cubo.dibujarConTextura(0f, 0.90f, 0.02f, ancho * 0.92f, 0.06f, escalar(0.32f), texturaMaderaCloset);
+            Cubo.dibujarConTextura(0f, 1.35f, 0.02f, ancho * 0.92f, 0.06f, escalar(0.32f), texturaMaderaCloset);
+            Cubo.dibujarConTextura(0f, 1.80f, 0.02f, ancho * 0.92f, 0.06f, escalar(0.32f), texturaMaderaCloset);
 
-        // Repisas
-        Cubo.dibujar(
-                0f, 0.45f, 0.02f,
-                ancho * 0.92f, 0.06f, escalar(0.32f),
-                0.50f, 0.33f, 0.20f);
+            // Divisiones verticales
+            Cubo.dibujarConTextura(-ancho * 0.28f, 0.95f, 0.03f, 0.05f, 1.80f, escalar(0.30f), texturaMaderaCloset);
+            Cubo.dibujarConTextura(ancho * 0.28f, 0.95f, 0.03f, 0.05f, 1.80f, escalar(0.30f), texturaMaderaCloset);
+        } else {
+            Cubo.dibujar(0f, 0.95f, 0f, ancho, 1.90f, escalar(0.28f), 0.34f, 0.22f, 0.13f);
+            
+            // Repisas
+            Cubo.dibujar(0f, 0.45f, 0.02f, ancho * 0.92f, 0.06f, escalar(0.32f), 0.50f, 0.33f, 0.20f);
+            Cubo.dibujar(0f, 0.90f, 0.02f, ancho * 0.92f, 0.06f, escalar(0.32f), 0.50f, 0.33f, 0.20f);
+            Cubo.dibujar(0f, 1.35f, 0.02f, ancho * 0.92f, 0.06f, escalar(0.32f), 0.50f, 0.33f, 0.20f);
+            Cubo.dibujar(0f, 1.80f, 0.02f, ancho * 0.92f, 0.06f, escalar(0.32f), 0.50f, 0.33f, 0.20f);
 
-        Cubo.dibujar(
-                0f, 0.90f, 0.02f,
-                ancho * 0.92f, 0.06f, escalar(0.32f),
-                0.50f, 0.33f, 0.20f);
-
-        Cubo.dibujar(
-                0f, 1.35f, 0.02f,
-                ancho * 0.92f, 0.06f, escalar(0.32f),
-                0.50f, 0.33f, 0.20f);
-
-        Cubo.dibujar(
-                0f, 1.80f, 0.02f,
-                ancho * 0.92f, 0.06f, escalar(0.32f),
-                0.50f, 0.33f, 0.20f);
-
-        // Divisiones verticales
-        Cubo.dibujar(
-                -ancho * 0.28f, 0.95f, 0.03f,
-                0.05f, 1.80f, escalar(0.30f),
-                0.45f, 0.29f, 0.18f);
-
-        Cubo.dibujar(
-                ancho * 0.28f, 0.95f, 0.03f,
-                0.05f, 1.80f, escalar(0.30f),
-                0.45f, 0.29f, 0.18f);
+            // Divisiones verticales
+            Cubo.dibujar(-ancho * 0.28f, 0.95f, 0.03f, 0.05f, 1.80f, escalar(0.30f), 0.45f, 0.29f, 0.18f);
+            Cubo.dibujar(ancho * 0.28f, 0.95f, 0.03f, 0.05f, 1.80f, escalar(0.30f), 0.45f, 0.29f, 0.18f);
+        }
 
         // Libros y cajas decorativas
         dibujarLibroLocal(-ancho * 0.38f, 0.58f, 0.18f, 0.10f, 0.28f, 0.08f, 0.80f, 0.10f, 0.10f);
@@ -568,14 +559,14 @@ public class ClosetP2 {
                 xMaxGeo, zMaxGeo,
                 Y + 0.01f,
                 0.035f,
-                0.52f, 0.52f, 0.56f);
+                0.52f, 0.52f, 0.56f, texturaTapete);
 
         dibujarCuboPorGeo(
                 xMinGeo + 0.10f, zMinGeo + 0.10f,
                 xMaxGeo - 0.10f, zMaxGeo - 0.10f,
                 Y + 0.045f,
                 0.018f,
-                0.68f, 0.68f, 0.72f);
+                0.68f, 0.68f, 0.72f, texturaTapete);
     }
 
     private static void dibujarBancoCentral(float xMinGeo, float zMinGeo, float xMaxGeo, float zMaxGeo) {
@@ -585,7 +576,7 @@ public class ClosetP2 {
                 xMaxGeo, zMaxGeo,
                 Y,
                 0.35f,
-                0.30f, 0.20f, 0.13f);
+                0.30f, 0.20f, 0.13f, texturaMaderaCloset);
 
         // Cojín superior
         dibujarCuboPorGeo(
@@ -593,16 +584,16 @@ public class ClosetP2 {
                 xMaxGeo - 0.04f, zMaxGeo - 0.04f,
                 Y + 0.35f,
                 0.13f,
-                0.78f, 0.76f, 0.70f);
+                0.78f, 0.76f, 0.70f, texturaCojin);
 
         // Patas
         dibujarCuboPorGeo(xMinGeo + 0.05f, zMinGeo + 0.05f, xMinGeo + 0.12f, zMinGeo + 0.12f, Y, 0.35f,
-                0.12f, 0.12f, 0.12f);
+                0.12f, 0.12f, 0.12f, 0);
         dibujarCuboPorGeo(xMaxGeo - 0.12f, zMinGeo + 0.05f, xMaxGeo - 0.05f, zMinGeo + 0.12f, Y, 0.35f,
-                0.12f, 0.12f, 0.12f);
+                0.12f, 0.12f, 0.12f, 0);
         dibujarCuboPorGeo(xMinGeo + 0.05f, zMaxGeo - 0.12f, xMinGeo + 0.12f, zMaxGeo - 0.05f, Y, 0.35f,
-                0.12f, 0.12f, 0.12f);
+                0.12f, 0.12f, 0.12f, 0);
         dibujarCuboPorGeo(xMaxGeo - 0.12f, zMaxGeo - 0.12f, xMaxGeo - 0.05f, zMaxGeo - 0.05f, Y, 0.35f,
-                0.12f, 0.12f, 0.12f);
+                0.12f, 0.12f, 0.12f, 0);
     }
 }
