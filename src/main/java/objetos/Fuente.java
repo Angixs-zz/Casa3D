@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Fuente {
 
     private static final float Y = Constantes.ALTURA_PISO_1;
+    public static int texturaCascada = 0;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -176,14 +177,25 @@ public class Fuente {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthMask(false);
 
-        Cubo.dibujar(
-                cx + escalar(0.05f), // Por delante de la piedra
-                heightY / 2f,
-                cz,
-                escalar(0.02f),
-                heightY,
-                lengthZ - pilarThickness * 2f,
-                0.8f, 0.9f, 1.0f, 0.6f);
+        if (texturaCascada != 0) {
+            Cubo.dibujarConTextura(
+                    cx + escalar(0.05f),
+                    heightY / 2f,
+                    cz,
+                    escalar(0.02f),
+                    heightY,
+                    lengthZ - pilarThickness * 2f,
+                    texturaCascada);
+        } else {
+            Cubo.dibujar(
+                    cx + escalar(0.05f), // Por delante de la piedra
+                    heightY / 2f,
+                    cz,
+                    escalar(0.02f),
+                    heightY,
+                    lengthZ - pilarThickness * 2f,
+                    0.8f, 0.9f, 1.0f, 0.6f);
+        }
 
         glDepthMask(true);
         glDisable(GL_BLEND);
@@ -301,14 +313,25 @@ public class Fuente {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthMask(false);
 
-        Cubo.dibujar(
-                cx + escalar(0.05f), // Por delante de la piedra
-                heightY / 2f,
-                cz,
-                escalar(0.02f),
-                heightY,
-                lengthZ - pilarThickness * 2f,
-                0.8f, 0.9f, 1.0f, 0.6f);
+        if (texturaCascada != 0) {
+            Cubo.dibujarConTextura(
+                    cx + escalar(0.05f),
+                    heightY / 2f,
+                    cz,
+                    escalar(0.02f),
+                    heightY,
+                    lengthZ - pilarThickness * 2f,
+                    texturaCascada);
+        } else {
+            Cubo.dibujar(
+                    cx + escalar(0.05f), // Por delante de la piedra
+                    heightY / 2f,
+                    cz,
+                    escalar(0.02f),
+                    heightY,
+                    lengthZ - pilarThickness * 2f,
+                    0.8f, 0.9f, 1.0f, 0.6f);
+        }
 
         glDepthMask(true);
         glDisable(GL_BLEND);

@@ -434,8 +434,24 @@ public class VentanaOpenGL {
                 texturaPiedraFuera = CargadorTexturas.cargarTextura("/texturas/piedrafuera.jpg");
                 texturaMaderaPrincipal = CargadorTexturas.cargarTextura("/texturas/maderaPrincipal.jpg");
                 texturaParedCochera = CargadorTexturas.cargarTextura("/texturas/paredCochera.jpg");
+                
+                // Cargar textura de césped para las áreas verdes
+                int texturaCespedVal = CargadorTexturas.cargarTextura("/texturas/cesped.jpg");
+                objetos.PlantasPrimerPiso.texturaCesped = texturaCespedVal;
                 objetos.Cocina.texturaMaderaParaCocina = CargadorTexturas
                                 .cargarTextura("/texturas/MADERAPARACOCINA.jpg");
+                objetos.Fuente.texturaCascada = CargadorTexturas.cargarTextura("/texturas/cascada.jpg");
+                piso2.SalaEstarP2.texturaSofa = texturaSillonGrisSala;
+                piso2.SalaEstarP2.texturaCojin = texturaAlmohadaSala;
+                piso2.SalaEstarP2.texturaMadera = texturaMaderaPrincipal;
+                piso2.SalaEstarP2.texturaDecoracion = texturaAdornoSala;
+                
+                piso2.BanoP2.texturaPiso = texturaPisoDentro;
+                piso2.BanoP2.texturaMueble = objetos.Cocina.texturaMaderaParaCocina;
+                piso2.BanoP2.texturaCeramica = texturaBano;
+                piso2.BanoP2.texturaTapete = texturaAlmohadaSala;
+                piso2.BanoP2.texturaDecoracion = texturaAdornoSala;
+                
                 objetos.Cocina.texturaCocinaAzul = CargadorTexturas.cargarTextura("/texturas/cocinaazul.jpg");
                 objetos.Cocina.texturaCocinaMadera = CargadorTexturas.cargarTextura("/texturas/COCINAMADERA.jpg");
                 objetos.Cocina.texturaRefri = CargadorTexturas.cargarTextura("/texturas/refri.jpg");

@@ -7,6 +7,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class PlantasPrimerPiso {
 
     private static final float Y = Constantes.ALTURA_PISO_1;
+    public static int texturaCesped = 0;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -281,16 +282,28 @@ public class PlantasPrimerPiso {
         float x = convertirXGeoAOpenGL(centroXGeo);
         float z = convertirZGeoAOpenGL(centroZGeo);
 
-        Cubo.dibujar(
-                x,
-                Y + 0.025f,
-                z,
-                escalar(anchoGeo),
-                0.05f,
-                escalar(fondoGeo),
-                0.12f,
-                0.45f,
-                0.12f);
+        if (texturaCesped != 0) {
+            Cubo.dibujarConTexturaRepetida(
+                    x,
+                    Y + 0.082f,
+                    z,
+                    escalar(anchoGeo),
+                    0.01f,
+                    escalar(fondoGeo),
+                    texturaCesped,
+                    2.0f);
+        } else {
+            Cubo.dibujar(
+                    x,
+                    Y + 0.082f,
+                    z,
+                    escalar(anchoGeo),
+                    0.01f,
+                    escalar(fondoGeo),
+                    0.12f,
+                    0.45f,
+                    0.12f);
+        }
     }
 
     private static void dibujarMacetaConPlantaGrande(float xGeo, float zGeo) {

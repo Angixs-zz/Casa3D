@@ -8,6 +8,12 @@ public class BanoP2 {
 
         private static final float Y = Constantes.ALTURA_PISO_2;
 
+        public static int texturaPiso = 0;
+        public static int texturaMueble = 0;
+        public static int texturaCeramica = 0;
+        public static int texturaTapete = 0;
+        public static int texturaDecoracion = 0;
+
         private static float convertirXGeoAOpenGL(float xGeo) {
                 float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
                 x = -x;
@@ -69,7 +75,7 @@ public class BanoP2 {
                         float xMinGeo, float zMinGeo,
                         float xMaxGeo, float zMaxGeo,
                         float yBase, float altura,
-                        float r, float g, float b) {
+                        float r, float g, float b, int texturaID) {
 
                 float centroXGeo = (xMinGeo + xMaxGeo) / 2.0f;
                 float centroZGeo = (zMinGeo + zMaxGeo) / 2.0f;
@@ -83,14 +89,11 @@ public class BanoP2 {
                 float ancho = escalar(anchoGeo);
                 float largo = escalar(largoGeo);
 
-                Cubo.dibujar(
-                                x,
-                                yBase + altura / 2.0f,
-                                z,
-                                ancho,
-                                altura,
-                                largo,
-                                r, g, b);
+                if (texturaID != 0) {
+                        Cubo.dibujarConTextura(x, yBase + altura / 2.0f, z, ancho, altura, largo, texturaID);
+                } else {
+                        Cubo.dibujar(x, yBase + altura / 2.0f, z, ancho, altura, largo, r, g, b);
+                }
         }
 
         // ==========================================================
@@ -116,22 +119,15 @@ public class BanoP2 {
                 glRotatef(rotacionY, 0f, 1f, 0f);
 
                 // Base exterior de la bañera
-                Cubo.dibujar(
-                                0f, 0.30f, 0f,
-                                ancho, 0.60f, largo,
-                                0.93f, 0.93f, 0.90f);
-
-                // Borde superior
-                Cubo.dibujar(
-                                0f, 0.66f, 0f,
-                                ancho * 1.05f, 0.12f, largo * 1.04f,
-                                0.98f, 0.98f, 0.95f);
-
-                // Hueco interior oscuro
-                Cubo.dibujar(
-                                0f, 0.72f, 0f,
-                                ancho * 0.72f, 0.08f, largo * 0.74f,
-                                0.70f, 0.74f, 0.76f);
+                if (texturaCeramica != 0) {
+                        Cubo.dibujarConTextura(0f, 0.30f, 0f, ancho, 0.60f, largo, texturaCeramica);
+                        Cubo.dibujarConTextura(0f, 0.66f, 0f, ancho * 1.05f, 0.12f, largo * 1.04f, texturaCeramica);
+                        Cubo.dibujarConTextura(0f, 0.72f, 0f, ancho * 0.72f, 0.08f, largo * 0.74f, texturaCeramica);
+                } else {
+                        Cubo.dibujar(0f, 0.30f, 0f, ancho, 0.60f, largo, 0.93f, 0.93f, 0.90f);
+                        Cubo.dibujar(0f, 0.66f, 0f, ancho * 1.05f, 0.12f, largo * 1.04f, 0.98f, 0.98f, 0.95f);
+                        Cubo.dibujar(0f, 0.72f, 0f, ancho * 0.72f, 0.08f, largo * 0.74f, 0.70f, 0.74f, 0.76f);
+                }
 
                 // Agua
                 Cubo.dibujar(
@@ -204,16 +200,13 @@ public class BanoP2 {
                 glRotatef(rotacionY, 0f, 1f, 0f);
 
                 // Piso de la regadera
-                Cubo.dibujar(
-                                0f, 0.04f, 0f,
-                                ancho, 0.08f, largo,
-                                0.55f, 0.55f, 0.52f);
-
-                // Charola ligeramente hundida
-                Cubo.dibujar(
-                                0f, 0.10f, 0f,
-                                ancho * 0.82f, 0.04f, largo * 0.76f,
-                                0.72f, 0.72f, 0.70f);
+                if (texturaPiso != 0) {
+                        Cubo.dibujarConTextura(0f, 0.04f, 0f, ancho, 0.08f, largo, texturaPiso);
+                        Cubo.dibujarConTextura(0f, 0.10f, 0f, ancho * 0.82f, 0.04f, largo * 0.76f, texturaPiso);
+                } else {
+                        Cubo.dibujar(0f, 0.04f, 0f, ancho, 0.08f, largo, 0.55f, 0.55f, 0.52f);
+                        Cubo.dibujar(0f, 0.10f, 0f, ancho * 0.82f, 0.04f, largo * 0.76f, 0.72f, 0.72f, 0.70f);
+                }
 
                 // Cristal frontal
                 Cubo.dibujar(
@@ -313,40 +306,21 @@ public class BanoP2 {
                 glRotatef(rotacionY, 0f, 1f, 0f);
 
                 // Base inferior
-                Cubo.dibujar(
-                                0f, 0.18f, 0f,
-                                ancho * 0.78f, 0.36f, largo * 0.58f,
-                                0.92f, 0.92f, 0.90f);
-
-                // Taza principal
-                Cubo.dibujar(
-                                0f, 0.48f, 0.04f,
-                                ancho * 0.86f, 0.36f, largo * 0.68f,
-                                0.96f, 0.96f, 0.94f);
-
-                // Hueco de la taza
-                Cubo.dibujar(
-                                0f, 0.60f, 0.06f,
-                                ancho * 0.48f, 0.07f, largo * 0.36f,
-                                0.35f, 0.46f, 0.52f);
-
-                // Tapa/anillo
-                Cubo.dibujar(
-                                0f, 0.66f, 0.06f,
-                                ancho * 0.60f, 0.04f, largo * 0.46f,
-                                0.88f, 0.88f, 0.86f);
-
-                // Tanque trasero
-                Cubo.dibujar(
-                                0f, 0.95f, -largo / 2f + 0.08f,
-                                ancho * 0.86f, 0.65f, largo * 0.22f,
-                                0.95f, 0.95f, 0.92f);
-
-                // Tapa del tanque
-                Cubo.dibujar(
-                                0f, 1.30f, -largo / 2f + 0.08f,
-                                ancho * 0.94f, 0.07f, largo * 0.26f,
-                                0.88f, 0.88f, 0.86f);
+                if (texturaCeramica != 0) {
+                        Cubo.dibujarConTextura(0f, 0.18f, 0f, ancho * 0.78f, 0.36f, largo * 0.58f, texturaCeramica);
+                        Cubo.dibujarConTextura(0f, 0.48f, 0.04f, ancho * 0.86f, 0.36f, largo * 0.68f, texturaCeramica);
+                        Cubo.dibujarConTextura(0f, 0.60f, 0.06f, ancho * 0.48f, 0.07f, largo * 0.36f, texturaCeramica);
+                        Cubo.dibujarConTextura(0f, 0.66f, 0.06f, ancho * 0.60f, 0.04f, largo * 0.46f, texturaCeramica);
+                        Cubo.dibujarConTextura(0f, 0.95f, -largo / 2f + 0.08f, ancho * 0.86f, 0.65f, largo * 0.22f, texturaCeramica);
+                        Cubo.dibujarConTextura(0f, 1.30f, -largo / 2f + 0.08f, ancho * 0.94f, 0.07f, largo * 0.26f, texturaCeramica);
+                } else {
+                        Cubo.dibujar(0f, 0.18f, 0f, ancho * 0.78f, 0.36f, largo * 0.58f, 0.92f, 0.92f, 0.90f);
+                        Cubo.dibujar(0f, 0.48f, 0.04f, ancho * 0.86f, 0.36f, largo * 0.68f, 0.96f, 0.96f, 0.94f);
+                        Cubo.dibujar(0f, 0.60f, 0.06f, ancho * 0.48f, 0.07f, largo * 0.36f, 0.35f, 0.46f, 0.52f);
+                        Cubo.dibujar(0f, 0.66f, 0.06f, ancho * 0.60f, 0.04f, largo * 0.46f, 0.88f, 0.88f, 0.86f);
+                        Cubo.dibujar(0f, 0.95f, -largo / 2f + 0.08f, ancho * 0.86f, 0.65f, largo * 0.22f, 0.95f, 0.95f, 0.92f);
+                        Cubo.dibujar(0f, 1.30f, -largo / 2f + 0.08f, ancho * 0.94f, 0.07f, largo * 0.26f, 0.88f, 0.88f, 0.86f);
+                }
 
                 // Botón de descarga
                 Cubo.dibujar(
@@ -391,49 +365,30 @@ public class BanoP2 {
                 glRotatef(rotacionY, 0f, 1f, 0f);
 
                 // Mueble base
-                Cubo.dibujar(
-                                0f, 0.38f, 0f,
-                                ancho, 0.76f, largo,
-                                0.42f, 0.30f, 0.22f);
-
-                // Puertas/cajones
-                Cubo.dibujar(
-                                -ancho * 0.25f, 0.38f, largo / 2f + 0.015f,
-                                ancho * 0.38f, 0.46f, 0.035f,
-                                0.50f, 0.36f, 0.26f);
-
-                Cubo.dibujar(
-                                ancho * 0.25f, 0.38f, largo / 2f + 0.015f,
-                                ancho * 0.38f, 0.46f, 0.035f,
-                                0.50f, 0.36f, 0.26f);
+                if (texturaMueble != 0) {
+                        Cubo.dibujarConTextura(0f, 0.38f, 0f, ancho, 0.76f, largo, texturaMueble);
+                        Cubo.dibujarConTextura(-ancho * 0.25f, 0.38f, largo / 2f + 0.015f, ancho * 0.38f, 0.46f, 0.035f, texturaMueble);
+                        Cubo.dibujarConTextura(ancho * 0.25f, 0.38f, largo / 2f + 0.015f, ancho * 0.38f, 0.46f, 0.035f, texturaMueble);
+                } else {
+                        Cubo.dibujar(0f, 0.38f, 0f, ancho, 0.76f, largo, 0.42f, 0.30f, 0.22f);
+                        Cubo.dibujar(-ancho * 0.25f, 0.38f, largo / 2f + 0.015f, ancho * 0.38f, 0.46f, 0.035f, 0.50f, 0.36f, 0.26f);
+                        Cubo.dibujar(ancho * 0.25f, 0.38f, largo / 2f + 0.015f, ancho * 0.38f, 0.46f, 0.035f, 0.50f, 0.36f, 0.26f);
+                }
 
                 // Manijas
-                Cubo.dibujar(
-                                -ancho * 0.25f, 0.45f, largo / 2f + 0.045f,
-                                0.14f, 0.035f, 0.025f,
-                                0.78f, 0.78f, 0.75f);
+                Cubo.dibujar(-ancho * 0.25f, 0.45f, largo / 2f + 0.045f, 0.14f, 0.035f, 0.025f, 0.78f, 0.78f, 0.75f);
+                Cubo.dibujar(ancho * 0.25f, 0.45f, largo / 2f + 0.045f, 0.14f, 0.035f, 0.025f, 0.78f, 0.78f, 0.75f);
 
-                Cubo.dibujar(
-                                ancho * 0.25f, 0.45f, largo / 2f + 0.045f,
-                                0.14f, 0.035f, 0.025f,
-                                0.78f, 0.78f, 0.75f);
-
-                // Cubierta blanca
-                Cubo.dibujar(
-                                0f, 0.80f, 0f,
-                                ancho * 1.04f, 0.08f, largo * 1.06f,
-                                0.95f, 0.95f, 0.92f);
-
-                // Lavabo hundido
-                Cubo.dibujar(
-                                0f, 0.86f, 0f,
-                                ancho * 0.52f, 0.08f, largo * 0.50f,
-                                0.78f, 0.80f, 0.80f);
-
-                Cubo.dibujar(
-                                0f, 0.91f, 0f,
-                                ancho * 0.34f, 0.05f, largo * 0.32f,
-                                0.32f, 0.42f, 0.46f);
+                // Cubierta blanca y lavabo
+                if (texturaCeramica != 0) {
+                        Cubo.dibujarConTextura(0f, 0.80f, 0f, ancho * 1.04f, 0.08f, largo * 1.06f, texturaCeramica);
+                        Cubo.dibujarConTextura(0f, 0.86f, 0f, ancho * 0.52f, 0.08f, largo * 0.50f, texturaCeramica);
+                        Cubo.dibujarConTextura(0f, 0.91f, 0f, ancho * 0.34f, 0.05f, largo * 0.32f, texturaCeramica);
+                } else {
+                        Cubo.dibujar(0f, 0.80f, 0f, ancho * 1.04f, 0.08f, largo * 1.06f, 0.95f, 0.95f, 0.92f);
+                        Cubo.dibujar(0f, 0.86f, 0f, ancho * 0.52f, 0.08f, largo * 0.50f, 0.78f, 0.80f, 0.80f);
+                        Cubo.dibujar(0f, 0.91f, 0f, ancho * 0.34f, 0.05f, largo * 0.32f, 0.32f, 0.42f, 0.46f);
+                }
 
                 // Agua
                 Cubo.dibujar(
@@ -507,76 +462,33 @@ public class BanoP2 {
                                 xMaxGeo, zMaxGeo,
                                 Y + 0.01f,
                                 0.035f,
-                                0.42f, 0.52f, 0.58f);
+                                0.42f, 0.52f, 0.58f, texturaTapete);
 
                 dibujarCuboPorGeo(
                                 xMinGeo + 0.10f, zMinGeo + 0.06f,
                                 xMaxGeo - 0.10f, zMaxGeo - 0.06f,
                                 Y + 0.045f,
                                 0.018f,
-                                0.65f, 0.72f, 0.76f);
+                                0.65f, 0.72f, 0.76f, texturaTapete);
         }
 
         private static void dibujarToallerosYDecoracion() {
                 // Toallero decorativo cerca del lavabo
-                dibujarCuboPorGeo(
-                                5.0f, 5.95f,
-                                6.1f, 6.02f,
-                                Y + 1.30f,
-                                0.06f,
-                                0.65f, 0.65f, 0.65f);
+                dibujarCuboPorGeo(5.0f, 5.95f, 6.1f, 6.02f, Y + 1.30f, 0.06f, 0.65f, 0.65f, 0.65f, 0);
 
                 // Toalla colgada
-                dibujarCuboPorGeo(
-                                5.35f, 5.98f,
-                                5.75f, 6.04f,
-                                Y + 0.92f,
-                                0.70f,
-                                0.82f, 0.82f, 0.78f);
+                dibujarCuboPorGeo(5.35f, 5.98f, 5.75f, 6.04f, Y + 0.92f, 0.70f, 0.82f, 0.82f, 0.78f, texturaTapete);
 
                 // Planta pequeña decorativa
-                dibujarCuboPorGeo(
-                                6.8f, 5.95f,
-                                7.05f, 6.20f,
-                                Y,
-                                0.30f,
-                                0.48f, 0.30f, 0.18f);
-
-                dibujarCuboPorGeo(
-                                6.72f, 5.90f,
-                                7.13f, 6.25f,
-                                Y + 0.30f,
-                                0.42f,
-                                0.12f, 0.45f, 0.16f);
+                dibujarCuboPorGeo(6.8f, 5.95f, 7.05f, 6.20f, Y, 0.30f, 0.48f, 0.30f, 0.18f, texturaDecoracion);
+                dibujarCuboPorGeo(6.72f, 5.90f, 7.13f, 6.25f, Y + 0.30f, 0.42f, 0.12f, 0.45f, 0.16f, 0);
 
                 // Repisa pequeña de decoración
-                dibujarCuboPorGeo(
-                                6.85f, 4.15f,
-                                7.65f, 4.22f,
-                                Y + 1.40f,
-                                0.07f,
-                                0.36f, 0.24f, 0.14f);
+                dibujarCuboPorGeo(6.85f, 4.15f, 7.65f, 4.22f, Y + 1.40f, 0.07f, 0.36f, 0.24f, 0.14f, texturaMueble);
 
                 // Velas / frascos sobre repisa
-                dibujarCuboPorGeo(
-                                6.95f, 4.12f,
-                                7.08f, 4.25f,
-                                Y + 1.48f,
-                                0.22f,
-                                0.90f, 0.85f, 0.65f);
-
-                dibujarCuboPorGeo(
-                                7.18f, 4.12f,
-                                7.31f, 4.25f,
-                                Y + 1.48f,
-                                0.22f,
-                                0.20f, 0.55f, 0.70f);
-
-                dibujarCuboPorGeo(
-                                7.42f, 4.12f,
-                                7.55f, 4.25f,
-                                Y + 1.48f,
-                                0.22f,
-                                0.85f, 0.85f, 0.85f);
+                dibujarCuboPorGeo(6.95f, 4.12f, 7.08f, 4.25f, Y + 1.48f, 0.22f, 0.90f, 0.85f, 0.65f, texturaDecoracion);
+                dibujarCuboPorGeo(7.18f, 4.12f, 7.31f, 4.25f, Y + 1.48f, 0.22f, 0.20f, 0.55f, 0.70f, texturaDecoracion);
+                dibujarCuboPorGeo(7.42f, 4.12f, 7.55f, 4.25f, Y + 1.48f, 0.22f, 0.85f, 0.85f, 0.85f, texturaDecoracion);
         }
 }
