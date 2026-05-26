@@ -1264,21 +1264,33 @@ public class VentanaOpenGL {
                 anchoLosa = anchoLosa * Constantes.ESCALA_CASA;
                 largoLosa = largoLosa * Constantes.ESCALA_CASA;
 
-                // Color del piso 2
+                // Color del piso 2 (si no hay textura)
                 float r = 0.30f;
                 float g = 0.45f;
                 float b = 0.65f;
 
-                Cubo.dibujar(
-                                centroX,
-                                altura,
-                                centroZ,
-                                anchoLosa,
-                                0.12f,
-                                largoLosa,
-                                r,
-                                g,
-                                b);
+                if (texturaPisoDentro != 0) {
+                        Cubo.dibujarConTexturaRepetida(
+                                        centroX,
+                                        altura,
+                                        centroZ,
+                                        anchoLosa,
+                                        0.12f,
+                                        largoLosa,
+                                        texturaPisoDentro,
+                                        4.0f);
+                } else {
+                        Cubo.dibujar(
+                                        centroX,
+                                        altura,
+                                        centroZ,
+                                        anchoLosa,
+                                        0.12f,
+                                        largoLosa,
+                                        r,
+                                        g,
+                                        b);
+                }
         }
 
         private void dibujarPared(
