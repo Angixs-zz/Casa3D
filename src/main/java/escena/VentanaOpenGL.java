@@ -102,6 +102,7 @@ public class VentanaOpenGL {
 
         private int modoCamara = 1;
         private boolean ePressed = false;
+        private float distanciaCamara3P = 5.0f; // Inicia más cerca del personaje (antes 8.0f)
 
         private static final int CAMARA_LIBRE = 1;
         private static final int CAMARA_PRIMERA_PERSONA = 2;
@@ -143,6 +144,16 @@ public class VentanaOpenGL {
                 glfwShowWindow(ventana);
 
                 GL.createCapabilities();
+
+                // Registrar callback para zoom con la rueda del mouse en tercera persona
+                glfwSetScrollCallback(ventana, (win, xoffset, yoffset) -> {
+                        if (modoCamara == CAMARA_TERCERA_PERSONA) {
+                                // Acercar o alejar suavemente
+                                distanciaCamara3P -= yoffset * 0.5f;
+                                if (distanciaCamara3P < 2.0f) distanciaCamara3P = 2.0f;
+                                if (distanciaCamara3P > 15.0f) distanciaCamara3P = 15.0f;
+                        }
+                });
 
                 casa = new Casa();
 
@@ -452,7 +463,27 @@ public class VentanaOpenGL {
                 piso2.SalaEstarP2.texturaCojin = texturaAlmohadaSala;
                 piso2.SalaEstarP2.texturaMadera = texturaMaderaPrincipal;
                 piso3.PergolaBancoP3.texturaMadera = texturaMaderaPrincipal;
+                piso3.PergolaBancoP3.texturaCojin = texturaAlmohadaSala;
+                piso3.PergolaBancoP3.texturaAlmohada = texturaAlmohadaSala;
+                piso3.PergolaBancoP3.texturaCesped = texturaCespedVal;
+                piso3.PergolaBancoP3.texturaHojas = objetos.Fuente.texturaHojas;
+
                 piso3.ComedorP3.texturaMadera = texturaMaderaPrincipal;
+                piso3.ComedorP3.texturaLadrillo = texturaLadrillo;
+                piso3.ComedorP3.texturaPiedra = texturaPiedraFuera;
+                piso3.ComedorP3.texturaSillaCojin = objetos.Cocina.texturaSillaGris;
+                piso3.ComedorP3.texturaCesped = texturaCespedVal;
+                piso3.ComedorP3.texturaHojas = objetos.Fuente.texturaHojas;
+
+                piso3.TerrazaP3.texturaMadera = texturaMaderaPrincipal;
+                piso3.TerrazaP3.texturaSofa = texturaSillonGrisSala;
+                piso3.TerrazaP3.texturaCojin = texturaAlmohadaSala;
+                piso3.TerrazaP3.texturaAlmohada = texturaAdornoSala;
+                piso3.TerrazaP3.texturaHojas = objetos.Fuente.texturaHojas;
+                piso3.TerrazaP3.texturaTapete = texturaAlmohadaSala;
+                piso3.TerrazaP3.texturaCesped = texturaCespedVal;
+                piso2.Piso3.texturaCesped = texturaCespedVal;
+                piso2.Piso3.texturaHojas = objetos.Fuente.texturaHojas;
                 piso2.SalaEstarP2.texturaDecoracion = texturaAdornoSala;
                 
                 piso2.BanoP2.texturaPiso = texturaPisoDentro;
@@ -506,6 +537,19 @@ public class VentanaOpenGL {
                                 modoCamara = CAMARA_PRIMERA_PERSONA;
                         if (glfwGetKey(ventana, GLFW_KEY_F3) == GLFW_PRESS)
                                 modoCamara = CAMARA_TERCERA_PERSONA;
+
+                        // Controles de zoom con teclado en tercera persona (flechas Arriba/Abajo o +/-)
+                        if (modoCamara == CAMARA_TERCERA_PERSONA) {
+                                if (glfwGetKey(ventana, GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(ventana, GLFW_KEY_KP_ADD) == GLFW_PRESS) {
+                                        distanciaCamara3P -= 0.08f;
+                                }
+                                if (glfwGetKey(ventana, GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(ventana, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS) {
+                                        distanciaCamara3P += 0.08f;
+                                }
+                                // Limitar zoom
+                                if (distanciaCamara3P < 2.0f) distanciaCamara3P = 2.0f;
+                                if (distanciaCamara3P > 15.0f) distanciaCamara3P = 15.0f;
+                        }
 
                         if (glfwGetKey(ventana, GLFW_KEY_E) == GLFW_PRESS) {
                                 if (!ePressed) {
@@ -636,16 +680,92 @@ public class VentanaOpenGL {
         }
 
         private void aplicarCamaraTerceraPersona() {
-                glTranslatef(0f, -2.2f, -8.0f);
+                float personajeX = girasol.getX();
+                float personajeY = girasol.getY();
+                float personajeZ = girasol.getZ();
+                float rotacionY  = girasol.getRotacionY();
 
-                glRotatef(18f, 1f, 0f, 0f);
+                // ── Detectar piso y calcular techo ──
+                final float PISO2_Y   = utilidades.Constantes.ALTURA_PISO_2; // 3.2
+                final float PISO3_Y   = utilidades.Constantes.ALTURA_PISO_3; // 6.4
+                final float ALTO_PISO = 3.2f;
+                final float MARGEN    = 0.15f; // margen mínimo con el techo
 
-                glRotatef(-girasol.getRotacionY(), 0f, 1f, 0f);
+                float techoPiso;
+                if (personajeY >= PISO3_Y - 0.3f) {
+                        techoPiso = PISO3_Y + ALTO_PISO - MARGEN; // piso 3: cielo abierto
+                } else if (personajeY >= PISO2_Y - 0.3f) {
+                        techoPiso = PISO3_Y - MARGEN;             // piso 2: techo = suelo p3
+                } else {
+                        techoPiso = PISO2_Y - MARGEN;             // piso 1: techo = suelo p2
+                }
 
-                glTranslatef(
-                                -girasol.getX(),
-                                -(girasol.getY() + 1.0f),
-                                -girasol.getZ());
+                // Usamos el ángulo original de 18 grados para el pitch de la cámara
+                float pitchCamara = 18f;
+                float radPitch = (float) Math.toRadians(pitchCamara);
+                float cosPitch = (float) Math.cos(radPitch);
+                float sinPitch = (float) Math.sin(radPitch);
+
+                float radYaw = (float) Math.toRadians(rotacionY);
+                float sinYaw = (float) Math.sin(radYaw);
+                float cosYaw = (float) Math.cos(radYaw);
+
+                // Altura vertical por defecto de la cámara sobre el personaje (original era 2.2f)
+                float yOffset = 2.2f;
+
+                // Altura de la cámara en el mundo según las transformaciones de OpenGL:
+                // camY = (personajeY + 1.0f) + yOffset * cos(pitch) + distanciaCamara3P * sin(pitch)
+                float camYIdeal = (personajeY + 1.0f) + yOffset * cosPitch + distanciaCamara3P * sinPitch;
+
+                // Si la altura ideal excede el techo del piso actual, reducimos yOffset para evitar que pase la losa
+                if (camYIdeal > techoPiso) {
+                        yOffset = (techoPiso - (personajeY + 1.0f) - distanciaCamara3P * sinPitch) / cosPitch;
+                        
+                        // Límite de seguridad para que la cámara no baje por debajo del personaje
+                        if (yOffset < 0.2f) {
+                                yOffset = 0.2f;
+                        }
+                }
+
+                // ── SISTEMA DE COLISIÓN DE LA CÁMARA (SPRING ARM) ──
+                // Escaneamos hacia atrás desde la distancia deseada hacia el personaje
+                // para encontrar la distancia máxima permitida sin chocar con paredes o muebles.
+                float distanciaValida = distanciaCamara3P;
+                float radioColisionCamara = 0.2f; // Radio para la caja de colisión de la cámara
+
+                for (float d = distanciaCamara3P; d >= 0.4f; d -= 0.15f) {
+                        // Calcular posición 3D real de la cámara en mundo para esta distancia 'd'
+                        float y1 = yOffset * cosPitch + d * sinPitch;
+                        float z1 = -yOffset * sinPitch + d * cosPitch;
+
+                        float cx = personajeX + z1 * sinYaw;
+                        float cy = (personajeY + 1.0f) + y1;
+                        float cz = personajeZ + z1 * cosYaw;
+
+                        // Comprobar si esta posición choca con paredes del mapa
+                        boolean colision = objetos.Colisiones.hayColisionConParedes(cx, cz, cy, casa, radioColisionCamara);
+                        if (!colision) {
+                                // Comprobar si choca con algún mueble
+                                colision = objetos.Colisiones.hayColisionConMuebles(cx, cz, cy, radioColisionCamara);
+                        }
+
+                        if (!colision) {
+                                // Encontrada la distancia máxima libre de colisiones
+                                distanciaValida = d;
+                                break;
+                        }
+
+                        // Si llega al final del bucle y sigue colisionando, forzar la distancia mínima
+                        if (d - 0.15f < 0.4f) {
+                                distanciaValida = 0.4f;
+                        }
+                }
+
+                // Aplicar las transformaciones usando la distancia corregida por colisión
+                glTranslatef(0f, -yOffset, -distanciaValida);
+                glRotatef(pitchCamara, 1f, 0f, 0f);
+                glRotatef(-rotacionY, 0f, 1f, 0f);
+                glTranslatef(-personajeX, -(personajeY + 1.0f), -personajeZ);
         }
 
         private void dibujarPiso() {
@@ -1144,21 +1264,33 @@ public class VentanaOpenGL {
                 anchoLosa = anchoLosa * Constantes.ESCALA_CASA;
                 largoLosa = largoLosa * Constantes.ESCALA_CASA;
 
-                // Color del piso 2
+                // Color del piso 2 (si no hay textura)
                 float r = 0.30f;
                 float g = 0.45f;
                 float b = 0.65f;
 
-                Cubo.dibujar(
-                                centroX,
-                                altura,
-                                centroZ,
-                                anchoLosa,
-                                0.12f,
-                                largoLosa,
-                                r,
-                                g,
-                                b);
+                if (texturaPisoDentro != 0) {
+                        Cubo.dibujarConTexturaRepetida(
+                                        centroX,
+                                        altura,
+                                        centroZ,
+                                        anchoLosa,
+                                        0.12f,
+                                        largoLosa,
+                                        texturaPisoDentro,
+                                        4.0f);
+                } else {
+                        Cubo.dibujar(
+                                        centroX,
+                                        altura,
+                                        centroZ,
+                                        anchoLosa,
+                                        0.12f,
+                                        largoLosa,
+                                        r,
+                                        g,
+                                        b);
+                }
         }
 
         private void dibujarPared(

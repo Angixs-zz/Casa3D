@@ -9,6 +9,10 @@ public class PergolaBancoP3 {
     private static final float Y = Constantes.ALTURA_PISO_3;
 
     public static int texturaMadera = 0;
+    public static int texturaCojin = 0;
+    public static int texturaAlmohada = 0;
+    public static int texturaCesped = 0;
+    public static int texturaHojas = 0;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -161,10 +165,17 @@ public class PergolaBancoP3 {
         }
 
         // Cojín largo del asiento
-        Cubo.dibujar(
-                0f, 0.78f, -fondo * 0.08f,
-                ancho * 0.82f, 0.12f, fondo * 0.65f,
-                0.86f, 0.84f, 0.78f);
+        if (texturaCojin != 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.78f, -fondo * 0.08f,
+                    ancho * 0.82f, 0.12f, fondo * 0.65f,
+                    texturaCojin);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.78f, -fondo * 0.08f,
+                    ancho * 0.82f, 0.12f, fondo * 0.65f,
+                    0.86f, 0.84f, 0.78f);
+        }
 
         // Almohadas
         dibujarAlmohadaLocal(-ancho * 0.28f, 1.04f, fondo * 0.18f);
@@ -175,10 +186,17 @@ public class PergolaBancoP3 {
     }
 
     private static void dibujarAlmohadaLocal(float x, float y, float z) {
-        Cubo.dibujar(
-                x, y, z,
-                0.45f, 0.24f, 0.16f,
-                0.92f, 0.90f, 0.84f);
+        if (texturaAlmohada != 0) {
+            Cubo.dibujarConTextura(
+                    x, y, z,
+                    0.45f, 0.24f, 0.16f,
+                    texturaAlmohada);
+        } else {
+            Cubo.dibujar(
+                    x, y, z,
+                    0.45f, 0.24f, 0.16f,
+                    0.92f, 0.90f, 0.84f);
+        }
     }
 
     // ==========================================================
@@ -280,21 +298,31 @@ public class PergolaBancoP3 {
         glTranslatef(x, Y, z);
 
         // Postes verticales del panel
-        Cubo.dibujar(-ancho / 2f, 1.35f, 0f, 0.08f, 2.35f, 0.08f,
-                0.36f, 0.20f, 0.09f);
-        Cubo.dibujar(0f, 1.35f, 0f, 0.08f, 2.35f, 0.08f,
-                0.36f, 0.20f, 0.09f);
-        Cubo.dibujar(ancho / 2f, 1.35f, 0f, 0.08f, 2.35f, 0.08f,
-                0.36f, 0.20f, 0.09f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(-ancho / 2f, 1.35f, 0f, 0.08f, 2.35f, 0.08f, texturaMadera);
+            Cubo.dibujarConTextura(0f, 1.35f, 0f, 0.08f, 2.35f, 0.08f, texturaMadera);
+            Cubo.dibujarConTextura(ancho / 2f, 1.35f, 0f, 0.08f, 2.35f, 0.08f, texturaMadera);
+        } else {
+            Cubo.dibujar(-ancho / 2f, 1.35f, 0f, 0.08f, 2.35f, 0.08f,
+                    0.36f, 0.20f, 0.09f);
+            Cubo.dibujar(0f, 1.35f, 0f, 0.08f, 2.35f, 0.08f,
+                    0.36f, 0.20f, 0.09f);
+            Cubo.dibujar(ancho / 2f, 1.35f, 0f, 0.08f, 2.35f, 0.08f,
+                    0.36f, 0.20f, 0.09f);
+        }
 
         // Listones horizontales
         for (int i = 0; i < 13; i++) {
             float y = 0.55f + i * 0.14f;
 
-            Cubo.dibujar(
-                    0f, y, 0f,
-                    ancho, 0.045f, 0.055f,
-                    0.50f, 0.30f, 0.14f);
+            if (texturaMadera != 0) {
+                Cubo.dibujarConTextura(0f, y, 0f, ancho, 0.045f, 0.055f, texturaMadera);
+            } else {
+                Cubo.dibujar(
+                        0f, y, 0f,
+                        ancho, 0.045f, 0.055f,
+                        0.50f, 0.30f, 0.14f);
+            }
         }
 
         glPopMatrix();
@@ -316,21 +344,31 @@ public class PergolaBancoP3 {
         glTranslatef(x, Y, z);
 
         // Postes
-        Cubo.dibujar(0f, 1.35f, -largo / 2f, 0.08f, 2.30f, 0.08f,
-                0.36f, 0.20f, 0.09f);
-        Cubo.dibujar(0f, 1.35f, 0f, 0.08f, 2.30f, 0.08f,
-                0.36f, 0.20f, 0.09f);
-        Cubo.dibujar(0f, 1.35f, largo / 2f, 0.08f, 2.30f, 0.08f,
-                0.36f, 0.20f, 0.09f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 1.35f, -largo / 2f, 0.08f, 2.30f, 0.08f, texturaMadera);
+            Cubo.dibujarConTextura(0f, 1.35f, 0f, 0.08f, 2.30f, 0.08f, texturaMadera);
+            Cubo.dibujarConTextura(0f, 1.35f, largo / 2f, 0.08f, 2.30f, 0.08f, texturaMadera);
+        } else {
+            Cubo.dibujar(0f, 1.35f, -largo / 2f, 0.08f, 2.30f, 0.08f,
+                    0.36f, 0.20f, 0.09f);
+            Cubo.dibujar(0f, 1.35f, 0f, 0.08f, 2.30f, 0.08f,
+                    0.36f, 0.20f, 0.09f);
+            Cubo.dibujar(0f, 1.35f, largo / 2f, 0.08f, 2.30f, 0.08f,
+                    0.36f, 0.20f, 0.09f);
+        }
 
         // Listones horizontales laterales
         for (int i = 0; i < 12; i++) {
             float y = 0.60f + i * 0.14f;
 
-            Cubo.dibujar(
-                    0f, y, 0f,
-                    0.055f, 0.045f, largo,
-                    0.50f, 0.30f, 0.14f);
+            if (texturaMadera != 0) {
+                Cubo.dibujarConTextura(0f, y, 0f, 0.055f, 0.045f, largo, texturaMadera);
+            } else {
+                Cubo.dibujar(
+                        0f, y, 0f,
+                        0.055f, 0.045f, largo,
+                        0.50f, 0.30f, 0.14f);
+            }
         }
 
         glPopMatrix();
@@ -369,27 +407,40 @@ public class PergolaBancoP3 {
         glPushMatrix();
         glTranslatef(x, Y + 0.75f, z);
 
-        // Tierra
-        Cubo.dibujar(
-                0f, 0.04f, 0f,
-                escalar(0.20f), 0.05f, escalar(0.16f),
-                0.12f, 0.08f, 0.04f);
+        // Tierra (con textura de césped si está disponible)
+        if (texturaCesped != 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.04f, 0f,
+                    escalar(0.20f), 0.05f, escalar(0.16f),
+                    texturaCesped);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.04f, 0f,
+                    escalar(0.20f), 0.05f, escalar(0.16f),
+                    0.12f, 0.08f, 0.04f);
+        }
 
-        // Hojas
-        Cubo.dibujar(
-                0f, 0.22f, 0f,
-                escalar(0.22f), 0.28f, escalar(0.12f),
-                0.12f, 0.50f, 0.16f);
+        // Hojas (con textura de hojas)
+        if (texturaHojas != 0) {
+            Cubo.dibujarConTextura(0f, 0.22f, 0f, escalar(0.22f), 0.28f, escalar(0.12f), texturaHojas);
+            Cubo.dibujarConTextura(0f, 0.24f, 0f, escalar(0.12f), 0.30f, escalar(0.22f), texturaHojas);
+            Cubo.dibujarConTextura(0.05f, 0.36f, 0.04f, escalar(0.14f), 0.22f, escalar(0.10f), texturaHojas);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.22f, 0f,
+                    escalar(0.22f), 0.28f, escalar(0.12f),
+                    0.12f, 0.50f, 0.16f);
 
-        Cubo.dibujar(
-                0f, 0.24f, 0f,
-                escalar(0.12f), 0.30f, escalar(0.22f),
-                0.10f, 0.58f, 0.18f);
+            Cubo.dibujar(
+                    0f, 0.24f, 0f,
+                    escalar(0.12f), 0.30f, escalar(0.22f),
+                    0.10f, 0.58f, 0.18f);
 
-        Cubo.dibujar(
-                0.05f, 0.36f, 0.04f,
-                escalar(0.14f), 0.22f, escalar(0.10f),
-                0.18f, 0.66f, 0.22f);
+            Cubo.dibujar(
+                    0.05f, 0.36f, 0.04f,
+                    escalar(0.14f), 0.22f, escalar(0.10f),
+                    0.18f, 0.66f, 0.22f);
+        }
 
         glPopMatrix();
     }

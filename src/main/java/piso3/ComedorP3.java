@@ -9,6 +9,11 @@ public class ComedorP3 {
     private static final float Y = Constantes.ALTURA_PISO_3;
 
     public static int texturaMadera = 0;
+    public static int texturaLadrillo = 0;
+    public static int texturaPiedra = 0;
+    public static int texturaSillaCojin = 0;
+    public static int texturaCesped = 0;
+    public static int texturaHojas = 0;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -132,16 +137,24 @@ public class ComedorP3 {
                 0.88f, 0.88f, 0.84f);
 
         // Cubierta superior tipo piedra
-        Cubo.dibujar(
-                0f, 0.80f, 0f,
-                ancho * 1.03f, 0.08f, largo * 1.04f,
-                0.62f, 0.56f, 0.50f);
+        if (texturaPiedra != 0) {
+            Cubo.dibujarConTextura(0f, 0.80f, 0f, ancho * 1.03f, 0.08f, largo * 1.04f, texturaPiedra);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.80f, 0f,
+                    ancho * 1.03f, 0.08f, largo * 1.04f,
+                    0.62f, 0.56f, 0.50f);
+        }
 
         // Frente decorativo
-        Cubo.dibujar(
-                0f, 0.28f, largo / 2f + 0.02f,
-                ancho * 0.94f, 0.12f, 0.04f,
-                0.48f, 0.34f, 0.22f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 0.28f, largo / 2f + 0.02f, ancho * 0.94f, 0.12f, 0.04f, texturaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.28f, largo / 2f + 0.02f,
+                    ancho * 0.94f, 0.12f, 0.04f,
+                    0.48f, 0.34f, 0.22f);
+        }
 
         glPopMatrix();
 
@@ -172,10 +185,17 @@ public class ComedorP3 {
                 0.12f, 0.12f, 0.12f);
 
         // Tierra
-        Cubo.dibujar(
-                0f, 0.64f, 0f,
-                escalar(0.30f), 0.04f, escalar(0.30f),
-                0.10f, 0.07f, 0.04f);
+        if (texturaCesped != 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.64f, 0f,
+                    escalar(0.30f), 0.04f, escalar(0.30f),
+                    texturaCesped);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.64f, 0f,
+                    escalar(0.30f), 0.04f, escalar(0.30f),
+                    0.10f, 0.07f, 0.04f);
+        }
 
         // Tallos
         Cubo.dibujar(0f, 0.98f, 0f, 0.04f, 0.70f, 0.04f,
@@ -204,15 +224,27 @@ public class ComedorP3 {
         glRotatef(rotacionY, 0f, 1f, 0f);
         glRotatef(-18f, 0f, 0f, 1f);
 
-        Cubo.dibujar(
-                0f, 0f, 0.18f,
-                0.12f, 0.035f, 0.42f,
-                0.12f, 0.55f, 0.18f);
+        if (texturaHojas != 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0f, 0.18f,
+                    0.12f, 0.035f, 0.42f,
+                    texturaHojas);
 
-        Cubo.dibujar(
-                0f, 0f, 0.34f,
-                0.18f, 0.03f, 0.24f,
-                0.18f, 0.70f, 0.24f);
+            Cubo.dibujarConTextura(
+                    0f, 0f, 0.34f,
+                    0.18f, 0.03f, 0.24f,
+                    texturaHojas);
+        } else {
+            Cubo.dibujar(
+                    0f, 0f, 0.18f,
+                    0.12f, 0.035f, 0.42f,
+                    0.12f, 0.55f, 0.18f);
+
+            Cubo.dibujar(
+                    0f, 0f, 0.34f,
+                    0.18f, 0.03f, 0.24f,
+                    0.18f, 0.70f, 0.24f);
+        }
 
         glPopMatrix();
     }
@@ -240,10 +272,14 @@ public class ComedorP3 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Cubierta grande tipo piedra
-        Cubo.dibujar(
-                0f, 0.78f, 0f,
-                ancho, 0.10f, largo,
-                0.72f, 0.68f, 0.62f);
+        if (texturaPiedra != 0) {
+            Cubo.dibujarConTextura(0f, 0.78f, 0f, ancho, 0.10f, largo, texturaPiedra);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.78f, 0f,
+                    ancho, 0.10f, largo,
+                    0.72f, 0.68f, 0.62f);
+        }
 
         // Base central negra
         Cubo.dibujar(
@@ -263,10 +299,14 @@ public class ComedorP3 {
                 0.05f, 0.05f, 0.05f);
 
         // Decoración: charola/frutero
-        Cubo.dibujar(
-                0f, 0.90f, 0f,
-                ancho * 0.34f, 0.06f, largo * 0.22f,
-                0.28f, 0.22f, 0.12f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 0.90f, 0f, ancho * 0.34f, 0.06f, largo * 0.22f, texturaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.90f, 0f,
+                    ancho * 0.34f, 0.06f, largo * 0.22f,
+                    0.28f, 0.22f, 0.12f);
+        }
 
         // Frutas sobre la mesa
         Cubo.dibujar(-ancho * 0.08f, 0.98f, 0f, 0.10f, 0.10f, 0.10f,
@@ -310,28 +350,43 @@ public class ComedorP3 {
         float fondo = escalar(0.42f);
 
         // Asiento madera
-        Cubo.dibujar(
-                0f, 0.40f, 0f,
-                ancho, 0.12f, fondo,
-                0.42f, 0.25f, 0.12f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 0.40f, 0f, ancho, 0.12f, fondo, texturaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.40f, 0f,
+                    ancho, 0.12f, fondo,
+                    0.42f, 0.25f, 0.12f);
+        }
 
         // Cojín
-        Cubo.dibujar(
-                0f, 0.50f, 0f,
-                ancho * 0.86f, 0.08f, fondo * 0.86f,
-                0.62f, 0.68f, 0.72f);
+        if (texturaSillaCojin != 0) {
+            Cubo.dibujarConTextura(0f, 0.50f, 0f, ancho * 0.86f, 0.08f, fondo * 0.86f, texturaSillaCojin);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.50f, 0f,
+                    ancho * 0.86f, 0.08f, fondo * 0.86f,
+                    0.62f, 0.68f, 0.72f);
+        }
 
         // Respaldo
-        Cubo.dibujar(
-                0f, 0.88f, -fondo / 2f + 0.05f,
-                ancho, 0.75f, 0.08f,
-                0.42f, 0.25f, 0.12f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 0.88f, -fondo / 2f + 0.05f, ancho, 0.75f, 0.08f, texturaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.88f, -fondo / 2f + 0.05f,
+                    ancho, 0.75f, 0.08f,
+                    0.42f, 0.25f, 0.12f);
+        }
 
         // Brazos
-        Cubo.dibujar(-ancho / 2f, 0.60f, 0f, 0.06f, 0.35f, fondo,
-                0.42f, 0.25f, 0.12f);
-        Cubo.dibujar(ancho / 2f, 0.60f, 0f, 0.06f, 0.35f, fondo,
-                0.42f, 0.25f, 0.12f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(-ancho / 2f, 0.60f, 0f, 0.06f, 0.35f, fondo, texturaMadera);
+            Cubo.dibujarConTextura(ancho / 2f, 0.60f, 0f, 0.06f, 0.35f, fondo, texturaMadera);
+        } else {
+            Cubo.dibujar(-ancho / 2f, 0.60f, 0f, 0.06f, 0.35f, fondo, 0.42f, 0.25f, 0.12f);
+            Cubo.dibujar(ancho / 2f, 0.60f, 0f, 0.06f, 0.35f, fondo, 0.42f, 0.25f, 0.12f);
+        }
 
         // Patas
         Cubo.dibujar(-ancho * 0.35f, 0.18f, -fondo * 0.35f, 0.045f, 0.36f, 0.045f,
@@ -368,11 +423,15 @@ public class ComedorP3 {
         glTranslatef(x, Y, z);
         glRotatef(rotacionY, 0f, 1f, 0f);
 
-        // Base blanca
-        Cubo.dibujar(
-                0f, 0.65f, 0f,
-                ancho, 1.30f, largo,
-                0.88f, 0.88f, 0.84f);
+        // Base blanca (ahora con textura de ladrillo si está disponible)
+        if (texturaLadrillo != 0) {
+            Cubo.dibujarConTextura(0f, 0.65f, 0f, ancho, 1.30f, largo, texturaLadrillo);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.65f, 0f,
+                    ancho, 1.30f, largo,
+                    0.88f, 0.88f, 0.84f);
+        }
 
         // Cámara del horno
         Cubo.dibujar(
@@ -388,21 +447,29 @@ public class ComedorP3 {
 
         // Ladrillos visibles
         for (int i = 0; i < 4; i++) {
-            Cubo.dibujar(
-                    -ancho * 0.30f + i * ancho * 0.20f,
-                    1.18f,
-                    largo / 2f + 0.08f,
-                    ancho * 0.16f, 0.06f, 0.035f,
-                    0.50f, 0.24f, 0.12f);
+            if (texturaLadrillo != 0) {
+                Cubo.dibujarConTextura(-ancho * 0.30f + i * ancho * 0.20f, 1.18f, largo / 2f + 0.08f, ancho * 0.16f, 0.06f, 0.035f, texturaLadrillo);
+            } else {
+                Cubo.dibujar(
+                        -ancho * 0.30f + i * ancho * 0.20f,
+                        1.18f,
+                        largo / 2f + 0.08f,
+                        ancho * 0.16f, 0.06f, 0.035f,
+                        0.50f, 0.24f, 0.12f);
+            }
         }
 
         for (int i = 0; i < 3; i++) {
-            Cubo.dibujar(
-                    -ancho * 0.22f + i * ancho * 0.22f,
-                    0.62f,
-                    largo / 2f + 0.08f,
-                    ancho * 0.18f, 0.06f, 0.035f,
-                    0.50f, 0.24f, 0.12f);
+            if (texturaLadrillo != 0) {
+                Cubo.dibujarConTextura(-ancho * 0.22f + i * ancho * 0.22f, 0.62f, largo / 2f + 0.08f, ancho * 0.18f, 0.06f, 0.035f, texturaLadrillo);
+            } else {
+                Cubo.dibujar(
+                        -ancho * 0.22f + i * ancho * 0.22f,
+                        0.62f,
+                        largo / 2f + 0.08f,
+                        ancho * 0.18f, 0.06f, 0.035f,
+                        0.50f, 0.24f, 0.12f);
+            }
         }
 
         // Campana superior blanca
@@ -411,11 +478,15 @@ public class ComedorP3 {
                 ancho * 0.78f, 0.75f, largo * 0.78f,
                 0.92f, 0.92f, 0.88f);
 
-        // Chimenea vertical
-        Cubo.dibujar(
-                0f, 2.35f, 0f,
-                ancho * 0.45f, 1.00f, largo * 0.45f,
-                0.86f, 0.86f, 0.82f);
+        // Chimenea vertical (ahora con textura de ladrillo si está disponible)
+        if (texturaLadrillo != 0) {
+            Cubo.dibujarConTextura(0f, 2.35f, 0f, ancho * 0.45f, 1.00f, largo * 0.45f, texturaLadrillo);
+        } else {
+            Cubo.dibujar(
+                    0f, 2.35f, 0f,
+                    ancho * 0.45f, 1.00f, largo * 0.45f,
+                    0.86f, 0.86f, 0.82f);
+        }
 
         // Fuego simulado
         Cubo.dibujar(
@@ -454,16 +525,24 @@ public class ComedorP3 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Mueble/barra
-        Cubo.dibujar(
-                0f, 0.42f, 0f,
-                ancho, 0.84f, largo,
-                0.56f, 0.44f, 0.34f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 0.42f, 0f, ancho, 0.84f, largo, texturaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.42f, 0f,
+                    ancho, 0.84f, largo,
+                    0.56f, 0.44f, 0.34f);
+        }
 
         // Cubierta tipo piedra
-        Cubo.dibujar(
-                0f, 0.88f, 0f,
-                ancho * 1.08f, 0.08f, largo * 1.04f,
-                0.62f, 0.56f, 0.50f);
+        if (texturaPiedra != 0) {
+            Cubo.dibujarConTextura(0f, 0.88f, 0f, ancho * 1.08f, 0.08f, largo * 1.04f, texturaPiedra);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.88f, 0f,
+                    ancho * 1.08f, 0.08f, largo * 1.04f,
+                    0.62f, 0.56f, 0.50f);
+        }
 
         // Tarja pequeña / fregadero
         Cubo.dibujar(

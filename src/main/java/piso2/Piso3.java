@@ -23,6 +23,9 @@ import static org.lwjgl.opengl.GL11.*;
 public class Piso3 {
 
     private static final float Y = Constantes.ALTURA_PISO_3;
+    
+    public static int texturaCesped = 0;
+    public static int texturaHojas = 0;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -243,7 +246,11 @@ public class Piso3 {
         // Capa de tierra
         Cubo.dibujar(cx, Y + 0.04f, cz, ax, 0.08f, az, 0.25f, 0.14f, 0.05f);
         // Capa de pasto
-        Cubo.dibujar(cx, Y + 0.10f, cz, ax, 0.06f, az, 0.14f, 0.52f, 0.14f);
+        if (texturaCesped != 0) {
+            Cubo.dibujarConTextura(cx, Y + 0.10f, cz, ax, 0.06f, az, texturaCesped);
+        } else {
+            Cubo.dibujar(cx, Y + 0.10f, cz, ax, 0.06f, az, 0.14f, 0.52f, 0.14f);
+        }
     }
 
     private static void dibujarArbustoDecorativo(float xGeo, float zGeo) {
@@ -256,12 +263,16 @@ public class Piso3 {
         // Tallo
         Cubo.dibujar(0f, 0.15f, 0f, escalar(0.05f), 0.30f, escalar(0.05f),
                 0.20f, 0.35f, 0.12f);
-        // Copa baja
-        Cubo.dibujar(0f, 0.36f, 0f, escalar(0.28f), 0.25f, escalar(0.28f),
-                0.10f, 0.48f, 0.13f);
-        // Copa alta
-        Cubo.dibujar(0f, 0.54f, 0f, escalar(0.20f), 0.20f, escalar(0.20f),
-                0.12f, 0.58f, 0.16f);
+        // Copa baja y alta
+        if (texturaHojas != 0) {
+            Cubo.dibujarConTextura(0f, 0.36f, 0f, escalar(0.28f), 0.25f, escalar(0.28f), texturaHojas);
+            Cubo.dibujarConTextura(0f, 0.54f, 0f, escalar(0.20f), 0.20f, escalar(0.20f), texturaHojas);
+        } else {
+            Cubo.dibujar(0f, 0.36f, 0f, escalar(0.28f), 0.25f, escalar(0.28f),
+                    0.10f, 0.48f, 0.13f);
+            Cubo.dibujar(0f, 0.54f, 0f, escalar(0.20f), 0.20f, escalar(0.20f),
+                    0.12f, 0.58f, 0.16f);
+        }
 
         glPopMatrix();
     }
