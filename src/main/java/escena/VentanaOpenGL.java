@@ -58,6 +58,7 @@ public class VentanaOpenGL {
         private CamaraLibre camaraLibre;
         private Girasol girasol;
         private int texturaParedBlanca;
+        private int texturaParedBano;
         private int texturaEscritorio;
         private int texturaLibro;
         private int texturaSillon;
@@ -386,6 +387,8 @@ public class VentanaOpenGL {
                 // Cargar la textura de las paredes
                 texturaParedBlanca = CargadorTexturas.cargarTextura("/texturas/PAREDBLANCA.jpg");
                 texturaEscritorio = CargadorTexturas.cargarTextura("/texturas/escritoriooficina.jpg");
+                objetos.BanoPrincipal.texturaMuebleBano = texturaEscritorio;
+                piso2.BanoPrincipalp2.texturaMuebleBano = texturaEscritorio;
                 texturaRepisa = CargadorTexturas.cargarTextura("/texturas/repisaoficina.jpg");
                 texturaLibro = CargadorTexturas.cargarTextura("/texturas/libro1.jpg");
                 texturaSillon = CargadorTexturas.cargarTextura("/texturas/sillonoficina.jpg");
@@ -414,6 +417,14 @@ public class VentanaOpenGL {
                 texturaChimenea = CargadorTexturas.cargarTextura("/texturas/chimenea.jpg");
                 texturaRepisa = CargadorTexturas.cargarTextura("/texturas/repisaoficina.jpg");
                 texturaBano = CargadorTexturas.cargarTextura("/texturas/baño.jpg");
+                texturaParedBano = CargadorTexturas.cargarTextura("/texturas/bañopared.png");
+                
+                objetos.BanoPrincipal.texturaLavaboBano = texturaBano;
+                piso2.BanoPrincipalp2.texturaLavaboBano = texturaBano;
+                
+                int texEspejo = CargadorTexturas.cargarTextura("/texturas/espejo.jpg");
+                objetos.BanoPrincipal.texturaEspejo = texEspejo;
+                piso2.BanoPrincipalp2.texturaEspejo = texEspejo;
                 texturaPisoDentro = CargadorTexturas.cargarTextura("/texturas/PISODENTRO.jpg");
                 objetos.Cocina.texturaMaderaParaCocina = CargadorTexturas
                                 .cargarTextura("/texturas/MADERAPARACOCINA.jpg");
@@ -1240,6 +1251,15 @@ public class VentanaOpenGL {
                                         glPopMatrix();
                                 }
                         }
+                } else if (nombre != null && (nombre.equals("b1") || nombre.equals("c1") || nombre.equals("d1")) && texturaParedBano != 0 && texturaParedBlanca != 0) {
+                        // Paredes donde el lado 2 (Atrás/-Z local) mira hacia el interior del baño
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca, texturaParedBano);
+                } else if (nombre != null && (nombre.equals("a1") || nombre.equals("s1")) && texturaParedBano != 0 && texturaParedBlanca != 0) {
+                        // Paredes donde el lado 1 (Frente/+Z local) mira hacia el interior del baño
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBano, texturaParedBlanca);
+                } else if (nombre != null && nombre.equals("t1") && texturaParedBano != 0 && texturaParedBlanca != 0) {
+                        // Pared t1 es un muro divisor dentro del baño, ambas caras llevan textura de baño
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaParedBano, texturaParedBano);
                 } else if (texturaParedBlanca != 0) {
                         Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca);
                 } else {

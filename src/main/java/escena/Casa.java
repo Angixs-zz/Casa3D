@@ -463,7 +463,7 @@ public class Casa {
         agregarPared("t1", "G1", "F1", 0.0);
         agregarPared("a1", "F1", "E1", 0.0);
         agregarPared("b1", "F1", "D1", 0.0);
-        agregarVentana("c1", "D1", "T1");
+        agregarPared("c1", "D1", "T1", 0.0); // Convertida de ventana a pared sólida
         agregarPared("d1", "T1", "S1", 0.0);
         agregarPared("e1", "S1", "R1", 0.0);
 

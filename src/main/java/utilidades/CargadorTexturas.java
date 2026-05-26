@@ -17,11 +17,17 @@ public class CargadorTexturas {
      * @return El ID de la textura en OpenGL, o 0 si ocurrió un error.
      */
     public static int cargarTextura(String rutaResource) {
-        try (InputStream in = CargadorTexturas.class.getResourceAsStream(rutaResource)) {
-            if (in == null) {
+        InputStream in = CargadorTexturas.class.getResourceAsStream(rutaResource);
+        if (in == null) {
+            try {
+                in = new java.io.FileInputStream("src/main/resources" + rutaResource);
+            } catch(Exception e) {
                 System.err.println("No se pudo encontrar el archivo de textura en la ruta: " + rutaResource);
                 return 0;
             }
+        }
+        
+        try {
             BufferedImage image = ImageIO.read(in);
             if (image == null) {
                 System.err.println("No se pudo leer la imagen (posible formato no soportado o archivo dañado): " + rutaResource);
@@ -66,6 +72,8 @@ public class CargadorTexturas {
             glBindTexture(GL_TEXTURE_2D, 0);
             
             System.out.println("Textura cargada exitosamente: " + rutaResource + " (ID: " + textureID + ", " + width + "x" + height + ")");
+            
+            in.close();
             return textureID;
         } catch (IOException e) {
             System.err.println("Error al cargar la textura: " + e.getMessage());
