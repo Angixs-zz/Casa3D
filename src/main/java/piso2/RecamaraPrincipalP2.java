@@ -620,6 +620,9 @@ public class RecamaraPrincipalP2 {
         // Orientación siguiendo el segmento I8 - J8
         glRotatef(-angulo + 180f, 0f, 1f, 0f);
 
+        // Desplazar la TV hacia el cuarto (+Z local) asegurando que no se asome hacia el balcón
+        glTranslatef(0f, 0f, 0.15f);
+
         // Panel principal de la TV
         Cubo.dibujar(
                 0f, 1.65f, 0f,

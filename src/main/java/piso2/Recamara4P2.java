@@ -7,6 +7,18 @@ import static org.lwjgl.opengl.GL11.*;
 public class Recamara4P2 {
 
     private static final float Y = Constantes.ALTURA_PISO_2;
+    public static int texturaMueble = 0;
+
+    private static void dibujarCuboMadera(
+            float x, float y, float z,
+            float ancho, float alto, float profundo,
+            float r, float g, float b) {
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(x, y, z, ancho, alto, profundo, texturaMueble);
+        } else {
+            Cubo.dibujar(x, y, z, ancho, alto, profundo, r, g, b);
+        }
+    }
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -138,7 +150,7 @@ public class Recamara4P2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Base de madera
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.18f, 0f,
                 ancho, 0.36f, largo,
                 0.34f, 0.20f, 0.12f);
@@ -167,13 +179,13 @@ public class Recamara4P2 {
                 0.96f, 0.96f, 0.94f);
 
         // Cabecera pegada a la pared izquierda (X=0.2, que en OpenGL es +ancho/2)
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 ancho / 2f - 0.05f, 0.55f, 0f,
                 0.10f, 1.10f, largo,
                 0.28f, 0.16f, 0.10f);
 
         // Detalle de cabecera
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 ancho / 2f - 0.105f, 0.92f, 0f,
                 0.035f, 0.12f, largo * 0.82f,
                 0.44f, 0.28f, 0.16f);
@@ -204,13 +216,13 @@ public class Recamara4P2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Cuerpo del buró
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.28f, 0f,
                 ancho, 0.56f, largo,
                 0.36f, 0.20f, 0.10f);
 
         // Cajón frontal
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.32f, largo / 2f + 0.015f,
                 ancho * 0.82f, 0.18f, 0.03f,
                 0.48f, 0.30f, 0.18f);
@@ -258,24 +270,24 @@ public class Recamara4P2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Mesa / mueble vertical
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.38f, 0f,
                 ancho, 0.76f, largo,
                 0.34f, 0.22f, 0.14f);
 
         // Cubierta superior
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.80f, 0f,
                 ancho * 1.08f, 0.08f, largo * 1.02f,
                 0.46f, 0.30f, 0.18f);
 
         // Cajones
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.30f, largo / 2f + 0.018f,
                 ancho * 0.78f, 0.16f, 0.035f,
                 0.46f, 0.29f, 0.17f);
 
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.52f, largo / 2f + 0.018f,
                 ancho * 0.78f, 0.16f, 0.035f,
                 0.46f, 0.29f, 0.17f);
@@ -324,7 +336,7 @@ public class Recamara4P2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Escritorio gamer
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.74f, 0f,
                 ancho, 0.08f, largo,
                 0.10f, 0.10f, 0.12f);
@@ -336,13 +348,13 @@ public class Recamara4P2 {
                 0.05f, 0.35f, 0.95f);
 
         // Patas
-        Cubo.dibujar(-ancho / 2f + 0.05f, 0.36f, -largo / 2f + 0.05f, 0.06f, 0.72f, 0.06f,
+        dibujarCuboMadera(-ancho / 2f + 0.05f, 0.36f, -largo / 2f + 0.05f, 0.06f, 0.72f, 0.06f,
                 0.05f, 0.05f, 0.05f);
-        Cubo.dibujar(ancho / 2f - 0.05f, 0.36f, -largo / 2f + 0.05f, 0.06f, 0.72f, 0.06f,
+        dibujarCuboMadera(ancho / 2f - 0.05f, 0.36f, -largo / 2f + 0.05f, 0.06f, 0.72f, 0.06f,
                 0.05f, 0.05f, 0.05f);
-        Cubo.dibujar(-ancho / 2f + 0.05f, 0.36f, largo / 2f - 0.05f, 0.06f, 0.72f, 0.06f,
+        dibujarCuboMadera(-ancho / 2f + 0.05f, 0.36f, largo / 2f - 0.05f, 0.06f, 0.72f, 0.06f,
                 0.05f, 0.05f, 0.05f);
-        Cubo.dibujar(ancho / 2f - 0.05f, 0.36f, largo / 2f - 0.05f, 0.06f, 0.72f, 0.06f,
+        dibujarCuboMadera(ancho / 2f - 0.05f, 0.36f, largo / 2f - 0.05f, 0.06f, 0.72f, 0.06f,
                 0.05f, 0.05f, 0.05f);
 
         // Monitor gamer (hacia la pared -Z)
@@ -445,7 +457,7 @@ public class Recamara4P2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Clóset ocupando todo el ancho y largo disponible
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 1.40f, 0f,
                 ancho, 2.80f, largo,
                 0.38f, 0.23f, 0.13f);
@@ -455,7 +467,7 @@ public class Recamara4P2 {
         for (int i = 0; i < 5; i++) {
             float px = -ancho / 2f + puertaAncho / 2f + i * puertaAncho;
 
-            Cubo.dibujar(
+            dibujarCuboMadera(
                     px, 1.40f, largo / 2f + 0.015f,
                     puertaAncho * 0.90f, 2.60f, 0.025f,
                     0.46f, 0.29f, 0.18f);
@@ -491,13 +503,13 @@ public class Recamara4P2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Mesa
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.42f, 0f,
                 ancho, 0.08f, largo,
                 0.45f, 0.28f, 0.16f);
 
         // Cajón / Base
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 0.22f, 0f,
                 ancho * 0.90f, 0.06f, largo * 0.80f,
                 0.30f, 0.18f, 0.10f);
@@ -517,16 +529,16 @@ public class Recamara4P2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Asiento
-        Cubo.dibujar(0f, 0.25f, 0f, 0.35f, 0.05f, 0.35f, 0.30f, 0.18f, 0.10f);
+        dibujarCuboMadera(0f, 0.25f, 0f, 0.35f, 0.05f, 0.35f, 0.30f, 0.18f, 0.10f);
 
         // Patas
-        Cubo.dibujar(-0.15f, 0.125f, -0.15f, 0.04f, 0.25f, 0.04f, 0.10f, 0.10f, 0.10f);
-        Cubo.dibujar(0.15f, 0.125f, -0.15f, 0.04f, 0.25f, 0.04f, 0.10f, 0.10f, 0.10f);
-        Cubo.dibujar(-0.15f, 0.125f, 0.15f, 0.04f, 0.25f, 0.04f, 0.10f, 0.10f, 0.10f);
-        Cubo.dibujar(0.15f, 0.125f, 0.15f, 0.04f, 0.25f, 0.04f, 0.10f, 0.10f, 0.10f);
+        dibujarCuboMadera(-0.15f, 0.125f, -0.15f, 0.04f, 0.25f, 0.04f, 0.10f, 0.10f, 0.10f);
+        dibujarCuboMadera(0.15f, 0.125f, -0.15f, 0.04f, 0.25f, 0.04f, 0.10f, 0.10f, 0.10f);
+        dibujarCuboMadera(-0.15f, 0.125f, 0.15f, 0.04f, 0.25f, 0.04f, 0.10f, 0.10f, 0.10f);
+        dibujarCuboMadera(0.15f, 0.125f, 0.15f, 0.04f, 0.25f, 0.04f, 0.10f, 0.10f, 0.10f);
 
         // Respaldo
-        Cubo.dibujar(0f, 0.50f, -0.15f, 0.35f, 0.45f, 0.05f, 0.30f, 0.18f, 0.10f);
+        dibujarCuboMadera(0f, 0.50f, -0.15f, 0.35f, 0.45f, 0.05f, 0.30f, 0.18f, 0.10f);
 
         glPopMatrix();
     }
@@ -553,14 +565,14 @@ public class Recamara4P2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Cuerpo principal del piso al techo
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, 1.45f, 0f,
                 ancho, 2.90f, largo,
                 0.30f, 0.18f, 0.10f);
 
         // Repisas de la estantería
         for (float yRepisa = 0.45f; yRepisa <= 2.60f; yRepisa += 0.45f) {
-            Cubo.dibujar(
+            dibujarCuboMadera(
                     0f, yRepisa, 0f,
                     ancho * 0.90f, 0.06f, largo * 0.90f,
                     0.46f, 0.30f, 0.18f);
