@@ -84,6 +84,8 @@ public class VentanaOpenGL {
         private int texturaPisoDentro;
         private int texturaCochera;
         private int texturaPiedraFuera;
+        private int texturaMaderaPrincipal;
+        private int texturaParedCochera;
 
         private int ancho = 1280;
         private int alto = 720;
@@ -411,6 +413,8 @@ public class VentanaOpenGL {
                 texturaPisoDentro = CargadorTexturas.cargarTextura("/texturas/PISODENTRO.jpg");
                 texturaCochera = CargadorTexturas.cargarTextura("/texturas/cochera.jpg");
                 texturaPiedraFuera = CargadorTexturas.cargarTextura("/texturas/piedrafuera.jpg");
+                texturaMaderaPrincipal = CargadorTexturas.cargarTextura("/texturas/maderaPrincipal.jpg");
+                texturaParedCochera = CargadorTexturas.cargarTextura("/texturas/paredCochera.jpg");
                 objetos.Cocina.texturaMaderaParaCocina = CargadorTexturas
                                 .cargarTextura("/texturas/MADERAPARACOCINA.jpg");
                 objetos.Cocina.texturaCocinaAzul = CargadorTexturas.cargarTextura("/texturas/cocinaazul.jpg");
@@ -681,6 +685,40 @@ public class VentanaOpenGL {
                                 puerta.dibujar();
                         }
                 }
+                
+                // Dibujar decoración de pérgola/alero blanco en la fachada (Piso 2)
+                if (nivelVisible >= 2) {
+                        dibujarDecoracionFachada();
+                }
+        }
+
+        private void dibujarDecoracionFachada() {
+                if (texturaParedBlanca == 0) return;
+                
+                // Usamos la textura blanca para esta estructura
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, texturaParedBlanca);
+                
+                // 1. Viga izquierda (al lado de la pared azul)
+                // Centros OpenGL corregidos: X=-1.7f, Y=3.05f, Z=-18.2f
+                // Dimensiones escaladas (ESCALA_CASA = 2.0f): ancho=0.2f, alto=0.3f, profundo=2.8f
+                Cubo.dibujarConTextura(-1.7f, 3.05f, -18.2f, 0.2f, 0.3f, 2.8f, texturaParedBlanca);
+                
+                // 2. Viga derecha (conectada al bloque de piedra)
+                // Centros OpenGL corregidos: X=-3.7f, Y=3.05f, Z=-18.2f
+                // Dimensiones escaladas: ancho=0.2f, alto=0.3f, profundo=2.8f
+                Cubo.dibujarConTextura(-3.7f, 3.05f, -18.2f, 0.2f, 0.3f, 2.8f, texturaParedBlanca);
+                
+                // 3. Viga frontal (conecta ambas vigas al frente)
+                // Centros OpenGL corregidos: X=-2.7f, Y=3.05f, Z=-19.5f
+                // Dimensiones escaladas: ancho=2.2f, alto=0.3f, profundo=0.2f
+                Cubo.dibujarConTextura(-2.7f, 3.05f, -19.5f, 2.2f, 0.3f, 0.2f, texturaParedBlanca);
+                
+                // 4. Vigas intermedias tipo pérgola (más delgadas y elevadas)
+                // Centros OpenGL corregidos: X=-2.36f y X=-3.03f, Y=3.125f, Z=-18.2f
+                // Dimensiones escaladas: ancho=0.1f, alto=0.15f, profundo=2.8f
+                Cubo.dibujarConTextura(-2.36f, 3.125f, -18.2f, 0.1f, 0.15f, 2.8f, texturaParedBlanca);
+                Cubo.dibujarConTextura(-3.03f, 3.125f, -18.2f, 0.1f, 0.15f, 2.8f, texturaParedBlanca);
         }
 
         private void dibujarEscaleras() {
@@ -1200,9 +1238,20 @@ public class VentanaOpenGL {
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor,
                                         objetos.Cocina.texturaMaderaParaCocina, texturaOtroLado);
                 } else if (nombre != null && (nombre.equals("h") || nombre.equals("i") || nombre.equals("j")
-                                || nombre.equals("P2_m") || nombre.equals("P2_n") || nombre.equals("P2_p"))
+                                || nombre.equals("P2_m") || nombre.equals("P2_n") || nombre.equals("P2_p")
+                                || nombre.equals("P2_q") || nombre.equals("P2_r") || nombre.equals("P3_r_resto"))
                                 && texturaPiedraFuera != 0) {
                         Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaPiedraFuera);
+                } else if (nombre != null && (nombre.equals("Dintel Principal") || nombre.equals("P2_l") || nombre.equals("P3_r_madera")) 
+                                && texturaMaderaPrincipal != 0) {
+                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaMaderaPrincipal);
+                } else if (nombre != null && (nombre.equals("P2_g") || nombre.equals("P2_i") || nombre.equals("P3_r_azul"))
+                                && texturaParedAzul != 0) {
+                        int texturaInterior = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaInterior, texturaParedAzul);
+                } else if (nombre != null && (nombre.equals("g") || nombre.equals("r_cochera")) 
+                                && texturaParedCochera != 0) {
+                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedCochera);
                 } else if (nombre != null && nombre.equals("f") && texturaCochera != 0) {
                         int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaOtroLado,
