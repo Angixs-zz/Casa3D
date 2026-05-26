@@ -410,6 +410,8 @@ public class VentanaOpenGL {
                 piso2.BanoPrincipalp2.texturaMuebleBano = texturaEscritorio;
                 piso2.RecamaraPrincipalP2.texturaMueble = texturaEscritorio;
                 piso2.Recamara4P2.texturaMueble = texturaEscritorio;
+                piso2.Recamara3P2.texturaMueble = texturaEscritorio;
+                piso2.Recamara2p2.texturaMueble = texturaEscritorio;
                 texturaRepisa = CargadorTexturas.cargarTextura("/texturas/repisaoficina.jpg");
                 texturaLibro = CargadorTexturas.cargarTextura("/texturas/libro1.jpg");
                 texturaSillon = CargadorTexturas.cargarTextura("/texturas/sillonoficina.jpg");

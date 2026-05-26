@@ -7,6 +7,43 @@ import static org.lwjgl.opengl.GL11.*;
 public class Recamara3P2 {
 
     private static final float Y = Constantes.ALTURA_PISO_2;
+    public static int texturaMueble = 0;
+
+    private static void dibujarCuboMadera(
+            float x, float y, float z,
+            float ancho, float alto, float profundo,
+            float r, float g, float b) {
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(x, y, z, ancho, alto, profundo, texturaMueble);
+        } else {
+            Cubo.dibujar(x, y, z, ancho, alto, profundo, r, g, b);
+        }
+    }
+
+    private static void dibujarCuboMaderaPorGeo(
+            float xMinGeo, float zMinGeo,
+            float xMaxGeo, float zMaxGeo,
+            float yBase, float altura,
+            float r, float g, float b) {
+        
+        float centroXGeo = (xMinGeo + xMaxGeo) / 2.0f;
+        float centroZGeo = (zMinGeo + zMaxGeo) / 2.0f;
+
+        float anchoGeo = xMaxGeo - xMinGeo;
+        float largoGeo = zMaxGeo - zMinGeo;
+
+        float x = convertirXGeoAOpenGL(centroXGeo);
+        float z = convertirZGeoAOpenGL(centroZGeo);
+
+        float ancho = escalar(anchoGeo);
+        float largo = escalar(largoGeo);
+
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(x, yBase + altura / 2.0f, z, ancho, altura, largo, texturaMueble);
+        } else {
+            Cubo.dibujar(x, yBase + altura / 2.0f, z, ancho, altura, largo, r, g, b);
+        }
+    }
 
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
@@ -98,7 +135,7 @@ public class Recamara3P2 {
 
     private static void dibujarCama(float xMinGeo, float zMinGeo, float xMaxGeo, float zMaxGeo) {
         // Base de madera
-        dibujarCuboPorGeo(
+        dibujarCuboMaderaPorGeo(
                 xMinGeo, zMinGeo,
                 xMaxGeo, zMaxGeo,
                 Y,
@@ -131,7 +168,7 @@ public class Recamara3P2 {
 
         // Cabecera pegada a la pared del lado C2 - O1
         // Esa pared queda hacia X mayor, por eso se coloca en el lado de A3 - Z2.
-        dibujarCuboPorGeo(
+        dibujarCuboMaderaPorGeo(
                 xMaxGeo - 0.05f, zMinGeo,
                 xMaxGeo + 0.08f, zMaxGeo,
                 Y,
@@ -157,7 +194,7 @@ public class Recamara3P2 {
         glTranslatef(x, Y, z);
 
         // Cuerpo principal del closet
-        Cubo.dibujar(
+        dibujarCuboMadera(
                 0f, alto / 2f, 0f,
                 ancho, alto, largo,
                 0.38f, 0.23f, 0.13f);
@@ -168,7 +205,7 @@ public class Recamara3P2 {
         for (int i = 0; i < 4; i++) {
             float offsetX = -ancho / 2f + anchoPuerta / 2f + i * anchoPuerta;
 
-            Cubo.dibujar(
+            dibujarCuboMadera(
                     offsetX, alto / 2f, -largo / 2f - 0.015f,
                     anchoPuerta * 0.92f, alto * 0.92f, 0.025f,
                     0.46f, 0.29f, 0.18f);
@@ -187,7 +224,7 @@ public class Recamara3P2 {
 
     private static void dibujarMesaYSilla(float xMinGeo, float zMinGeo, float xMaxGeo, float zMaxGeo) {
         // Cubierta de la mesa
-        dibujarCuboPorGeo(
+        dibujarCuboMaderaPorGeo(
                 xMinGeo, zMinGeo,
                 xMaxGeo, zMaxGeo,
                 Y + 0.70f,
