@@ -23,7 +23,11 @@ public class CargadorTexturas {
                 return 0;
             }
             BufferedImage image = ImageIO.read(in);
-            
+            if (image == null) {
+                System.err.println("No se pudo leer la imagen (posible formato no soportado o archivo dañado): " + rutaResource);
+                return 0;
+            }
+
             int width = image.getWidth();
             int height = image.getHeight();
             

@@ -362,4 +362,65 @@ public class Cubo {
 
         glDisable(GL_TEXTURE_2D);
     }
+
+    public static void dibujarConTexturaRepetida(
+            float x, float y, float z,
+            float ancho, float alto, float profundo,
+            int textureID, float repeticionesPorMetro) {
+
+        float x1 = x - ancho / 2;
+        float x2 = x + ancho / 2;
+        float y1 = y - alto / 2;
+        float y2 = y + alto / 2;
+        float z1 = z - profundo / 2;
+        float z2 = z + profundo / 2;
+
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glColor4f(1f, 1f, 1f, 1f);
+        glBegin(GL_QUADS);
+
+        float tcAncho = ancho * repeticionesPorMetro;
+        float tcAlto = alto * repeticionesPorMetro;
+        float tcProfundo = profundo * repeticionesPorMetro;
+
+        // Frente
+        glTexCoord2f(0.0f, 0.0f);       glVertex3f(x1, y1, z2);
+        glTexCoord2f(tcAncho, 0.0f);    glVertex3f(x2, y1, z2);
+        glTexCoord2f(tcAncho, tcAlto);  glVertex3f(x2, y2, z2);
+        glTexCoord2f(0.0f, tcAlto);     glVertex3f(x1, y2, z2);
+
+        // Atrás
+        glTexCoord2f(tcAncho, 0.0f);    glVertex3f(x2, y1, z1);
+        glTexCoord2f(0.0f, 0.0f);       glVertex3f(x1, y1, z1);
+        glTexCoord2f(0.0f, tcAlto);     glVertex3f(x1, y2, z1);
+        glTexCoord2f(tcAncho, tcAlto);  glVertex3f(x2, y2, z1);
+
+        // Izquierda
+        glTexCoord2f(0.0f, 0.0f);       glVertex3f(x1, y1, z1);
+        glTexCoord2f(tcProfundo, 0.0f); glVertex3f(x1, y1, z2);
+        glTexCoord2f(tcProfundo, tcAlto);glVertex3f(x1, y2, z2);
+        glTexCoord2f(0.0f, tcAlto);     glVertex3f(x1, y2, z1);
+
+        // Derecha
+        glTexCoord2f(0.0f, 0.0f);       glVertex3f(x2, y1, z2);
+        glTexCoord2f(tcProfundo, 0.0f); glVertex3f(x2, y1, z1);
+        glTexCoord2f(tcProfundo, tcAlto);glVertex3f(x2, y2, z1);
+        glTexCoord2f(0.0f, tcAlto);     glVertex3f(x2, y2, z2);
+
+        // Arriba
+        glTexCoord2f(0.0f, tcProfundo); glVertex3f(x1, y2, z2);
+        glTexCoord2f(tcAncho, tcProfundo);glVertex3f(x2, y2, z2);
+        glTexCoord2f(tcAncho, 0.0f);    glVertex3f(x2, y2, z1);
+        glTexCoord2f(0.0f, 0.0f);       glVertex3f(x1, y2, z1);
+
+        // Abajo
+        glTexCoord2f(0.0f, 0.0f);       glVertex3f(x1, y1, z1);
+        glTexCoord2f(tcAncho, 0.0f);    glVertex3f(x2, y1, z1);
+        glTexCoord2f(tcAncho, tcProfundo);glVertex3f(x2, y1, z2);
+        glTexCoord2f(0.0f, tcProfundo); glVertex3f(x1, y1, z2);
+
+        glEnd();
+        glDisable(GL_TEXTURE_2D);
+    }
 }

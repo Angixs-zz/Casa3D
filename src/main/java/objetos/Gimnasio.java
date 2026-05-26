@@ -4,6 +4,8 @@ import utilidades.Constantes;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Gimnasio {
+    public static int texturaSacoBox = 0;
+    public static int texturaRutina = 0;
 
     private static final float Y = Constantes.ALTURA_PISO_1;
 
@@ -387,12 +389,18 @@ public class Gimnasio {
                 escalar(0.02f), largoCadena, escalar(0.02f), 
                 0.7f, 0.7f, 0.7f); // Cromo/Plata
 
-        // 2. Saco de Boxeo (Cilíndrico simulado con un cubo alargado o podemos usar un cubo por simplicidad)
-        // Lo haremos con un cubo oscuro, pero redondeando visualmente no es posible con Cubo, así que lo hacemos estilo bloque.
-        Cubo.dibujar(
-                0f, baseSacoY + alturaSaco / 2f, 0f, 
-                escalar(0.35f), alturaSaco, escalar(0.35f), 
-                0.8f, 0.1f, 0.1f); // Rojo oscuro o negro. Pondremos rojo boxeo.
+        // 2. Saco de Boxeo
+        if (texturaSacoBox != 0) {
+            Cubo.dibujarConTextura(
+                    0f, baseSacoY + alturaSaco / 2f, 0f, 
+                    escalar(0.35f), alturaSaco, escalar(0.35f), 
+                    texturaSacoBox);
+        } else {
+            Cubo.dibujar(
+                    0f, baseSacoY + alturaSaco / 2f, 0f, 
+                    escalar(0.35f), alturaSaco, escalar(0.35f), 
+                    0.8f, 0.1f, 0.1f); // Rojo oscuro o negro.
+        }
                 
         // 3. Banda negra en el medio del saco (detalle)
         Cubo.dibujar(
@@ -414,29 +422,53 @@ public class Gimnasio {
         float x = convertirXGeoAOpenGL(xCentroGeoTV);
         float z = convertirZGeoAOpenGL(centroZGeo);
 
-        float anchoTV = escalar(2.0f); // Tamaño de la TV (Largo en Z)
-        float altoTV = 1.0f; // Alto visual
-        float grosorTV = escalar(0.08f); // Grosor en X
+        float anchoTV = escalar(1.2f); // Ancho escalado
+        float altoTV = escalar(0.7f); // Alto escalado para mantener proporción (evita distorsión)
+        float grosorTV = escalar(0.08f); 
 
         glPushMatrix();
         glTranslatef(x, Y, z);
         
-        // Marco de la TV (Negro plástico)
+        // Marco de la TV
         Cubo.dibujar(
                 0f, 1.60f, 0f, 
                 grosorTV, altoTV, anchoTV, 
                 0.05f, 0.05f, 0.05f);
 
-        // Pantalla de la TV (Encendida, color cyan oscuro)
-        // Como el gimnasio está en XGeo > 4.9, en OpenGL eso es una X más negativa.
-        Cubo.dibujar(
-                -grosorTV / 2f - 0.005f, // Al frente del marco
-                1.60f, // Altura Y
-                0f, // Centro Z local
-                0.01f, // Grosor de la pantalla en X
-                altoTV * 0.92f, // Alto de la pantalla en Y
-                anchoTV * 0.96f, // Ancho de la pantalla en Z
-                0.15f, 0.25f, 0.35f); // Gris azulado
+        // Pantalla de la TV
+        if (texturaRutina != 0) {
+                glPushMatrix();
+                glTranslatef(-grosorTV / 2f - 0.005f, 1.60f, 0f); // Centro de la pantalla
+                
+                // Voltear la textura verticalmente sin rotar el modelo en 3D
+                glMatrixMode(GL_TEXTURE);
+                glPushMatrix();
+                glScalef(1f, -1f, 1f); // Flip vertical (V)
+                glMatrixMode(GL_MODELVIEW);
+
+                Cubo.dibujarConTextura(
+                        0f, 0f, 0f, // Dibujamos desde el centro relativo
+                        0.01f, // Grosor X
+                        altoTV * 0.92f, // Alto Y
+                        anchoTV * 0.96f, // Ancho Z
+                        texturaRutina);
+                
+                // Restaurar matriz de textura
+                glMatrixMode(GL_TEXTURE);
+                glPopMatrix();
+                glMatrixMode(GL_MODELVIEW);
+
+                glPopMatrix();
+        } else {
+                Cubo.dibujar(
+                        -grosorTV / 2f - 0.005f, 
+                        1.60f, 
+                        0f, 
+                        0.01f, 
+                        altoTV * 0.92f, 
+                        anchoTV * 0.96f, 
+                        0.15f, 0.25f, 0.35f);
+        }
 
         glPopMatrix();
     }

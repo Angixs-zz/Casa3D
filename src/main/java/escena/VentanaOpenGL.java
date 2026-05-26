@@ -76,6 +76,9 @@ public class VentanaOpenGL {
         private int texturaCuadro6;
         private int texturaCuadro7;
         private int texturaCuadro8;
+        private int texturaCuadro9;
+        private int texturaCuadro10;
+        private int texturaCuadro11;
         private int texturaAdornoSala;
         private int texturaAdorno2;
         private int texturaChimenea;
@@ -389,6 +392,11 @@ public class VentanaOpenGL {
                 texturaCuadro6 = CargadorTexturas.cargarTextura("/texturas/cuadro6.jpg");
                 texturaCuadro7 = CargadorTexturas.cargarTextura("/texturas/cuadro7.jpg");
                 texturaCuadro8 = CargadorTexturas.cargarTextura("/texturas/cuadro8.jpg");
+                texturaCuadro9 = CargadorTexturas.cargarTextura("/texturas/cuadro9.jpg");
+                texturaCuadro10 = CargadorTexturas.cargarTextura("/texturas/cuadro10.jpg");
+                texturaCuadro11 = CargadorTexturas.cargarTextura("/texturas/cuadro11.jpg");
+                objetos.Gimnasio.texturaSacoBox = CargadorTexturas.cargarTextura("/texturas/sacodebox.jpg");
+                objetos.Gimnasio.texturaRutina = CargadorTexturas.cargarTextura("/texturas/rutina.jpg");
                 texturaAdornoSala = CargadorTexturas.cargarTextura("/texturas/adornosala.jpg");
                 texturaAdorno2 = CargadorTexturas.cargarTextura("/texturas/adorno2.jpg");
                 texturaChimenea = CargadorTexturas.cargarTextura("/texturas/chimenea.jpg");
@@ -761,14 +769,15 @@ public class VentanaOpenGL {
                 largoPiso = largoPiso * Constantes.ESCALA_CASA;
 
                 if (texturaPisoDentro != 0) {
-                        Cubo.dibujarConTextura(
-                                        centroX,
-                                        altura,
-                                        centroZ,
-                                        anchoPiso,
-                                        0.06f,
-                                        largoPiso,
-                                        texturaPisoDentro);
+                Cubo.dibujarConTexturaRepetida(
+                                centroX,
+                                altura,
+                                centroZ,
+                                anchoPiso,
+                                0.06f,
+                                largoPiso,
+                                texturaPisoDentro,
+                                4.0f);
                 } else {
                         Cubo.dibujar(
                                         centroX,
@@ -1183,6 +1192,42 @@ public class VentanaOpenGL {
                         // (Interior)
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor,
                                         objetos.Cocina.texturaMaderaParaCocina, texturaOtroLado);
+                } else if (nombre != null && (nombre.equals("k1") || nombre.equals("p1")) && texturaParedAzul != 0) {
+                        int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca
+                                        : texturaParedAzul;
+                        // k1 y p1 tienen el lado del gimnasio hacia +Z (Interior) y el otro lado hacia -Z (Exterior)
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaOtroLado,
+                                        texturaParedAzul);
+
+                        if (nombre.equals("p1")) {
+                                float anchoCuadro = 1.2f;
+                                float altoCuadro = 1.6f;
+                                float grosorCuadro = 0.04f;
+                                float zCuadro = (grosor / 2f) + (grosorCuadro / 2f);
+
+                                // Distribuimos 3 cuadros a lo largo de la pared (eje X local)
+                                if (texturaCuadro9 != 0) {
+                                        glPushMatrix();
+                                        glTranslatef(-2.5f, 0.4f, zCuadro);
+                                        glRotatef(180f, 0f, 0f, 1f);
+                                        Cubo.dibujarConTextura(0f, 0f, 0f, anchoCuadro, altoCuadro, grosorCuadro, texturaCuadro9);
+                                        glPopMatrix();
+                                }
+                                if (texturaCuadro10 != 0) {
+                                        glPushMatrix();
+                                        glTranslatef(0f, 0.4f, zCuadro);
+                                        glRotatef(180f, 0f, 0f, 1f);
+                                        Cubo.dibujarConTextura(0f, 0f, 0f, anchoCuadro, altoCuadro, grosorCuadro, texturaCuadro10);
+                                        glPopMatrix();
+                                }
+                                if (texturaCuadro11 != 0) {
+                                        glPushMatrix();
+                                        glTranslatef(2.5f, 0.4f, zCuadro);
+                                        glRotatef(180f, 0f, 0f, 1f);
+                                        Cubo.dibujarConTextura(0f, 0f, 0f, anchoCuadro, altoCuadro, grosorCuadro, texturaCuadro11);
+                                        glPopMatrix();
+                                }
+                        }
                 } else if (texturaParedBlanca != 0) {
                         Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca);
                 } else {
