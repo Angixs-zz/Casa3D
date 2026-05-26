@@ -408,6 +408,7 @@ public class VentanaOpenGL {
                 texturaEscritorio = CargadorTexturas.cargarTextura("/texturas/escritoriooficina.jpg");
                 objetos.BanoPrincipal.texturaMuebleBano = texturaEscritorio;
                 piso2.BanoPrincipalp2.texturaMuebleBano = texturaEscritorio;
+                piso2.RecamaraPrincipalP2.texturaMueble = texturaEscritorio;
                 texturaRepisa = CargadorTexturas.cargarTextura("/texturas/repisaoficina.jpg");
                 texturaLibro = CargadorTexturas.cargarTextura("/texturas/libro1.jpg");
                 texturaSillon = CargadorTexturas.cargarTextura("/texturas/sillonoficina.jpg");
@@ -504,6 +505,8 @@ public class VentanaOpenGL {
                 objetos.Cocina.texturaSillaBlanca = CargadorTexturas.cargarTextura("/texturas/sillablanca.jpg");
                 objetos.Cocina.texturaSillaGris = CargadorTexturas.cargarTextura("/texturas/sillagris.jpg");
                 objetos.Recamara1.texturaColcha = CargadorTexturas.cargarTextura("/texturas/colcha.jpg");
+                piso2.RecamaraPrincipalP2.texturaColcha = objetos.Recamara1.texturaColcha;
+                piso2.RecamaraPrincipalP2.texturaSillon = objetos.Cocina.texturaSillaGris;
                 objetos.PlantasPrimerPiso.texturaHojas = CargadorTexturas.cargarTextura("/texturas/hojas2.jpg");
                 objetos.Auto.texturaCarro = CargadorTexturas.cargarTextura("/texturas/carro.jpg");
                 objetos.Puerta.texturaPuerta = CargadorTexturas.cargarTextura("/texturas/puertas.jpg");
@@ -1520,18 +1523,22 @@ public class VentanaOpenGL {
                                 objetos.Fuente.texturaHojas, texturaPiedraFuera, 
                                 longitud / 2.0f, altura / 2.0f, // Repetición hojas (Patio, Arg 7 -> -Z)
                                 1.0f, 1.0f);                    // Repetición piedra (Calle, Arg 8 -> +Z)
-                } else if (nombre != null && (nombre.equals("h") || nombre.equals("i")
-                                || nombre.equals("P2_m") || nombre.equals("P2_n") || nombre.equals("P2_p")
+                } else if (nombre != null && (nombre.equals("h") || nombre.equals("i") || nombre.equals("P2_m")
+                                || nombre.equals("P2_n") || nombre.equals("P2_p")
                                 || nombre.equals("P2_q") || nombre.equals("P2_r") || nombre.equals("P3_r_resto"))
                                 && texturaPiedraFuera != 0) {
                         Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaPiedraFuera);
-                } else if (nombre != null && (nombre.equals("Dintel Principal") || nombre.equals("P2_l") || nombre.equals("P3_r_madera")) 
+                } else if (nombre != null && nombre.equals("P2_l") && texturaMaderaPrincipal != 0) {
+                        int interior = texturaParedAzul != 0 ? texturaParedAzul : texturaMaderaPrincipal;
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, interior, texturaMaderaPrincipal);
+                } else if (nombre != null && (nombre.equals("Dintel Principal") || nombre.equals("P3_r_madera")) 
                                 && texturaMaderaPrincipal != 0) {
                         Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaMaderaPrincipal);
-                } else if (nombre != null && (nombre.equals("P2_g") || nombre.equals("P2_i") || nombre.equals("P3_r_azul"))
+                } else if (nombre != null && nombre.equals("P2_j1") && objetos.Cocina.texturaCocinaMadera != 0) {
+                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, objetos.Cocina.texturaCocinaMadera);
+                } else if (nombre != null && (nombre.equals("P2_g") || nombre.equals("P2_i") || nombre.equals("Dintel Puerta Balcon") || nombre.equals("P3_r_azul"))
                                 && texturaParedAzul != 0) {
-                        int texturaInterior = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
-                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaInterior, texturaParedAzul);
+                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedAzul);
                 } else if (nombre != null && (nombre.equals("b") || nombre.equals("c") || nombre.equals("P2_t1") || nombre.equals("P3_e1")) && texturaParedAzul != 0) {
                         // Pared J a N1 (1er piso = b, c. 2do piso = P2_t1. 3er piso = P3_e1). dz positivo, local -Z es interior.
                         int blanca = texturaParedBlanca != 0 ? texturaParedBlanca : 0;

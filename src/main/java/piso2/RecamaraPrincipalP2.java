@@ -6,6 +6,10 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class RecamaraPrincipalP2 {
 
+    public static int texturaMueble = 0;
+    public static int texturaColcha = 0;
+    public static int texturaSillon = 0;
+
     private static final float Y = Constantes.ALTURA_PISO_2;
 
     private static float convertirXGeoAOpenGL(float xGeo) {
@@ -117,6 +121,34 @@ public class RecamaraPrincipalP2 {
                 r, g, b);
     }
 
+    private static void dibujarCuboPorGeoTextura(
+            float xMinGeo, float zMinGeo,
+            float xMaxGeo, float zMaxGeo,
+            float yBase, float altura,
+            int texturaID) {
+
+        float centroXGeo = (xMinGeo + xMaxGeo) / 2.0f;
+        float centroZGeo = (zMinGeo + zMaxGeo) / 2.0f;
+
+        float anchoGeo = xMaxGeo - xMinGeo;
+        float largoGeo = zMaxGeo - zMinGeo;
+
+        float x = convertirXGeoAOpenGL(centroXGeo);
+        float z = convertirZGeoAOpenGL(centroZGeo);
+
+        float ancho = escalar(anchoGeo);
+        float largo = escalar(largoGeo);
+
+        Cubo.dibujarConTextura(
+                x,
+                yBase + altura / 2.0f,
+                z,
+                ancho,
+                altura,
+                largo,
+                texturaID);
+    }
+
     // ==========================================================
     // CAMA PRINCIPAL
     // Entre Q7, R7, S7, T7
@@ -140,10 +172,17 @@ public class RecamaraPrincipalP2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Base de madera
-        Cubo.dibujar(
-                0f, 0.18f, 0f,
-                ancho, 0.36f, largo,
-                0.32f, 0.19f, 0.10f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.18f, 0f,
+                    ancho, 0.36f, largo,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.18f, 0f,
+                    ancho, 0.36f, largo,
+                    0.32f, 0.19f, 0.10f);
+        }
 
         // Colchón grande
         Cubo.dibujar(
@@ -152,10 +191,17 @@ public class RecamaraPrincipalP2 {
                 0.92f, 0.92f, 0.88f);
 
         // Cobija elegante
-        Cubo.dibujar(
-                0f, 0.63f, -largo * 0.10f,
-                ancho * 0.86f, 0.08f, largo * 0.58f,
-                0.24f, 0.34f, 0.58f);
+        if (texturaColcha > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.63f, -largo * 0.10f,
+                    ancho * 0.86f, 0.08f, largo * 0.58f,
+                    texturaColcha);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.63f, -largo * 0.10f,
+                    ancho * 0.86f, 0.08f, largo * 0.58f,
+                    0.24f, 0.34f, 0.58f);
+        }
 
         // Franja decorativa de la cobija
         Cubo.dibujar(
@@ -175,21 +221,40 @@ public class RecamaraPrincipalP2 {
                 0.96f, 0.96f, 0.94f);
 
         // Cabecera alta
-        Cubo.dibujar(
-                0f, 0.65f, largo / 2f + 0.06f,
-                ancho, 1.30f, 0.12f,
-                0.28f, 0.16f, 0.09f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.65f, largo / 2f + 0.06f,
+                    ancho, 1.30f, 0.12f,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.65f, largo / 2f + 0.06f,
+                    ancho, 1.30f, 0.12f,
+                    0.28f, 0.16f, 0.09f);
+        }
 
         // Paneles de cabecera
-        Cubo.dibujar(
-                -ancho * 0.25f, 0.82f, largo / 2f + 0.13f,
-                ancho * 0.36f, 0.70f, 0.035f,
-                0.42f, 0.27f, 0.16f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    -ancho * 0.25f, 0.82f, largo / 2f + 0.13f,
+                    ancho * 0.36f, 0.70f, 0.035f,
+                    texturaMueble);
 
-        Cubo.dibujar(
-                ancho * 0.25f, 0.82f, largo / 2f + 0.13f,
-                ancho * 0.36f, 0.70f, 0.035f,
-                0.42f, 0.27f, 0.16f);
+            Cubo.dibujarConTextura(
+                    ancho * 0.25f, 0.82f, largo / 2f + 0.13f,
+                    ancho * 0.36f, 0.70f, 0.035f,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    -ancho * 0.25f, 0.82f, largo / 2f + 0.13f,
+                    ancho * 0.36f, 0.70f, 0.035f,
+                    0.42f, 0.27f, 0.16f);
+
+            Cubo.dibujar(
+                    ancho * 0.25f, 0.82f, largo / 2f + 0.13f,
+                    ancho * 0.36f, 0.70f, 0.035f,
+                    0.42f, 0.27f, 0.16f);
+        }
 
         glPopMatrix();
     }
@@ -216,16 +281,30 @@ public class RecamaraPrincipalP2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Cuerpo del buró
-        Cubo.dibujar(
-                0f, 0.28f, 0f,
-                ancho, 0.56f, largo,
-                0.35f, 0.20f, 0.10f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.28f, 0f,
+                    ancho, 0.56f, largo,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.28f, 0f,
+                    ancho, 0.56f, largo,
+                    0.35f, 0.20f, 0.10f);
+        }
 
         // Cajón
-        Cubo.dibujar(
-                0f, 0.34f, largo / 2f + 0.018f,
-                ancho * 0.82f, 0.18f, 0.035f,
-                0.48f, 0.30f, 0.18f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.34f, largo / 2f + 0.018f,
+                    ancho * 0.82f, 0.18f, 0.035f,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.34f, largo / 2f + 0.018f,
+                    ancho * 0.82f, 0.18f, 0.035f,
+                    0.48f, 0.30f, 0.18f);
+        }
 
         // Manija
         Cubo.dibujar(
@@ -255,45 +334,54 @@ public class RecamaraPrincipalP2 {
         float altoAsiento = 0.35f;
         float altoRespaldo = 0.75f;
 
-        // Parte larga horizontal inferior del sillón
-        dibujarCuboPorGeo(
-                3.7f, 1.7f,
-                6.4f, 2.4f,
-                Y,
-                altoAsiento,
-                0.70f, 0.68f, 0.63f);
+        // Partes del sillón
+        if (texturaSillon > 0) {
+            dibujarCuboPorGeoTextura(3.7f, 1.7f, 6.4f, 2.4f, Y, altoAsiento, texturaSillon);
+            dibujarCuboPorGeoTextura(5.0f, 2.4f, 6.4f, 3.0f, Y, altoAsiento, texturaSillon);
+            dibujarCuboPorGeoTextura(3.7f, 1.7f, 6.4f, 1.82f, Y + altoAsiento, altoRespaldo, texturaSillon);
+            dibujarCuboPorGeoTextura(6.28f, 1.7f, 6.4f, 3.0f, Y + altoAsiento, altoRespaldo, texturaSillon);
+            dibujarCuboPorGeoTextura(3.7f, 1.7f, 3.82f, 2.4f, Y + altoAsiento, 0.55f, texturaSillon);
+        } else {
+            // Parte larga horizontal inferior del sillón
+            dibujarCuboPorGeo(
+                    3.7f, 1.7f,
+                    6.4f, 2.4f,
+                    Y,
+                    altoAsiento,
+                    0.70f, 0.68f, 0.63f);
 
-        // Parte superior derecha del sillón
-        dibujarCuboPorGeo(
-                5.0f, 2.4f,
-                6.4f, 3.0f,
-                Y,
-                altoAsiento,
-                0.72f, 0.70f, 0.66f);
+            // Parte superior derecha del sillón
+            dibujarCuboPorGeo(
+                    5.0f, 2.4f,
+                    6.4f, 3.0f,
+                    Y,
+                    altoAsiento,
+                    0.72f, 0.70f, 0.66f);
 
-        // Respaldo largo trasero J7-I7
-        dibujarCuboPorGeo(
-                3.7f, 1.7f,
-                6.4f, 1.82f,
-                Y + altoAsiento,
-                altoRespaldo,
-                0.58f, 0.56f, 0.52f);
+            // Respaldo largo trasero J7-I7
+            dibujarCuboPorGeo(
+                    3.7f, 1.7f,
+                    6.4f, 1.82f,
+                    Y + altoAsiento,
+                    altoRespaldo,
+                    0.58f, 0.56f, 0.52f);
 
-        // Respaldo lateral derecho H7-I7
-        dibujarCuboPorGeo(
-                6.28f, 1.7f,
-                6.4f, 3.0f,
-                Y + altoAsiento,
-                altoRespaldo,
-                0.58f, 0.56f, 0.52f);
+            // Respaldo lateral derecho H7-I7
+            dibujarCuboPorGeo(
+                    6.28f, 1.7f,
+                    6.4f, 3.0f,
+                    Y + altoAsiento,
+                    altoRespaldo,
+                    0.58f, 0.56f, 0.52f);
 
-        // Brazo izquierdo en J7-K7
-        dibujarCuboPorGeo(
-                3.7f, 1.7f,
-                3.82f, 2.4f,
-                Y + altoAsiento,
-                0.55f,
-                0.60f, 0.58f, 0.54f);
+            // Brazo izquierdo en J7-K7
+            dibujarCuboPorGeo(
+                    3.7f, 1.7f,
+                    3.82f, 2.4f,
+                    Y + altoAsiento,
+                    0.55f,
+                    0.60f, 0.58f, 0.54f);
+        }
 
         // Cojines
         dibujarCojinSillon(4.20f, 2.05f, 0f);
@@ -314,10 +402,17 @@ public class RecamaraPrincipalP2 {
         glTranslatef(x, Y, z);
         glRotatef(rotacionY, 0f, 1f, 0f);
 
-        Cubo.dibujar(
-                0f, 0.50f, 0f,
-                escalar(0.55f), 0.16f, escalar(0.42f),
-                0.78f, 0.76f, 0.72f);
+        if (texturaSillon > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.50f, 0f,
+                    escalar(0.55f), 0.16f, escalar(0.42f),
+                    texturaSillon);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.50f, 0f,
+                    escalar(0.55f), 0.16f, escalar(0.42f),
+                    0.78f, 0.76f, 0.72f);
+        }
 
         glPopMatrix();
     }
@@ -330,10 +425,17 @@ public class RecamaraPrincipalP2 {
         glTranslatef(x, Y, z);
         glRotatef(rotacionY, 0f, 1f, 0f);
 
-        Cubo.dibujar(
-                0f, 0.82f, 0f,
-                escalar(0.25f), 0.18f, escalar(0.20f),
-                0.86f, 0.80f, 0.70f);
+        if (texturaSillon > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.82f, 0f,
+                    escalar(0.25f), 0.18f, escalar(0.20f),
+                    texturaSillon);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.82f, 0f,
+                    escalar(0.25f), 0.18f, escalar(0.20f),
+                    0.86f, 0.80f, 0.70f);
+        }
 
         glPopMatrix();
     }
@@ -361,16 +463,30 @@ public class RecamaraPrincipalP2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Tapa de mesa
-        Cubo.dibujar(
-                0f, 0.42f, 0f,
-                ancho, 0.08f, largo,
-                0.45f, 0.30f, 0.18f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.42f, 0f,
+                    ancho, 0.08f, largo,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.42f, 0f,
+                    ancho, 0.08f, largo,
+                    0.45f, 0.30f, 0.18f);
+        }
 
         // Repisa inferior
-        Cubo.dibujar(
-                0f, 0.22f, 0f,
-                ancho * 0.88f, 0.06f, largo * 0.84f,
-                0.30f, 0.19f, 0.11f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.22f, 0f,
+                    ancho * 0.88f, 0.06f, largo * 0.84f,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.22f, 0f,
+                    ancho * 0.88f, 0.06f, largo * 0.84f,
+                    0.30f, 0.19f, 0.11f);
+        }
 
         // Patas
         Cubo.dibujar(-ancho / 2f + 0.06f, 0.20f, -largo / 2f + 0.06f, 0.06f, 0.40f, 0.06f,
@@ -419,27 +535,53 @@ public class RecamaraPrincipalP2 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Mesa/mueble bajo
-        Cubo.dibujar(
-                0f, 0.32f, 0f,
-                ancho, 0.64f, largo,
-                0.34f, 0.22f, 0.14f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.32f, 0f,
+                    ancho, 0.64f, largo,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.32f, 0f,
+                    ancho, 0.64f, largo,
+                    0.34f, 0.22f, 0.14f);
+        }
 
         // Tapa superior
-        Cubo.dibujar(
-                0f, 0.68f, 0f,
-                ancho * 1.04f, 0.08f, largo * 1.06f,
-                0.46f, 0.30f, 0.18f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.68f, 0f,
+                    ancho * 1.04f, 0.08f, largo * 1.06f,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.68f, 0f,
+                    ancho * 1.04f, 0.08f, largo * 1.06f,
+                    0.46f, 0.30f, 0.18f);
+        }
 
         // Cajones
-        Cubo.dibujar(
-                -ancho * 0.25f, 0.36f, largo / 2f + 0.015f,
-                ancho * 0.36f, 0.18f, 0.035f,
-                0.48f, 0.30f, 0.18f);
+        if (texturaMueble > 0) {
+            Cubo.dibujarConTextura(
+                    -ancho * 0.25f, 0.36f, largo / 2f + 0.015f,
+                    ancho * 0.36f, 0.18f, 0.035f,
+                    texturaMueble);
 
-        Cubo.dibujar(
-                ancho * 0.25f, 0.36f, largo / 2f + 0.015f,
-                ancho * 0.36f, 0.18f, 0.035f,
-                0.48f, 0.30f, 0.18f);
+            Cubo.dibujarConTextura(
+                    ancho * 0.25f, 0.36f, largo / 2f + 0.015f,
+                    ancho * 0.36f, 0.18f, 0.035f,
+                    texturaMueble);
+        } else {
+            Cubo.dibujar(
+                    -ancho * 0.25f, 0.36f, largo / 2f + 0.015f,
+                    ancho * 0.36f, 0.18f, 0.035f,
+                    0.48f, 0.30f, 0.18f);
+
+            Cubo.dibujar(
+                    ancho * 0.25f, 0.36f, largo / 2f + 0.015f,
+                    ancho * 0.36f, 0.18f, 0.035f,
+                    0.48f, 0.30f, 0.18f);
+        }
 
         // Adornos
         Cubo.dibujar(
