@@ -8,6 +8,8 @@ public class ComedorP3 {
 
     private static final float Y = Constantes.ALTURA_PISO_3;
 
+    public static int texturaMadera = 0;
+
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
         x = -x;
@@ -508,14 +510,17 @@ public class ComedorP3 {
         float grosorPoste = 0.11f;
 
         // Postes principales
-        Cubo.dibujar(x1, Y + altoPoste / 2f, z1, grosorPoste, altoPoste, grosorPoste,
-                0.42f, 0.24f, 0.10f);
-        Cubo.dibujar(x2, Y + altoPoste / 2f, z1, grosorPoste, altoPoste, grosorPoste,
-                0.42f, 0.24f, 0.10f);
-        Cubo.dibujar(x1, Y + altoPoste / 2f, z2, grosorPoste, altoPoste, grosorPoste,
-                0.42f, 0.24f, 0.10f);
-        Cubo.dibujar(x2, Y + altoPoste / 2f, z2, grosorPoste, altoPoste, grosorPoste,
-                0.42f, 0.24f, 0.10f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(x1, Y + altoPoste / 2f, z1, grosorPoste, altoPoste, grosorPoste, texturaMadera);
+            Cubo.dibujarConTextura(x2, Y + altoPoste / 2f, z1, grosorPoste, altoPoste, grosorPoste, texturaMadera);
+            Cubo.dibujarConTextura(x1, Y + altoPoste / 2f, z2, grosorPoste, altoPoste, grosorPoste, texturaMadera);
+            Cubo.dibujarConTextura(x2, Y + altoPoste / 2f, z2, grosorPoste, altoPoste, grosorPoste, texturaMadera);
+        } else {
+            Cubo.dibujar(x1, Y + altoPoste / 2f, z1, grosorPoste, altoPoste, grosorPoste, 0.42f, 0.24f, 0.10f);
+            Cubo.dibujar(x2, Y + altoPoste / 2f, z1, grosorPoste, altoPoste, grosorPoste, 0.42f, 0.24f, 0.10f);
+            Cubo.dibujar(x1, Y + altoPoste / 2f, z2, grosorPoste, altoPoste, grosorPoste, 0.42f, 0.24f, 0.10f);
+            Cubo.dibujar(x2, Y + altoPoste / 2f, z2, grosorPoste, altoPoste, grosorPoste, 0.42f, 0.24f, 0.10f);
+        }
 
         // Vigas perimetrales
         dibujarVigaEntrePuntos(xMinGeo, zMinGeo, xMaxGeo, zMinGeo, 2.85f, 0.12f, 0.12f);
@@ -567,12 +572,16 @@ public class ComedorP3 {
         glTranslatef(x, Y + altura, z);
         glRotatef(-angulo, 0f, 1f, 0f);
 
-        Cubo.dibujar(
-                0f, 0f, 0f,
-                escalar(largoGeo),
-                grosorY,
-                grosorZ,
-                0.46f, 0.27f, 0.12f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 0f, 0f, escalar(largoGeo), grosorY, grosorZ, texturaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f, 0f, 0f,
+                    escalar(largoGeo),
+                    grosorY,
+                    grosorZ,
+                    0.46f, 0.27f, 0.12f);
+        }
 
         glPopMatrix();
     }
@@ -598,4 +607,6 @@ public class ComedorP3 {
                 0.018f,
                 0.68f, 0.68f, 0.72f);
     }
-}
+} 
+
+

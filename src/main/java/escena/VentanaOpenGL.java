@@ -58,6 +58,8 @@ public class VentanaOpenGL {
         private CamaraLibre camaraLibre;
         private Girasol girasol;
         private int texturaParedBlanca;
+        private int texturaClosetPiso2;
+        private int texturaPiso3;
         private int texturaParedBano;
         private int texturaEscritorio;
         private int texturaLibro;
@@ -449,6 +451,8 @@ public class VentanaOpenGL {
                 piso2.SalaEstarP2.texturaSofa = texturaSillonGrisSala;
                 piso2.SalaEstarP2.texturaCojin = texturaAlmohadaSala;
                 piso2.SalaEstarP2.texturaMadera = texturaMaderaPrincipal;
+                piso3.PergolaBancoP3.texturaMadera = texturaMaderaPrincipal;
+                piso3.ComedorP3.texturaMadera = texturaMaderaPrincipal;
                 piso2.SalaEstarP2.texturaDecoracion = texturaAdornoSala;
                 
                 piso2.BanoP2.texturaPiso = texturaPisoDentro;
@@ -456,6 +460,12 @@ public class VentanaOpenGL {
                 piso2.BanoP2.texturaCeramica = texturaBano;
                 piso2.BanoP2.texturaTapete = texturaAlmohadaSala;
                 piso2.BanoP2.texturaDecoracion = texturaAdornoSala;
+                
+                texturaClosetPiso2 = CargadorTexturas.cargarTextura("/texturas/closetPiso2.jpg");
+                texturaPiso3 = CargadorTexturas.cargarTextura("/texturas/piso3.jpg");
+                piso2.ClosetP2.texturaMaderaCloset = texturaClosetPiso2;
+                piso2.ClosetP2.texturaTapete = texturaAlmohadaSala;
+                piso2.ClosetP2.texturaCojin = texturaSillonGrisSala;
                 
                 objetos.Cocina.texturaCocinaAzul = CargadorTexturas.cargarTextura("/texturas/cocinaazul.jpg");
                 objetos.Cocina.texturaCocinaMadera = CargadorTexturas.cargarTextura("/texturas/COCINAMADERA.jpg");
@@ -1010,15 +1020,15 @@ public class VentanaOpenGL {
                 float altura = 6.4f;
 
                 // Parte inferior izquierda
-                dibujarLosaPorCoordenadas(0.1f, 1.5f, 6.6f, 2.6f, altura);
-                dibujarLosaPorCoordenadas(0.1f, 2.6f, 6.6f, 5.0f, altura);
+                dibujarLosaPorCoordenadas(0.1f, 1.5f, 6.6f, 2.6f, altura, texturaPiso3);
+                dibujarLosaPorCoordenadas(0.1f, 2.6f, 6.6f, 5.0f, altura, texturaPiso3);
 
                 // Parte central izquierda
-                dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 7.9f, altura); // Se eliminó de Z=7.9 a 9.5 (Z, D1, E1, A1)
-                dibujarLosaPorCoordenadas(0.1f, 9.5f, 3.8f, 14.0f, altura);
+                dibujarLosaPorCoordenadas(0.1f, 7.0f, 3.8f, 7.9f, altura, texturaPiso3); // Se eliminó de Z=7.9 a 9.5 (Z, D1, E1, A1)
+                dibujarLosaPorCoordenadas(0.1f, 9.5f, 3.8f, 14.0f, altura, texturaPiso3);
 
                 // Parte izquierda superior
-                dibujarLosaPorCoordenadas(0.1f, 14.0f, 3.8f, 18.6f, altura);
+                dibujarLosaPorCoordenadas(0.1f, 14.0f, 3.8f, 18.6f, altura, texturaPiso3);
 
                 /*
                  * Hueco de escalera del segundo al tercer piso.
@@ -1026,35 +1036,36 @@ public class VentanaOpenGL {
                  */
 
                 // Lado izquierdo del hueco
-                // dibujarLosaPorCoordenadas(4.9f, 9.5f, 5.5f, 12.0f, altura);
+                // dibujarLosaPorCoordenadas(4.9f, 9.5f, 5.5f, 12.0f, altura, texturaPiso3);
 
                 // Lado derecho del hueco
-                // dibujarLosaPorCoordenadas(7.5f, 9.5f, 7.9f, 12.0f, altura);
+                // dibujarLosaPorCoordenadas(7.5f, 9.5f, 7.9f, 12.0f, altura, texturaPiso3);
 
                 // Después de la llegada de la escalera
-                // dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, altura);
+                // dibujarLosaPorCoordenadas(4.9f, 12.0f, 7.9f, 13.9f, altura, texturaPiso3);
 
                 // Parte superior derecha
-                dibujarLosaPorCoordenadas(3.8f, 13.9f, 7.9f, 17.4f, altura);
-                dibujarLosaPorCoordenadas(5.9f, 17.4f, 7.9f, 20.3f, altura);
-                dibujarLosaPorCoordenadas(3.8f, 17.4f, 5.9f, 20.3f, altura);
+                dibujarLosaPorCoordenadas(3.8f, 13.9f, 7.9f, 17.4f, altura, texturaPiso3);
+                dibujarLosaPorCoordenadas(5.9f, 17.4f, 7.9f, 20.3f, altura, texturaPiso3);
+                dibujarLosaPorCoordenadas(3.8f, 17.4f, 5.9f, 20.3f, altura, texturaPiso3);
 
                 // partes faltates comeor de arriba
-                dibujarLosaPorCoordenadas(4.9f, 4.3f, 7.9f, 9.5f, altura);
+                dibujarLosaPorCoordenadas(4.9f, 4.3f, 7.9f, 9.5f, altura, texturaPiso3);
                 // sala de estar
-                dibujarLosaPorCoordenadas(0.1f, 4.3f, 4.9f, 7.0f, altura);
+                dibujarLosaPorCoordenadas(0.1f, 4.3f, 4.9f, 7.0f, altura, texturaPiso3);
                 // pasilo de arriba
-                dibujarLosaPorCoordenadas(3.8f, 7.0f, 4.9f, 13.9f, altura);
+                dibujarLosaPorCoordenadas(3.8f, 7.0f, 4.9f, 13.9f, altura, texturaPiso3);
         }
 
         private void dibujarLosaCuartoPiso() {
                 float altura = 9.6f; // 3.2 * 3
 
                 /*
-                 * TECHO DEL TERCER PISO (Sección C, F, G, E)
-                 * C(4.9, 12.0), F(7.9, 12.0), G(7.9, 9.5), E(4.9, 9.5)
+                 * CUARTO PISO (Techo del Piso 3)
+                 * Zona cubierta de la pérgola y las recámaras
                  */
-                dibujarLosaPorCoordenadas(4.9f, 9.5f, 7.9f, 12.0f, altura);
+
+                dibujarLosaPorCoordenadas(4.9f, 9.5f, 7.9f, 12.0f, altura, 0);
         }
 
         private void dibujarLosaPorCoordenadas(
@@ -1062,7 +1073,8 @@ public class VentanaOpenGL {
                         float zMin,
                         float xMax,
                         float zMax,
-                        float altura) {
+                        float altura,
+                        int texturaID) {
                 float centroX = (xMin + xMax) / 2.0f;
                 float centroZ = (zMin + zMax) / 2.0f;
 
@@ -1085,16 +1097,28 @@ public class VentanaOpenGL {
                 float g = 0.48f;
                 float b = 0.35f;
 
-                Cubo.dibujar(
-                                centroX,
-                                altura,
-                                centroZ,
-                                anchoLosa,
-                                0.12f,
-                                largoLosa,
-                                r,
-                                g,
-                                b);
+                if (texturaID != 0) {
+                        Cubo.dibujarConTexturaRepetida(
+                                        centroX,
+                                        altura,
+                                        centroZ,
+                                        anchoLosa,
+                                        0.12f,
+                                        largoLosa,
+                                        texturaID,
+                                        4);
+                } else {
+                        Cubo.dibujar(
+                                        centroX,
+                                        altura,
+                                        centroZ,
+                                        anchoLosa,
+                                        0.12f,
+                                        largoLosa,
+                                        r,
+                                        g,
+                                        b);
+                }
         }
 
         private void dibujarLosaSegundoPisoPorCoordenadas(
