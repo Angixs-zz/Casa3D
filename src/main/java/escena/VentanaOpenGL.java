@@ -452,7 +452,27 @@ public class VentanaOpenGL {
                 piso2.SalaEstarP2.texturaCojin = texturaAlmohadaSala;
                 piso2.SalaEstarP2.texturaMadera = texturaMaderaPrincipal;
                 piso3.PergolaBancoP3.texturaMadera = texturaMaderaPrincipal;
+                piso3.PergolaBancoP3.texturaCojin = texturaAlmohadaSala;
+                piso3.PergolaBancoP3.texturaAlmohada = texturaAlmohadaSala;
+                piso3.PergolaBancoP3.texturaCesped = texturaCespedVal;
+                piso3.PergolaBancoP3.texturaHojas = objetos.Fuente.texturaHojas;
+
                 piso3.ComedorP3.texturaMadera = texturaMaderaPrincipal;
+                piso3.ComedorP3.texturaLadrillo = texturaLadrillo;
+                piso3.ComedorP3.texturaPiedra = texturaPiedraFuera;
+                piso3.ComedorP3.texturaSillaCojin = objetos.Cocina.texturaSillaGris;
+                piso3.ComedorP3.texturaCesped = texturaCespedVal;
+                piso3.ComedorP3.texturaHojas = objetos.Fuente.texturaHojas;
+
+                piso3.TerrazaP3.texturaMadera = texturaMaderaPrincipal;
+                piso3.TerrazaP3.texturaSofa = texturaSillonGrisSala;
+                piso3.TerrazaP3.texturaCojin = texturaAlmohadaSala;
+                piso3.TerrazaP3.texturaAlmohada = texturaAdornoSala;
+                piso3.TerrazaP3.texturaHojas = objetos.Fuente.texturaHojas;
+                piso3.TerrazaP3.texturaTapete = texturaAlmohadaSala;
+                piso3.TerrazaP3.texturaCesped = texturaCespedVal;
+                piso2.Piso3.texturaCesped = texturaCespedVal;
+                piso2.Piso3.texturaHojas = objetos.Fuente.texturaHojas;
                 piso2.SalaEstarP2.texturaDecoracion = texturaAdornoSala;
                 
                 piso2.BanoP2.texturaPiso = texturaPisoDentro;

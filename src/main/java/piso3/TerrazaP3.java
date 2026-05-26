@@ -8,6 +8,14 @@ public class TerrazaP3 {
 
     private static final float Y = Constantes.ALTURA_PISO_3;
 
+    public static int texturaMadera = 0;
+    public static int texturaSofa = 0;
+    public static int texturaCojin = 0;
+    public static int texturaAlmohada = 0;
+    public static int texturaHojas = 0;
+    public static int texturaTapete = 0;
+    public static int texturaCesped = 0;
+
     private static float convertirXGeoAOpenGL(float xGeo) {
         float x = xGeo - Constantes.CENTRO_GEOGEBRA_X;
         x = -x;
@@ -91,6 +99,34 @@ public class TerrazaP3 {
                 r, g, b);
     }
 
+    private static void dibujarCuboConTexturaPorGeo(
+            float xMinGeo, float zMinGeo,
+            float xMaxGeo, float zMaxGeo,
+            float yBase, float altura,
+            int texturaID) {
+
+        float centroXGeo = (xMinGeo + xMaxGeo) / 2.0f;
+        float centroZGeo = (zMinGeo + zMaxGeo) / 2.0f;
+
+        float anchoGeo = xMaxGeo - xMinGeo;
+        float largoGeo = zMaxGeo - zMinGeo;
+
+        float x = convertirXGeoAOpenGL(centroXGeo);
+        float z = convertirZGeoAOpenGL(centroZGeo);
+
+        float ancho = escalar(anchoGeo);
+        float largo = escalar(largoGeo);
+
+        Cubo.dibujarConTextura(
+                x,
+                yBase + altura / 2.0f,
+                z,
+                ancho,
+                altura,
+                largo,
+                texturaID);
+    }
+
     // ==========================================================
     // SOFÁ EXTERIOR EN L
     // De W1 a D2
@@ -100,44 +136,64 @@ public class TerrazaP3 {
         float altoRespaldo = 0.80f;
 
         // Parte larga del sofá: D2-C2-B2-A2
-        dibujarCuboPorGeo(
-                0.2f, 6.1f,
-                3.0f, 6.9f,
-                Y,
-                altoAsiento,
-                0.86f, 0.84f, 0.78f);
+        if (texturaSofa != 0) {
+            dibujarCuboConTexturaPorGeo(0.2f, 6.1f, 3.0f, 6.9f, Y, altoAsiento, texturaSofa);
+        } else {
+            dibujarCuboPorGeo(
+                    0.2f, 6.1f,
+                    3.0f, 6.9f,
+                    Y,
+                    altoAsiento,
+                    0.86f, 0.84f, 0.78f);
+        }
 
         // Parte chaise izquierda: W1-Z1-A2-D2
-        dibujarCuboPorGeo(
-                0.2f, 5.6f,
-                1.2f, 6.1f,
-                Y,
-                altoAsiento,
-                0.88f, 0.86f, 0.80f);
+        if (texturaSofa != 0) {
+            dibujarCuboConTexturaPorGeo(0.2f, 5.6f, 1.2f, 6.1f, Y, altoAsiento, texturaSofa);
+        } else {
+            dibujarCuboPorGeo(
+                    0.2f, 5.6f,
+                    1.2f, 6.1f,
+                    Y,
+                    altoAsiento,
+                    0.88f, 0.86f, 0.80f);
+        }
 
         // Respaldo largo pegado al segmento D2-C2
-        dibujarCuboPorGeo(
-                0.2f, 6.78f,
-                3.0f, 6.9f,
-                Y + altoAsiento,
-                altoRespaldo,
-                0.76f, 0.74f, 0.68f);
+        if (texturaSofa != 0) {
+            dibujarCuboConTexturaPorGeo(0.2f, 6.78f, 3.0f, 6.9f, Y + altoAsiento, altoRespaldo, texturaSofa);
+        } else {
+            dibujarCuboPorGeo(
+                    0.2f, 6.78f,
+                    3.0f, 6.9f,
+                    Y + altoAsiento,
+                    altoRespaldo,
+                    0.76f, 0.74f, 0.68f);
+        }
 
         // Respaldo lateral izquierdo pegado al segmento D2-W1
-        dibujarCuboPorGeo(
-                0.2f, 5.6f,
-                0.32f, 6.9f,
-                Y + altoAsiento,
-                altoRespaldo,
-                0.76f, 0.74f, 0.68f);
+        if (texturaSofa != 0) {
+            dibujarCuboConTexturaPorGeo(0.2f, 5.6f, 0.32f, 6.9f, Y + altoAsiento, altoRespaldo, texturaSofa);
+        } else {
+            dibujarCuboPorGeo(
+                    0.2f, 5.6f,
+                    0.32f, 6.9f,
+                    Y + altoAsiento,
+                    altoRespaldo,
+                    0.76f, 0.74f, 0.68f);
+        }
 
         // Brazo derecho del sofá cerca de B2-C2
-        dibujarCuboPorGeo(
-                2.88f, 6.1f,
-                3.0f, 6.9f,
-                Y + altoAsiento,
-                0.60f,
-                0.76f, 0.74f, 0.68f);
+        if (texturaSofa != 0) {
+            dibujarCuboConTexturaPorGeo(2.88f, 6.1f, 3.0f, 6.9f, Y + altoAsiento, 0.60f, texturaSofa);
+        } else {
+            dibujarCuboPorGeo(
+                    2.88f, 6.1f,
+                    3.0f, 6.9f,
+                    Y + altoAsiento,
+                    0.60f,
+                    0.76f, 0.74f, 0.68f);
+        }
 
         // Cojines de respaldo
         dibujarCojin(0.65f, 6.55f, 0f);
@@ -162,10 +218,17 @@ public class TerrazaP3 {
         glTranslatef(x, Y, z);
         glRotatef(rotacionY, 0f, 1f, 0f);
 
-        Cubo.dibujar(
-                0f, 0.52f, 0f,
-                escalar(0.50f), 0.16f, escalar(0.36f),
-                0.94f, 0.92f, 0.86f);
+        if (texturaCojin != 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.52f, 0f,
+                    escalar(0.50f), 0.16f, escalar(0.36f),
+                    texturaCojin);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.52f, 0f,
+                    escalar(0.50f), 0.16f, escalar(0.36f),
+                    0.94f, 0.92f, 0.86f);
+        }
 
         glPopMatrix();
     }
@@ -178,10 +241,17 @@ public class TerrazaP3 {
         glTranslatef(x, Y, z);
         glRotatef(rotacionY, 0f, 1f, 0f);
 
-        Cubo.dibujar(
-                0f, 0.52f, 0f,
-                escalar(0.55f), 0.16f, escalar(0.35f),
-                0.92f, 0.90f, 0.84f);
+        if (texturaCojin != 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.52f, 0f,
+                    escalar(0.55f), 0.16f, escalar(0.35f),
+                    texturaCojin);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.52f, 0f,
+                    escalar(0.55f), 0.16f, escalar(0.35f),
+                    0.92f, 0.90f, 0.84f);
+        }
 
         glPopMatrix();
     }
@@ -194,10 +264,17 @@ public class TerrazaP3 {
         glTranslatef(x, Y, z);
         glRotatef(rotacionY, 0f, 1f, 0f);
 
-        Cubo.dibujar(
-                0f, 0.84f, 0f,
-                escalar(0.25f), 0.20f, escalar(0.20f),
-                0.78f, 0.76f, 0.70f);
+        if (texturaAlmohada != 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.84f, 0f,
+                    escalar(0.25f), 0.20f, escalar(0.20f),
+                    texturaAlmohada);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.84f, 0f,
+                    escalar(0.25f), 0.20f, escalar(0.20f),
+                    0.78f, 0.76f, 0.70f);
+        }
 
         glPopMatrix();
     }
@@ -225,10 +302,14 @@ public class TerrazaP3 {
         glRotatef(rotacionY, 0f, 1f, 0f);
 
         // Base de madera
-        Cubo.dibujar(
-                0f, 0.18f, 0f,
-                ancho * 0.92f, 0.36f, largo * 0.92f,
-                0.45f, 0.30f, 0.18f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 0.18f, 0f, ancho * 0.92f, 0.36f, largo * 0.92f, texturaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.18f, 0f,
+                    ancho * 0.92f, 0.36f, largo * 0.92f,
+                    0.45f, 0.30f, 0.18f);
+        }
 
         // Cubierta tipo cristal verde/azul
         Cubo.dibujar(
@@ -237,25 +318,32 @@ public class TerrazaP3 {
                 0.28f, 0.62f, 0.62f);
 
         // Borde de la mesa
-        Cubo.dibujar(
-                0f, 0.50f, -largo / 2f,
-                ancho, 0.04f, 0.04f,
-                0.18f, 0.18f, 0.18f);
+        if (texturaMadera != 0) {
+            Cubo.dibujarConTextura(0f, 0.50f, -largo / 2f, ancho, 0.04f, 0.04f, texturaMadera);
+            Cubo.dibujarConTextura(0f, 0.50f, largo / 2f, ancho, 0.04f, 0.04f, texturaMadera);
+            Cubo.dibujarConTextura(-ancho / 2f, 0.50f, 0f, 0.04f, 0.04f, largo, texturaMadera);
+            Cubo.dibujarConTextura(ancho / 2f, 0.50f, 0f, 0.04f, 0.04f, largo, texturaMadera);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.50f, -largo / 2f,
+                    ancho, 0.04f, 0.04f,
+                    0.18f, 0.18f, 0.18f);
 
-        Cubo.dibujar(
-                0f, 0.50f, largo / 2f,
-                ancho, 0.04f, 0.04f,
-                0.18f, 0.18f, 0.18f);
+            Cubo.dibujar(
+                    0f, 0.50f, largo / 2f,
+                    ancho, 0.04f, 0.04f,
+                    0.18f, 0.18f, 0.18f);
 
-        Cubo.dibujar(
-                -ancho / 2f, 0.50f, 0f,
-                0.04f, 0.04f, largo,
-                0.18f, 0.18f, 0.18f);
+            Cubo.dibujar(
+                    -ancho / 2f, 0.50f, 0f,
+                    0.04f, 0.04f, largo,
+                    0.18f, 0.18f, 0.18f);
 
-        Cubo.dibujar(
-                ancho / 2f, 0.50f, 0f,
-                0.04f, 0.04f, largo,
-                0.18f, 0.18f, 0.18f);
+            Cubo.dibujar(
+                    ancho / 2f, 0.50f, 0f,
+                    0.04f, 0.04f, largo,
+                    0.18f, 0.18f, 0.18f);
+        }
 
         // Decoración sobre la mesa
         Cubo.dibujar(
@@ -488,19 +576,24 @@ public class TerrazaP3 {
             float xMinGeo, float zMinGeo,
             float xMaxGeo, float zMaxGeo) {
 
-        dibujarCuboPorGeo(
-                xMinGeo, zMinGeo,
-                xMaxGeo, zMaxGeo,
-                Y + 0.01f,
-                0.035f,
-                0.48f, 0.48f, 0.52f);
+        if (texturaTapete != 0) {
+            dibujarCuboConTexturaPorGeo(xMinGeo, zMinGeo, xMaxGeo, zMaxGeo, Y + 0.01f, 0.035f, texturaTapete);
+            dibujarCuboConTexturaPorGeo(xMinGeo + 0.10f, zMinGeo + 0.08f, xMaxGeo - 0.10f, zMaxGeo - 0.08f, Y + 0.045f, 0.018f, texturaTapete);
+        } else {
+            dibujarCuboPorGeo(
+                    xMinGeo, zMinGeo,
+                    xMaxGeo, zMaxGeo,
+                    Y + 0.01f,
+                    0.035f,
+                    0.48f, 0.48f, 0.52f);
 
-        dibujarCuboPorGeo(
-                xMinGeo + 0.10f, zMinGeo + 0.08f,
-                xMaxGeo - 0.10f, zMaxGeo - 0.08f,
-                Y + 0.045f,
-                0.018f,
-                0.66f, 0.66f, 0.70f);
+            dibujarCuboPorGeo(
+                    xMinGeo + 0.10f, zMinGeo + 0.08f,
+                    xMaxGeo - 0.10f, zMaxGeo - 0.08f,
+                    Y + 0.045f,
+                    0.018f,
+                    0.66f, 0.66f, 0.70f);
+        }
     }
 
     private static void dibujarPlantaDecorativa(float xGeo, float zGeo, float rotacionY) {
@@ -518,31 +611,45 @@ public class TerrazaP3 {
                 0.08f, 0.08f, 0.08f);
 
         // Tierra
-        Cubo.dibujar(
-                0f, 0.47f, 0f,
-                escalar(0.26f), 0.04f, escalar(0.26f),
-                0.10f, 0.06f, 0.03f);
+        if (texturaCesped != 0) {
+            Cubo.dibujarConTextura(
+                    0f, 0.47f, 0f,
+                    escalar(0.26f), 0.04f, escalar(0.26f),
+                    texturaCesped);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.47f, 0f,
+                    escalar(0.26f), 0.04f, escalar(0.26f),
+                    0.10f, 0.06f, 0.03f);
+        }
 
         // Hojas
-        Cubo.dibujar(
-                0f, 0.80f, 0f,
-                escalar(0.36f), 0.45f, escalar(0.20f),
-                0.12f, 0.48f, 0.16f);
+        if (texturaHojas != 0) {
+            Cubo.dibujarConTextura(0f, 0.80f, 0f, escalar(0.36f), 0.45f, escalar(0.20f), texturaHojas);
+            Cubo.dibujarConTextura(0f, 0.82f, 0f, escalar(0.20f), 0.48f, escalar(0.36f), texturaHojas);
+            Cubo.dibujarConTextura(-0.08f, 1.05f, 0.06f, escalar(0.24f), 0.34f, escalar(0.16f), texturaHojas);
+            Cubo.dibujarConTextura(0.10f, 1.02f, -0.05f, escalar(0.22f), 0.32f, escalar(0.16f), texturaHojas);
+        } else {
+            Cubo.dibujar(
+                    0f, 0.80f, 0f,
+                    escalar(0.36f), 0.45f, escalar(0.20f),
+                    0.12f, 0.48f, 0.16f);
 
-        Cubo.dibujar(
-                0f, 0.82f, 0f,
-                escalar(0.20f), 0.48f, escalar(0.36f),
-                0.10f, 0.55f, 0.18f);
+            Cubo.dibujar(
+                    0f, 0.82f, 0f,
+                    escalar(0.20f), 0.48f, escalar(0.36f),
+                    0.10f, 0.55f, 0.18f);
 
-        Cubo.dibujar(
-                -0.08f, 1.05f, 0.06f,
-                escalar(0.24f), 0.34f, escalar(0.16f),
-                0.16f, 0.62f, 0.20f);
+            Cubo.dibujar(
+                    -0.08f, 1.05f, 0.06f,
+                    escalar(0.24f), 0.34f, escalar(0.16f),
+                    0.16f, 0.62f, 0.20f);
 
-        Cubo.dibujar(
-                0.10f, 1.02f, -0.05f,
-                escalar(0.22f), 0.32f, escalar(0.16f),
-                0.16f, 0.62f, 0.20f);
+            Cubo.dibujar(
+                    0.10f, 1.02f, -0.05f,
+                    escalar(0.22f), 0.32f, escalar(0.16f),
+                    0.16f, 0.62f, 0.20f);
+        }
 
         glPopMatrix();
     }
