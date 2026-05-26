@@ -82,6 +82,8 @@ public class VentanaOpenGL {
         private int texturaRepisa;
         private int texturaBano;
         private int texturaPisoDentro;
+        private int texturaCochera;
+        private int texturaPiedraFuera;
 
         private int ancho = 1280;
         private int alto = 720;
@@ -407,6 +409,8 @@ public class VentanaOpenGL {
                 texturaRepisa = CargadorTexturas.cargarTextura("/texturas/repisaoficina.jpg");
                 texturaBano = CargadorTexturas.cargarTextura("/texturas/baño.jpg");
                 texturaPisoDentro = CargadorTexturas.cargarTextura("/texturas/PISODENTRO.jpg");
+                texturaCochera = CargadorTexturas.cargarTextura("/texturas/cochera.jpg");
+                texturaPiedraFuera = CargadorTexturas.cargarTextura("/texturas/piedrafuera.jpg");
                 objetos.Cocina.texturaMaderaParaCocina = CargadorTexturas
                                 .cargarTextura("/texturas/MADERAPARACOCINA.jpg");
                 objetos.Cocina.texturaCocinaAzul = CargadorTexturas.cargarTextura("/texturas/cocinaazul.jpg");
@@ -1195,6 +1199,14 @@ public class VentanaOpenGL {
                         // (Interior)
                         Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor,
                                         objetos.Cocina.texturaMaderaParaCocina, texturaOtroLado);
+                } else if (nombre != null && (nombre.equals("h") || nombre.equals("i") || nombre.equals("j")
+                                || nombre.equals("P2_m") || nombre.equals("P2_n") || nombre.equals("P2_p"))
+                                && texturaPiedraFuera != 0) {
+                        Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaPiedraFuera);
+                } else if (nombre != null && nombre.equals("f") && texturaCochera != 0) {
+                        int texturaOtroLado = texturaParedBlanca != 0 ? texturaParedBlanca : 0;
+                        Cubo.dibujarConDosTexturas(0f, 0f, 0f, longitud, altura, grosor, texturaOtroLado,
+                                        texturaCochera);
                 } else if (texturaParedBlanca != 0) {
                         Cubo.dibujarConTextura(0f, 0f, 0f, longitud, altura, grosor, texturaParedBlanca);
                 } else {
