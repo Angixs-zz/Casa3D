@@ -177,6 +177,12 @@ public class Casa {
         agregarPunto("D3", 6.8, 9.5); // Punto de fondo del baño bajo la escalera
         agregarPunto("E2", 2.5, 15.4);
 
+        // Puntos nuevos
+        agregarPunto("B4", 1.5, 9.1);
+        agregarPunto("S3", 2.4, 9.1);
+        agregarPunto("O3", 3.2, 9.7);
+        agregarPunto("C4", 3.2, 10.4);
+
         // Puntos para la colisión invisible
         agregarPunto("B8", 0.4, 4.4);
         agregarPunto("C8", 2.0, 4.4);
@@ -428,7 +434,7 @@ public class Casa {
 
         agregarPared("t", "J", "I", 0.0);
         agregarPared("a", "Z", "J", 0.0);
-        agregarVentana("b", "J", "K");
+        agregarPared("b", "J", "K", 0.0); // Pared completa (ya no ventana)
         agregarPared("c", "K", "N1", 0.0);
         agregarPared("d", "N1", "B1", 0.0); // Restaurada para colisión invisible
         agregarPared("e", "A1", "D2", 0.0);
@@ -449,7 +455,9 @@ public class Casa {
         agregarPared("n1", "Z1", "Q1", 0.0);
         agregarPared("p1", "Q1", "M1", 0.0);
         agregarPared("q1", "M1", "L1", 0.0);
-        agregarVentanal("r1", "L1", "K1");
+        // agregarVentanal("r1", "L1", "K1"); // Se añade como Puerta Corrediza
+        // interactiva en VentanaOpenGL
+        agregarPared("Dintel Ventanal Corredizo", "L1", "K1", 2.7, 0.5); // Tapar parte superior del ventanal
 
         agregarPared("s1", "E1", "H1", 0.0);
         agregarPared("t1", "G1", "F1", 0.0);
@@ -490,6 +498,10 @@ public class Casa {
         agregarPared("Dintel Recamara 1", "R1", "C2", 2.7, 0.5);
 
         agregarPared("Dintel GYM Trasera", "V1", "P1", 2.7, 0.5);
+
+        // Paredes faltantes:
+        agregarParedInvisible("ColisionLavavo", "S3", "B4", 0.0);
+        agregarParedInvisible("ColisioneEstufa", "O3", "C4", 0.0);
 
         // Paredes Invisibles (Colisiones Primitivas)
         agregarParedInvisible("Colision_D8_E8", "D8", "E8", 0.0);
@@ -1114,6 +1126,10 @@ public class Casa {
         agregarPunto("BAP2_L_B", 6.1, 5.3);
         agregarPunto("BAP2_L_C", 6.1, 5.8);
         agregarPunto("BAP2_L_D", 5.0, 5.8);
+
+        agregarPunto("P2_N1M", 4.9, 13.9);
+        agregarPunto("P2_CM", 4.9, 12.0);
+
     }
 
     private void crearParedesSegundaPlanta() {
@@ -1569,6 +1585,9 @@ public class Casa {
         agregarParedInvisible("Col_BAP2_L_2", "BAP2_L_B", "BAP2_L_C", 3.2);
         agregarParedInvisible("Col_BAP2_L_3", "BAP2_L_C", "BAP2_L_D", 3.2);
         agregarParedInvisible("Col_BAP2_L_4", "BAP2_L_D", "BAP2_L_A", 3.2);
+
+        // balcon
+        agregarParedInvisible("Balcon", "P2_N1M", "P2_CM", 3.2);
     }
 
     private void crearPuntosTerceraPlanta() {
@@ -1928,4 +1947,3 @@ public class Casa {
         return paredes;
     }
 }
-

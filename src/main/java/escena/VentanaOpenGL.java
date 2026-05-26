@@ -256,6 +256,18 @@ public class VentanaOpenGL {
                                                 180.0f));
 
                 // ==========================================================
+                // VENTANAL CORREDIZO (K1 a L1)
+                // ==========================================================
+                float ventanalX = convertirXGeoAOpenGL(5.7f); // K1
+                float ventanalZ = convertirZGeoAOpenGL(14.0f); // Mismo eje Z
+                float ventanalAncho = (7.3f - 5.7f) * Constantes.ESCALA_CASA; // de K1 a L1
+                // El ventanal se abre hasta la mitad (un panel se desliza sobre el otro)
+                Puerta ventanalCorredizo = new Puerta("Ventanal Corredizo K1-L1", ventanalX, 0.0f, ventanalZ, ventanalAncho, alto, true, ventanalAncho * 0.5f, 180.0f);
+                ventanalCorredizo.setEsCorrediza(true);
+                casa.agregarPuerta(ventanalCorredizo);
+
+
+                // ==========================================================
                 // 7. Recamara 4
                 // ==========================================================
                 float puertaRecamara4x = convertirXGeoAOpenGL(3.9f);
