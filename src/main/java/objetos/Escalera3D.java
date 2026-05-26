@@ -107,6 +107,9 @@ public class Escalera3D {
         // Barandal Tramo 1 (lado interior Z = 0.02f)
         dibujarBarandalTramo(xInicio1, 0f, xFin1, midH, 0.02f, altoBarandal, colBarandal, numPostes1);
 
+        // Barandal Tramo 1 (lado exterior Z = 2.45f)
+        dibujarBarandalTramo(xInicio1, 0f, xFin1, midH, 2.45f, altoBarandal, colBarandal, numPostes1);
+
         // Barandal de protección del descanso (X = -2.95f en la meseta)
         float zInicioDescanso = -2.45f;
         float zFinDescanso = 2.45f;
@@ -140,6 +143,9 @@ public class Escalera3D {
         // Barandal del descanso (lado EXTERIOR Z = -2.45f)
         dibujarBarandalTramo(-1.2f, midH, -3.0f, midH, -2.45f, altoBarandal, colBarandal, 2);
 
+        // Barandal del descanso (lado EXTERIOR Z = 2.45f)
+        dibujarBarandalTramo(-1.2f, midH, -3.0f, midH, 2.45f, altoBarandal, colBarandal, 2);
+
         glPopMatrix();
     }
 
@@ -152,13 +158,25 @@ public class Escalera3D {
         float length = (float) Math.sqrt(dx*dx + dy*dy);
         float angle = (float) Math.toDegrees(Math.atan2(dy, dx));
         
-        // Barras inclinadas
+        // Barras inclinadas (superior)
         glPushMatrix();
-        glTranslatef(cx, cy, z);
+        glTranslatef(cx, cy + altoBarandal, z);
         glRotatef(angle, 0f, 0f, 1f);
-        Cubo.dibujar(0f, altoBarandal, 0f, length, 0.04f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
-        Cubo.dibujar(0f, altoBarandal * 0.66f, 0f, length, 0.02f, 0.02f, colBarandal[0], colBarandal[1], colBarandal[2]);
-        Cubo.dibujar(0f, altoBarandal * 0.33f, 0f, length, 0.02f, 0.02f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        Cubo.dibujar(0f, 0f, 0f, length, 0.04f, 0.04f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        glPopMatrix();
+        
+        // Barras inclinadas (media)
+        glPushMatrix();
+        glTranslatef(cx, cy + altoBarandal * 0.66f, z);
+        glRotatef(angle, 0f, 0f, 1f);
+        Cubo.dibujar(0f, 0f, 0f, length, 0.02f, 0.02f, colBarandal[0], colBarandal[1], colBarandal[2]);
+        glPopMatrix();
+        
+        // Barras inclinadas (inferior)
+        glPushMatrix();
+        glTranslatef(cx, cy + altoBarandal * 0.33f, z);
+        glRotatef(angle, 0f, 0f, 1f);
+        Cubo.dibujar(0f, 0f, 0f, length, 0.02f, 0.02f, colBarandal[0], colBarandal[1], colBarandal[2]);
         glPopMatrix();
         
         // Postes verticales
