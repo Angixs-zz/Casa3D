@@ -158,6 +158,7 @@ public class Casa {
         agregarPunto("K1", 5.7, 14.0);
         agregarPunto("L1", 7.3, 14.0);
         agregarPunto("M1", 7.9, 14.0);
+        agregarPunto("C9", 0.1, 1.6);
         agregarPunto("N1", 7.9, 12.0);
         agregarPunto("O1", 4.9, 15.4);
         agregarPunto("P1", 4.9, 18.6);
@@ -429,7 +430,8 @@ public class Casa {
         agregarPared("n", "R", "T", 0.0);
         agregarPared("p", "T", "U", 0.0);
         agregarPared("q", "U", "V", 0.0);
-        agregarPared("r", "N", "E", 0.0);
+        agregarPared("r", "N", "C9", 0.0);
+        agregarPared("r_cochera", "E", "C9", 0.0);
         agregarPared("s", "N", "W", 0.0);
 
         agregarPared("t", "J", "I", 0.0);
@@ -1601,6 +1603,8 @@ public class Casa {
         agregarPunto("P3_J", 6.6, 4.2);
         agregarPunto("P3_K", 6.6, 1.5);
         agregarPunto("P3_L", 0.1, 1.5);
+        agregarPunto("P3_semi_azul", 4.8, 1.5);
+        agregarPunto("P3_semi_madera", 5.9, 1.5);
         agregarPunto("P3_M", 0.1, 2.6);
         agregarPunto("P3_N", 4.9, 13.9);
         agregarPunto("P3_O", 7.9, 13.9);
@@ -1765,7 +1769,7 @@ public class Casa {
         agregarPared("P3_p", "P3_J1", "P3_I1", alturaBase3, alturaSemiMuro);
         // agregarPared("P3_q", "P3_I1", "P3_M1", alturaBase3, alturaSemiMuro);
 
-        agregarPared("P3_r", "P3_L", "P3_K", alturaBase3, alturaSemiMuro);
+        
         agregarPared("P3_s", "P3_L1", "P3_M", alturaBase3, 0.5); // 1/4 muro (jardin)
         agregarPared("P3_t", "P3_I1", "P3_C1", alturaBase3, alturaSemiMuro);
 
@@ -1780,6 +1784,9 @@ public class Casa {
         agregarPared("P3_h1", "P3_Z", "P3_W", alturaBase3, alturaSemiMuro);
         agregarPared("P3_i1", "P3_W", "P3_H1", alturaBase3, alturaSemiMuro);
         agregarPared("P3_j1", "P3_H1", "P3_N1", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_r_azul", "P3_L", "P3_semi_azul", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_r_madera", "P3_semi_azul", "P3_semi_madera", alturaBase3, alturaSemiMuro);
+        agregarPared("P3_r_resto", "P3_semi_madera", "P3_K", alturaBase3, alturaSemiMuro);
         agregarPared("P3_k1", "P3_N1", "P3_V", alturaBase3, alturaSemiMuro);
         agregarPared("P3_l1", "P3_V", "P3_W", alturaBase3, alturaSemiMuro);
 

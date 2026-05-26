@@ -199,8 +199,8 @@ public class Colisiones {
             {3.9f, 6.6f, 4.3f, 8.9f},
             // Mesa Rectangular de Centro
             {5.9f, 6.8f, 6.6f, 7.7f},
-            // Mesa Circular Esquinera
-            {4.8f, 6.3f, 5.4f, 6.9f}
+            // Sillón Circular (centro en X=4.8, Z=7.0, radio=0.2)
+            {4.6f, 6.8f, 5.0f, 7.2f}
         };
 
         for (float[] mueble : boundingBoxesMuebles) {
